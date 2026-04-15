@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灵性智慧知识库</title>
+<style>
+
+
+  :root {
+    --purple: #6B4FA0;
+    --purple-light: #9B7FD0;
+    --purple-pale: #F0EBF8;
+    --purple-deep: #3D2870;
+    --gold: #C4A265;
+    --gold-light: #E8D5A8;
+    --dark: #1C1830;
+    --mid: #4A4560;
+    --soft: #8A87A0;
+    --bg: #FAFAF8;
+    --white: #FFFFFF;
+    --border: #E8E4F0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Hero */
+  .hero {
+    background: var(--dark);
+    padding: 64px 40px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(107,79,160,0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 10% 80%, rgba(61,40,112,0.4) 0%, transparent 70%);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--purple) 0%, var(--gold) 50%, var(--purple) 100%);
+  }
+
+  .hero-inner { position: relative; z-index: 1; max-width: 700px; }
+
+  .hero-eyebrow {
+    font-family: -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Songti SC', 'STSong', 'SimSun', Georgia, serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--gold-light);
+  }
+
+  .hero-subtitle {
+    font-family: 'Songti SC', 'STSong', 'SimSun', Georgia, serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 32px;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.9;
+    max-width: 520px;
+    border-left: 2px solid rgba(196,162,101,0.4);
+    padding-left: 16px;
+  }
+
+  /* Tags */
+  .tags-row {
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    padding: 4px 12px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+  }
+
+  /* Main content */
+  .content { max-width: 760px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* Section */
+  .section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--purple);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-title {
+    font-family: 'Songti SC', 'STSong', 'SimSun', Georgia, serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--dark);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .body-text {
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.9;
+    margin-bottom: 14px;
+  }
+
+  .body-text:last-child { margin-bottom: 0; }
+
+  /* Highlight quote */
+  .quote {
+    margin: 24px 0;
+    padding: 20px 24px;
+    background: var(--purple-pale);
+    border-left: 3px solid var(--purple);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .quote p {
+    font-family: 'Songti SC', 'STSong', 'SimSun', Georgia, serif;
+    font-size: 15px;
+    color: var(--purple-deep);
+    line-height: 1.8;
+    font-weight: 400;
+  }
+
+  /* Topics grid */
+  .topics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .topic-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .topic-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--purple);
+    border-radius: 3px 0 0 3px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .topic-card:hover {
+    border-color: var(--purple-light);
+    transform: translateY(-1px);
+  }
+
+  .topic-card:hover::before { opacity: 1; }
+
+  .topic-num {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--purple-light);
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  .topic-name {
+    font-family: 'Songti SC', 'STSong', 'SimSun', Georgia, serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--dark);
+    margin-bottom: 6px;
+  }
+
+  .topic-keywords {
+    font-size: 11px;
+    color: var(--soft);
+    line-height: 1.6;
+  }
+
+  /* Sources */
+  .sources-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 20px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--white);
+  }
+
+  .source-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--mid);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .source-item:nth-child(even) { border-right: none; }
+  .source-item:nth-last-child(-n+2) { border-bottom: none; }
+
+  .source-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--purple-light);
+    flex-shrink: 0;
+  }
+
+  /* How to use */
+  .steps { margin-top: 24px; display: flex; flex-direction: column; gap: 0; }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--purple-pale);
+    color: var(--purple);
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--dark);
+    margin-bottom: 5px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--soft);
+    line-height: 1.7;
+  }
+
+  .step-example {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: var(--bg);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--mid);
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  /* Closing */
+  .closing {
+    text-align: center;
+    padding: 48px 24px;
+    background: var(--dark);
+    margin: 0 -24px -60px;
+  }
+
+  .closing-text {
+    font-family: 'Songti SC', 'STSong', 'SimSun', Georgia, serif;
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.8;
+    max-width: 440px;
+    margin: 0 auto 8px;
+  }
+
+  .closing-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.1em;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .hero { padding: 48px 24px 44px; }
+    .hero-title { font-size: 34px; }
+    .topics-grid { grid-template-columns: 1fr; }
+    .sources-list { grid-template-columns: 1fr; }
+    .source-item { border-right: none; }
+    .source-item:nth-last-child(1) { border-bottom: none; }
+    .source-item:nth-last-child(2) { border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Spiritual Wisdom Library</div>
+    <h1 class="hero-title">灵性智慧<br><em>知识库</em></h1>
+    <p class="hero-subtitle">融合东西方数十个灵性传统 · 以真实人生问题为核心</p>
+    <p class="hero-desc">这里不是一个资料合集，而是一个帮你从更高视角重新理解生命的空间。你带着真实的困惑来，这里给你有深度、有温度的回应。</p>
+    <div class="tags-row">
+      <span class="tag">赛斯资料</span>
+      <span class="tag">西藏生死书</span>
+      <span class="tag">克里希那穆提</span>
+      <span class="tag">萨古鲁</span>
+      <span class="tag">易经</span>
+      <span class="tag">道德经</span>
+      <span class="tag">尼萨迦达塔</span>
+      <span class="tag">人类图</span>
+      <span class="tag">基因钥匙</span>
+      <span class="tag">生命之花</span>
+      <span class="tag">埃克哈特·托利</span>
+    </div>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="content">
+
+  <!-- About -->
+  <div class="section">
+    <div class="section-label">关于这个知识库</div>
+    <h2 class="section-title">为什么需要这个知识库？</h2>
+    <p class="body-text">很多人在灵性成长的路上，最大的困境不是缺乏资料——网上的资料多到看不完。真正的困境是：找不到一个能把所有智慧融合在一起、用你真正听得懂的语言来回答你的地方。</p>
+    <p class="body-text">你也许已经读过一些书，听说过一些名字，却总觉得拼不成一个完整的图。你带着一个真实的生命困惑，却不知道该去哪本书的哪一页找答案，更不知道不同的传统之间到底说的是不是同一件事。</p>
+    <div class="quote">
+      <p>这里的每一个回答，都试图做到两件事：直接回应你的困惑，以及帮你看见这个困惑背后更大的图景。</p>
+    </div>
+    <p class="body-text">这里不是百科全书，不会给你一堆书的摘要。这里融合了人类图、赛斯、佛学、量子物理等不同传统的视角，让它们相互印证，给你更完整的图景。每一个回答都先看见你的感受，再带你走向更高的视角。</p>
+  </div>
+
+  <!-- Topics -->
+  <div class="section">
+    <div class="section-label">内容结构</div>
+    <h2 class="section-title">十个核心议题</h2>
+    <p class="body-text">从认识自己到活出灵性，覆盖完整的内在成长路径。每个议题下都有一系列真实的人生问题，以及来自多个智慧传统的深度回应。</p>
+    <div class="topics-grid">
+      <div class="topic-card">
+        <div class="topic-num">议题 01</div>
+        <div class="topic-name">我是谁</div>
+        <div class="topic-keywords">灵魂本质 · 生命蓝图 · 人生使命 · 高我连接 · 自由意志</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-num">议题 02</div>
+        <div class="topic-name">信念创造实相</div>
+        <div class="topic-keywords">潜意识 · 吸引力法则 · 量子意识 · 信念与情绪</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-num">议题 03</div>
+        <div class="topic-name">灵魂的旅程</div>
+        <div class="topic-keywords">轮回转世 · 前世今生 · 死亡的真相 · 灵魂出生前计划</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-num">议题 04</div>
+        <div class="topic-name">身心健康</div>
+        <div class="topic-keywords">疾病的灵性信息 · 身体疗愈 · 饮食与能量 · 中医</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-num">议题 05</div>
+        <div class="topic-name">情绪与能量</div>
+        <div class="topic-keywords">脉轮系统 · 情绪疗愈 · 能量管理 · 水晶 · 声音疗愈</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-num">议题 06</div>
+        <div class="topic-name">关系的镜子</div>
+        <div class="topic-keywords">原生家庭 · 亲密关系 · 灵魂协议 · 内在小孩</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-num">议题 07</div>
+        <div class="topic-name">冥想与意识扩展</div>
+        <div class="topic-keywords">冥想方法 · 梅尔卡巴 · 松果体 · 阿卡西记录</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-num">议题 08</div>
+        <div class="topic-name">古老智慧系统</div>
+        <div class="topic-keywords">易经 · 塔罗 · 卡巴拉 · 神圣几何 · 生命数字</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-num">议题 09</div>
+        <div class="topic-name">觉察与当下</div>
+        <div class="topic-keywords">临在 · 觉醒 · 超越小我 · 不二论 · 影子工作</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-num">议题 10</div>
+        <div class="topic-name">灵性的日常生活</div>
+        <div class="topic-keywords">衣食住行的能量 · 空间净化 · 生活仪式 · 有机饮食</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upcoming -->
+  <div class="section">
+    <div class="section-label">持续更新</div>
+    <h2 class="section-title">不只是问答，还有更多</h2>
+    <p class="body-text">除了十个核心议题的深度问答，知识库会陆续加入更多内容，帮助你把灵性智慧真正带入日常生活。</p>
+    <div class="topics-grid">
+      <div class="topic-card">
+        <div class="topic-num">书籍解读</div>
+        <div class="topic-name">经典精读</div>
+        <div class="topic-keywords">灵性经典逐章解析 · 核心概念提炼 · 跨书连结与对照</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-num">音频资源</div>
+        <div class="topic-name">修行陪伴</div>
+        <div class="topic-keywords">冥想引导音频 · 脉轮疗愈音乐 · 日常修行配乐</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-num">实用工具</div>
+        <div class="topic-name">灵性工具箱</div>
+        <div class="topic-keywords">自我探索练习 · 能量评估 · 灵魂自问卡</div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-num">视觉资源</div>
+        <div class="topic-name">神圣图像</div>
+        <div class="topic-keywords">神圣几何壁纸 · 冥想图案 · 能量符号图像</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sources -->
+  <div class="section">
+    <div class="section-label">资料来源</div>
+    <h2 class="section-title">融合了哪些智慧传统？</h2>
+    <p class="body-text">知识库收录了以下智慧传统的核心内容，横跨东西方、古代与现代，书籍超过一百本，另涵盖视频讲座与音频课程。</p>
+    <div class="sources-list">
+      <div class="source-item"><span class="source-dot"></span>人类图 · Ra Uru Hu</div>
+      <div class="source-item"><span class="source-dot"></span>赛斯资料 · Jane Roberts</div>
+      <div class="source-item"><span class="source-dot"></span>生命之花 · 德隆瓦洛·默基洗德</div>
+      <div class="source-item"><span class="source-dot"></span>与神对话 · 尼尔·唐纳德·沃什</div>
+      <div class="source-item"><span class="source-dot"></span>基因钥匙 · 理查德·鲁德</div>
+      <div class="source-item"><span class="source-dot"></span>西藏生死书 · 索甲仁波切</div>
+      <div class="source-item"><span class="source-dot"></span>克里希那穆提全集</div>
+      <div class="source-item"><span class="source-dot"></span>奇迹课程</div>
+      <div class="source-item"><span class="source-dot"></span>生命的重建 · 露易丝·海</div>
+      <div class="source-item"><span class="source-dot"></span>超凡入圣 · 乔·迪斯彭扎</div>
+      <div class="source-item"><span class="source-dot"></span>当下的力量 · 埃克哈特·托利</div>
+      <div class="source-item"><span class="source-dot"></span>萨古鲁 · Teal Swan 讲座</div>
+      <div class="source-item"><span class="source-dot"></span>杨定一全部生命系列</div>
+      <div class="source-item"><span class="source-dot"></span>布莱恩·魏斯 · 前世今生</div>
+      <div class="source-item"><span class="source-dot"></span>易经智慧 · 曾仕强</div>
+      <div class="source-item"><span class="source-dot"></span>能量与意识 · 大卫·霍金斯</div>
+      <div class="source-item"><span class="source-dot"></span>神圣矩阵 · 葛瑞格·布雷登</div>
+      <div class="source-item"><span class="source-dot"></span>及数十本灵性经典</div>
+    </div>
+  </div>
+
+  <!-- How to use -->
+  <div class="section">
+    <div class="section-label">使用方法</div>
+    <h2 class="section-title">怎么使用这个知识库？</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">直接提问</div>
+          <div class="step-desc">用你自己的话提问，不需要任何灵性术语。带着你真实的困惑来就好。</div>
+          <div class="step-example">「人真的有轮回吗？」「为什么某些模式总是在我生命中重复？」「死亡之后，意识会去哪里？」</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">按议题深入</div>
+          <div class="step-desc">如果你对某个领域有兴趣，可以直接说你想深入哪个议题，知识库会引导你系统地探索，从入门到进阶。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">追问与对话</div>
+          <div class="step-desc">每一个回答都不是终点，而是一个邀请。你可以继续追问、分享你的感受，让对话带你走得更深。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">没有标准答案</div>
+          <div class="step-desc">这里提供的是多个智慧传统的视角，不是唯一的真理。所有的回答都指向同一个方向——帮你找到属于你自己的答案。最终，你自己的内在才是最好的向导。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Closing -->
+  <div class="closing">
+    <p class="closing-text">带着你的问题来，<br>这里会认真地陪你探索。</p>
+    <p class="closing-sub">灵性智慧知识库 · Spiritual Wisdom Library</p>
+  </div>
+
+</div>
+</body>
+</html>
