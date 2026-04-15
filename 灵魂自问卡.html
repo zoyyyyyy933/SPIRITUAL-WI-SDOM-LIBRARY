@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灵魂自问卡</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0e0c0a;--bg2:#161210;--bg3:#1e1a16;
+    --gold:#c4a26b;--gold-light:#e8cc96;--gold-dim:#7a6340;
+    --text:#e8e0d4;--text-muted:#8c7e6e;--text-dim:#4a4038;
+    --border:rgba(196,162,107,0.15);--border-hover:rgba(196,162,107,0.35);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 20% 20%,rgba(196,162,107,0.04) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 80% 80%,rgba(196,162,107,0.03) 0%,transparent 60%);pointer-events:none;z-index:0}
+  .container{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 20px}
+  header{padding:48px 0 32px;text-align:center}
+  .eyebrow{font-size:10px;letter-spacing:.2em;color:var(--gold-dim);text-transform:uppercase;margin-bottom:16px}
+  h1{font-family:'Noto Serif SC',serif;font-size:clamp(28px,7vw,48px);font-weight:300;color:var(--gold-light);letter-spacing:.08em;line-height:1.2;margin-bottom:14px}
+  .sub{font-size:13px;color:var(--text-muted);line-height:1.9;max-width:320px;margin:0 auto 32px}
+  .divider{width:48px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);margin:0 auto 32px}
+  .filters{display:flex;justify-content:center;gap:8px;margin-bottom:28px;flex-wrap:wrap}
+  .fb{font-family:'Noto Sans SC',sans-serif;font-size:12px;font-weight:300;letter-spacing:.08em;padding:8px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;transition:all .25s;touch-action:manipulation}
+  .fb:hover,.fb:active{border-color:var(--border-hover);color:var(--gold)}
+  .fb.active{border-color:var(--gold-dim);background:rgba(196,162,107,0.08);color:var(--gold)}
+  .count{font-size:11px;color:var(--text-dim);text-align:center;margin-bottom:20px;letter-spacing:.06em}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:48px}
+  @media(max-width:600px){.grid{grid-template-columns:1fr;gap:12px}}
+  .cw{cursor:pointer;touch-action:manipulation;animation:fu .35s ease both}
+  .cf{border-radius:12px;border:1px solid var(--border);padding:24px 22px 20px;transition:border-color .3s}
+  .cw:hover .cf,.cw:active .cf{border-color:var(--border-hover)}
+  .front{background:var(--bg2);display:block}
+  .back{background:var(--bg3);display:none}
+  .cw.flipped .front{display:none}
+  .cw.flipped .back{display:block}
+  .ctag{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:14px}
+  .cq{font-family:'Noto Serif SC',serif;font-size:15px;font-weight:300;line-height:1.85;color:var(--text);margin-bottom:20px}
+  @media(max-width:600px){.cq{font-size:16px}}
+  .chint{font-size:10px;letter-spacing:.14em;color:var(--text-dim);text-align:right;text-transform:uppercase;padding-top:12px;border-top:1px solid var(--border)}
+  .ca{font-family:'Noto Serif SC',serif;font-size:16px;font-weight:400;line-height:1.85;color:var(--gold-light);margin-bottom:20px}
+  @media(max-width:600px){.ca{font-size:17px}}
+  .cew{border-top:1px solid var(--border);padding-top:14px}
+  .cel{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px}
+  .ce{font-size:13px;line-height:1.8;color:var(--text-muted)}
+  @media(max-width:600px){.ce{font-size:14px}}
+  .cbhint{font-size:10px;letter-spacing:.14em;color:var(--text-dim);text-align:right;text-transform:uppercase;padding-top:14px;border-top:1px solid var(--border);margin-top:16px}
+  .sw{text-align:center;padding-bottom:56px}
+  .sb{font-family:'Noto Sans SC',sans-serif;font-size:12px;font-weight:300;letter-spacing:.15em;padding:12px 32px;border-radius:24px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;transition:all .25s;text-transform:uppercase;touch-action:manipulation}
+  .sb:hover,.sb:active{border-color:var(--gold-dim);color:var(--gold);background:rgba(196,162,107,0.05)}
+  footer{border-top:1px solid var(--border);padding:24px 0;text-align:center;font-size:11px;color:var(--text-dim);letter-spacing:.08em}
+  @keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="eyebrow">灵性智慧知识库 · 议题 01</div>
+    <h1>灵魂自问卡</h1>
+    <p class="sub">不需要找到答案。<br>只是停下来，看见此刻的自己。</p>
+    <div class="divider"></div>
+    <div class="filters">
+      <button class="fb active" onclick="f('all',this)">全部 · 13</button>
+      <button class="fb" onclick="f('origin',this)">你是谁 · 4</button>
+      <button class="fb" onclick="f('operate',this)">你如何运作 · 5</button>
+      <button class="fb" onclick="f('awaken',this)">你如何觉醒 · 4</button>
+    </div>
+  </header>
+  <div class="count" id="cnt">13 张卡牌</div>
+  <div class="grid" id="grid"></div>
+  <div class="sw"><button class="sb" onclick="shuffle()">重新洗牌</button></div>
+</div>
+<footer><div class="container">灵性智慧知识库 · 我是谁</div></footer>
+<script>
+const D=[
+  {g:'origin',t:'你是谁',q:'你从哪里来？灵魂选择进入物质世界的核心动机是什么？',a:'为了将「全知」转化为「体验」——在真实的境遇中，亲身感受自己的宏伟。',e:'此刻你正在「体验」什么？你的灵魂可能是为了什么而选择它的？'},
+  {g:'origin',t:'你是谁',q:'灵魂是如何与身体发生关系的？',a:'不是灵魂在身体里，而是身体在灵魂里。身体是灵魂能量场中的一个局部显化。',e:'如果你的身体只是你穿上的一件宇航服，那个穿着它的「你」，今天状态怎么样？'},
+  {g:'origin',t:'你是谁',q:'为什么「与众不同」会让人痛苦？真正的原因是什么？',a:'痛苦不来自不同本身，而来自试图抹杀这种不同——用别人的地图寻找自己的路。',e:'你现在还在抹杀自己哪一种与众不同？'},
+  {g:'origin',t:'你是谁',q:'灵魂选择进入二元对立世界的核心动机是什么？',a:'真实验证其内在的神性。',e:'你生命中哪一段最受限的经历，现在回头看，可能恰恰在验证你内在的某种力量？'},
+  {g:'operate',t:'你如何运作',q:'业力（Karma）在文中被定义为何种心理状态的产物？',a:'恐惧、抱怨或受害者心态。',e:'你生命中反复出现的某个困境，驱动你回应它的，是恐惧，还是别的什么？'},
+  {g:'operate',t:'你如何运作',q:'「你创造你自己的现实」这一说法在挫败时常导致哪种负面情绪？',a:'深沉的内疚感。',e:'你有没有因为「是我吸引来的」而在痛苦之上再加一层自责？那层自责帮助了你，还是困住了你？'},
+  {g:'operate',t:'你如何运作',q:'命运与自由意志在文中被描述为何种关系？',a:'两者在不同维度同时为真，互不排斥。',e:'你生命中有没有一件「被命运安排」的事，你其实在其中做了一个关键选择？'},
+  {g:'operate',t:'你如何运作',q:'自由意志的核心体现是在每一个当下拥有的______。',a:'绝对选择权。',e:'此刻你面对的某个处境，你有没有还没有行使的选择权？'},
+  {g:'operate',t:'你如何运作',q:'如何在嘈杂的思绪中找到创造性能量？',a:'安住于宁静的觉知，观察那个正在体验的「观察者」。',e:'上一次你感到内心真正宁静，是什么时候？那个状态是怎么来的？'},
+  {g:'awaken',t:'你如何觉醒',q:'「觉知」在文中的动态特征是什么？',a:'不生不灭、无处不在，是呼吸背后的动力。',e:'你现在能感受到那个正在「读」这句话的觉知吗？它在哪里？'},
+  {g:'awaken',t:'你如何觉醒',q:'为何痛苦被视为「最精密」的进化工具？',a:'它能精准地触及小我虚假外壳的最薄弱处，迫使转化发生。',e:'你人生中最深的一次痛苦，它打开了什么？'},
+  {g:'awaken',t:'你如何觉醒',q:'什么是「情感温度」在肉体生命中的意义？',a:'通过对比（如痛苦与快乐）来深化灵魂的体验与认知。',e:'你通过「失去」某样东西，真正学到了什么？'},
+  {g:'awaken',t:'你如何觉醒',q:'灵魂在密度和阻力中行动的最终结果是什么？',a:'将抽象的知识转化为实证的生命力量。',e:'你「知道」但还没有真正「活出来」的，是什么？'},
+];
+let cur=[...D];
+function f(g,btn){document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));btn.classList.add('active');cur=g==='all'?[...D]:D.filter(c=>c.g===g);render()}
+function shuffle(){for(let i=cur.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cur[i],cur[j]]=[cur[j],cur[i]]}render()}
+function render(){
+  const grid=document.getElementById('grid');
+  document.getElementById('cnt').textContent=cur.length+' 张卡牌';
+  grid.innerHTML='';
+  cur.forEach((c,i)=>{
+    const w=document.createElement('div');
+    w.className='cw';w.style.animationDelay=(i*.04)+'s';
+    w.innerHTML=`<div class="cf front"><div class="ctag">${c.t}</div><div class="cq">${c.q}</div><div class="chint">点击查看答案</div></div><div class="cf back"><div class="ca">${c.a}</div><div class="cew"><div class="cel">延伸思考</div><div class="ce">${c.e}</div></div><div class="cbhint">再次点击翻回</div></div>`;
+    w.addEventListener('click',()=>w.classList.toggle('flipped'));
+    grid.appendChild(w);
+  });
+}
+render();
+</script>
+</body>
+</html>
