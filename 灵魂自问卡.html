@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灵魂自问卡 · 灵性智慧知识库</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#0e0c0a;font-family:Georgia,'Songti SC','STSong',serif}
+.wrap{background:#0e0c0a;min-height:100vh;padding:0;position:relative;overflow:hidden}
+.fol-bg{position:fixed;inset:0;opacity:0.06;pointer-events:none;z-index:0}
+.inner{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:32px 20px 40px}
+.hdr{text-align:center;margin-bottom:24px}
+.eyebrow{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:10px;letter-spacing:.22em;color:#7a6340;text-transform:uppercase;margin-bottom:10px}
+.title{font-size:clamp(20px,5vw,30px);font-weight:300;color:#e8cc96;letter-spacing:.1em;margin-bottom:6px}
+.sub{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:12px;color:#8c7e6e;line-height:1.7}
+.divider{width:40px;height:1px;background:linear-gradient(90deg,transparent,#7a6340,transparent);margin:14px auto 18px}
+.filters{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.fb{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:11px;padding:6px 13px;border-radius:20px;border:1px solid rgba(196,162,107,0.2);background:transparent;color:#8c7e6e;cursor:pointer;transition:all .2s;letter-spacing:.04em}
+.fb:hover{border-color:rgba(196,162,107,0.5);color:#c4a26b}
+.fb.active{border-color:#7a6340;background:rgba(196,162,107,0.1);color:#c4a26b}
+
+.draw-area{display:flex;flex-direction:column;align-items:center;gap:20px}
+.card-stage{width:260px;cursor:pointer;perspective:1200px}
+@media(max-width:400px){.card-stage{width:220px}}
+.card-inner-3d{position:relative;width:100%;padding-bottom:165%;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.4,0,.2,1)}
+.card-stage.flipped .card-inner-3d{transform:rotateY(180deg)}
+.card-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;border:1px solid rgba(196,162,107,0.25);background:#161210;display:flex;flex-direction:column;overflow:hidden}
+.card-face::before{content:'';position:absolute;inset:6px;border:1px solid rgba(196,162,107,0.1);border-radius:9px;pointer-events:none;z-index:0}
+.card-face.back-face{background:#1a1208;transform:rotateY(180deg);border-color:rgba(196,162,107,0.35)}
+.fol-corner{position:absolute;opacity:0.1;pointer-events:none;z-index:0}
+.fol-corner.tr{top:-20px;right:-20px}
+.fol-corner.bl{bottom:-20px;left:-20px;transform:rotate(180deg)}
+.card-content{position:relative;z-index:1;display:flex;flex-direction:column;height:100%;padding:24px 20px 20px}
+.ctag{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#7a6340;margin-bottom:auto}
+.card-mid{flex:1;display:flex;align-items:center;padding:16px 0}
+.cq{font-size:15px;font-weight:300;line-height:1.9;color:#d4ccbc;text-align:center}
+.card-bottom{margin-top:auto}
+.chint{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:9px;letter-spacing:.16em;color:#3a3028;text-align:center;text-transform:uppercase;padding-top:14px;border-top:1px solid rgba(196,162,107,0.1)}
+.back-top{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px 0;position:relative;z-index:1}
+.ca{font-size:clamp(18px,4vw,22px);font-weight:400;line-height:1.65;color:#e8cc96;text-align:center;letter-spacing:.03em}
+.back-bottom{padding:0 20px 20px;margin-top:auto;position:relative;z-index:1}
+.back-sep{width:28px;height:1px;background:linear-gradient(90deg,transparent,rgba(196,162,107,0.35),transparent);margin:16px auto 14px}
+.cel{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#4a4038;margin-bottom:7px;text-align:center}
+.ce{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:11px;line-height:1.75;color:#4e4535;text-align:center}
+.cbhint{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:9px;letter-spacing:.16em;color:#2e2820;text-align:center;text-transform:uppercase;padding-top:12px;border-top:1px solid rgba(196,162,107,0.08);margin-top:12px}
+
+.draw-btns{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
+.btn-draw{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:12px;letter-spacing:.15em;padding:11px 26px;border-radius:24px;border:1px solid rgba(196,162,107,0.25);background:transparent;color:#8c7e6e;cursor:pointer;transition:all .25s;text-transform:uppercase}
+.btn-draw:hover{border-color:#7a6340;color:#c4a26b;background:rgba(196,162,107,0.06)}
+.btn-draw:disabled{opacity:.35;cursor:default;pointer-events:none}
+.cnt-label{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:11px;color:#4a4038;letter-spacing:.06em}
+
+.done-hint{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;text-align:center;padding:16px 20px;border:1px solid rgba(196,162,107,0.15);border-radius:12px;background:rgba(196,162,107,0.04);display:none}
+.done-hint.show{display:block}
+.done-hint p{font-size:12px;color:#6a5a40;line-height:1.8;margin-bottom:12px}
+.done-hint-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.btn-sm{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:11px;letter-spacing:.1em;padding:8px 16px;border-radius:20px;border:1px solid rgba(196,162,107,0.2);background:transparent;color:#8c7e6e;cursor:pointer;transition:all .2s;text-transform:uppercase}
+.btn-sm:hover{border-color:#7a6340;color:#c4a26b}
+.btn-sm.gold{border-color:rgba(196,162,107,0.4);color:#c4a26b}
+.btn-sm.gold:hover{background:rgba(196,162,107,0.1)}
+
+.grid-area{display:none}
+.grid-area.active{display:block}
+.draw-area.hidden{display:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:8px}
+@media(max-width:400px){.grid{grid-template-columns:repeat(2,1fr)}}
+.gc{cursor:pointer;animation:fu .3s ease both}
+.gcard{border-radius:10px;border:1px solid rgba(196,162,107,0.15);position:relative;overflow:hidden;transition:border-color .25s}
+.gcard::before{content:'';position:absolute;inset:5px;border:1px solid rgba(196,162,107,0.07);border-radius:6px;pointer-events:none;z-index:0}
+.gc:hover .gcard{border-color:rgba(196,162,107,0.35)}
+.gcf{padding-bottom:165%;position:relative}
+.gcf-inner{position:absolute;inset:0;display:flex;flex-direction:column;padding:14px 12px;z-index:1}
+.gfront .gcf{background:#161210}
+.gback .gcf{background:#1a1208}
+.gback{display:none}
+.gc.flipped .gfront{display:none}
+.gc.flipped .gback{display:block}
+.gctag{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:#7a6340;margin-bottom:8px}
+.gcq{font-size:12px;font-weight:300;line-height:1.75;color:#c8c0b0;flex:1;display:flex;align-items:center}
+.gchint{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:8px;letter-spacing:.12em;color:#3a3028;text-align:center;text-transform:uppercase;padding-top:8px;border-top:1px solid rgba(196,162,107,0.1)}
+.gca{font-size:13px;font-weight:400;line-height:1.7;color:#e8cc96;flex:1;display:flex;align-items:center;padding:4px 0 8px}
+.back-mini-sep{width:20px;height:1px;background:rgba(196,162,107,0.25);margin:0 auto 8px}
+.gcel{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#3a3028;margin-bottom:5px}
+.gce{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:10px;line-height:1.65;color:#3e3628}
+
+.back-btn{font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:11px;letter-spacing:.12em;padding:8px 18px;border-radius:20px;border:1px solid rgba(196,162,107,0.2);background:transparent;color:#8c7e6e;cursor:pointer;transition:all .2s;text-transform:uppercase;margin-bottom:16px}
+.back-btn:hover{border-color:#7a6340;color:#c4a26b}
+
+footer{border-top:1px solid rgba(196,162,107,0.08);padding:20px;text-align:center;font-family:-apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:10px;color:#3a3028;letter-spacing:.08em;position:relative;z-index:1}
+
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cardIn{from{opacity:0;transform:scale(.96) rotateY(-4deg)}to{opacity:1;transform:scale(1) rotateY(0)}}
+.card-in{animation:cardIn .4s ease both}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<svg class="fol-bg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <g fill="none" stroke="#c4a26b" stroke-width="0.6">
+    <circle cx="300" cy="300" r="60"/><circle cx="360" cy="300" r="60"/><circle cx="330" cy="252" r="60"/>
+    <circle cx="270" cy="252" r="60"/><circle cx="240" cy="300" r="60"/><circle cx="270" cy="348" r="60"/>
+    <circle cx="330" cy="348" r="60"/><circle cx="420" cy="300" r="60"/><circle cx="390" cy="252" r="60"/>
+    <circle cx="390" cy="348" r="60"/><circle cx="180" cy="300" r="60"/><circle cx="210" cy="252" r="60"/>
+    <circle cx="210" cy="348" r="60"/><circle cx="360" cy="196" r="60"/><circle cx="300" cy="196" r="60"/>
+    <circle cx="240" cy="196" r="60"/><circle cx="360" cy="404" r="60"/><circle cx="300" cy="404" r="60"/>
+    <circle cx="240" cy="404" r="60"/><circle cx="300" cy="300" r="120"/>
+    <circle cx="300" cy="300" r="180"/>
+  </g>
+</svg>
+
+<div class="inner">
+  <div class="hdr">
+    <div class="eyebrow">灵性智慧知识库</div>
+    <div class="title">灵魂自问卡</div>
+    <p class="sub">不需要找到答案。只是停下来，看见此刻的自己。</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="fb active" onclick="setFilter('all',this)">全部</button>
+    <button class="fb" onclick="setFilter('origin',this)">你是谁</button>
+    <button class="fb" onclick="setFilter('operate',this)">你如何运作</button>
+    <button class="fb" onclick="setFilter('awaken',this)">你如何觉醒</button>
+    <button class="fb" onclick="setFilter('create',this)">创造实相</button>
+    <button class="fb" onclick="setFilter('belief',this)">信念运作</button>
+    <button class="fb" onclick="setFilter('change',this)">改变当下</button>
+  </div>
+
+  <div class="draw-area" id="drawArea">
+    <div class="card-stage" id="cardStage" onclick="flipCard()">
+      <div class="card-inner-3d">
+        <div class="card-face">
+          <svg class="fol-corner tr" width="100" height="100" viewBox="0 0 100 100"><g fill="none" stroke="#c4a26b" stroke-width="0.6"><circle cx="50" cy="50" r="20"/><circle cx="70" cy="50" r="20"/><circle cx="60" cy="33" r="20"/><circle cx="40" cy="33" r="20"/><circle cx="30" cy="50" r="20"/><circle cx="40" cy="67" r="20"/><circle cx="60" cy="67" r="20"/></g></svg>
+          <svg class="fol-corner bl" width="100" height="100" viewBox="0 0 100 100"><g fill="none" stroke="#c4a26b" stroke-width="0.6"><circle cx="50" cy="50" r="20"/><circle cx="70" cy="50" r="20"/><circle cx="60" cy="33" r="20"/><circle cx="40" cy="33" r="20"/><circle cx="30" cy="50" r="20"/><circle cx="40" cy="67" r="20"/><circle cx="60" cy="67" r="20"/></g></svg>
+          <div class="card-content">
+            <div class="ctag" id="ctag"></div>
+            <div class="card-mid"><div class="cq" id="cq"></div></div>
+            <div class="card-bottom"><div class="chint">点击翻面</div></div>
+          </div>
+        </div>
+        <div class="card-face back-face">
+          <svg class="fol-corner tr" width="100" height="100" viewBox="0 0 100 100"><g fill="none" stroke="#c4a26b" stroke-width="0.6"><circle cx="50" cy="50" r="20"/><circle cx="70" cy="50" r="20"/><circle cx="60" cy="33" r="20"/><circle cx="40" cy="33" r="20"/><circle cx="30" cy="50" r="20"/><circle cx="40" cy="67" r="20"/><circle cx="60" cy="67" r="20"/></g></svg>
+          <svg class="fol-corner bl" width="100" height="100" viewBox="0 0 100 100"><g fill="none" stroke="#c4a26b" stroke-width="0.6"><circle cx="50" cy="50" r="20"/><circle cx="70" cy="50" r="20"/><circle cx="60" cy="33" r="20"/><circle cx="40" cy="33" r="20"/><circle cx="30" cy="50" r="20"/><circle cx="40" cy="67" r="20"/><circle cx="60" cy="67" r="20"/></g></svg>
+          <div class="back-top"><div class="ca" id="ca"></div></div>
+          <div class="back-bottom">
+            <div class="back-sep"></div>
+            <div class="cel">延伸思考</div>
+            <div class="ce" id="ce"></div>
+            <div class="cbhint">再次点击翻回</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="draw-btns">
+      <button class="btn-draw" id="btnDraw" onclick="drawCard()">再抽一张</button>
+      <span class="cnt-label" id="cntLabel"></span>
+    </div>
+
+    <div class="done-hint" id="doneHint">
+      <p>本组 <span id="doneGroup"></span> 已抽完<br>可以重新洗牌，或切换其他主题继续</p>
+      <div class="done-hint-btns">
+        <button class="btn-sm gold" onclick="reshuffle()">重新洗牌</button>
+        <button class="btn-sm" onclick="switchHint('origin')">你是谁</button>
+        <button class="btn-sm" onclick="switchHint('operate')">你如何运作</button>
+        <button class="btn-sm" onclick="switchHint('awaken')">你如何觉醒</button>
+        <button class="btn-sm" onclick="switchHint('create')">创造实相</button>
+        <button class="btn-sm" onclick="switchHint('belief')">信念运作</button>
+        <button class="btn-sm" onclick="switchHint('change')">改变当下</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-area" id="gridArea">
+    <button class="back-btn" onclick="backToDraw()">← 返回抽卡</button>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<footer>灵性智慧知识库 · 议题 01 · 02</footer>
+</div>
+
+<script>
+const D=[
+  {g:'origin',t:'你是谁',q:'你从哪里来？灵魂选择进入物质世界的核心动机是什么？',a:'为了将「全知」转化为「体验」——在真实的境遇中，亲身感受自己的宏伟。',e:'此刻你正在「体验」什么？你的灵魂可能是为了什么而选择它的？'},
+  {g:'origin',t:'你是谁',q:'灵魂是如何与身体发生关系的？',a:'不是灵魂在身体里，而是身体在灵魂里。身体是灵魂能量场中的一个局部显化。',e:'如果你的身体只是你穿上的一件宇航服，那个穿着它的「你」，今天状态怎么样？'},
+  {g:'origin',t:'你是谁',q:'为什么「与众不同」会让人痛苦？真正的原因是什么？',a:'痛苦不来自不同本身，而来自试图抹杀这种不同——用别人的地图寻找自己的路。',e:'你现在还在抹杀自己哪一种与众不同？'},
+  {g:'origin',t:'你是谁',q:'灵魂选择进入二元对立世界的核心动机是什么？',a:'真实验证其内在的神性。',e:'你生命中哪一段最受限的经历，现在回头看，可能恰恰在验证你内在的某种力量？'},
+  {g:'operate',t:'你如何运作',q:'业力（Karma）在文中被定义为何种心理状态的产物？',a:'恐惧、抱怨或受害者心态。',e:'你生命中反复出现的某个困境，驱动你回应它的，是恐惧，还是别的什么？'},
+  {g:'operate',t:'你如何运作',q:'「你创造你自己的现实」这一说法在挫败时常导致哪种负面情绪？',a:'深沉的内疚感。',e:'你有没有因为「是我吸引来的」而在痛苦之上再加一层自责？那层自责帮助了你，还是困住了你？'},
+  {g:'operate',t:'你如何运作',q:'命运与自由意志在文中被描述为何种关系？',a:'两者在不同维度同时为真，互不排斥。',e:'你生命中有没有一件「被命运安排」的事，你其实在其中做了一个关键选择？'},
+  {g:'operate',t:'你如何运作',q:'自由意志的核心体现是在每一个当下拥有的______。',a:'绝对选择权。',e:'此刻你面对的某个处境，你有没有还没有行使的选择权？'},
+  {g:'operate',t:'你如何运作',q:'如何在嘈杂的思绪中找到创造性能量？',a:'安住于宁静的觉知，观察那个正在体验的「观察者」。',e:'上一次你感到内心真正宁静，是什么时候？那个状态是怎么来的？'},
+  {g:'awaken',t:'你如何觉醒',q:'「觉知」在文中的动态特征是什么？',a:'不生不灭、无处不在，是呼吸背后的动力。',e:'你现在能感受到那个正在「读」这句话的觉知吗？它在哪里？'},
+  {g:'awaken',t:'你如何觉醒',q:'为何痛苦被视为「最精密」的进化工具？',a:'它能精准地触及小我虚假外壳的最薄弱处，迫使转化发生。',e:'你人生中最深的一次痛苦，它打开了什么？'},
+  {g:'awaken',t:'你如何觉醒',q:'什么是「情感温度」在肉体生命中的意义？',a:'通过对比（如痛苦与快乐）来深化灵魂的体验与认知。',e:'你通过「失去」某样东西，真正学到了什么？'},
+  {g:'awaken',t:'你如何觉醒',q:'灵魂在密度和阻力中行动的最终结果是什么？',a:'将抽象的知识转化为实证的生命力量。',e:'你「知道」但还没有真正「活出来」的，是什么？'},
+  {g:'create',t:'创造实相',q:'宇宙听不懂空洞的口号，它唯一会精确回应的是什么？',a:'你最真实的存在状态。',e:'此刻你面对某个渴望，你散发出的是丰盛的磁场，还是匮乏的磁场？'},
+  {g:'create',t:'创造实相',q:'你的实相、身体状况、个人关系以及环境，全都是由什么造成的？',a:'你的信念。',e:'你现在最不满意的某个外在处境，背后对应的是你内心的哪一个信念？'},
+  {g:'create',t:'创造实相',q:'外面的世界并没有别人，你所见到的他人其实只是什么？',a:'你内在程序的外在投影。',e:'你生命中反复出现的某一类人，他们在映照你内心的什么？'},
+  {g:'create',t:'创造实相',q:'向外追寻与索求认可，意味着你内在认定了自己的什么？',a:'匮乏。',e:'你现在最想从别人那里得到的认可，你能不能先给自己？'},
+  {g:'create',t:'创造实相',q:'拥有强大引力、能将感知牢牢锁定焦点的观念叫什么？',a:'核心信念。',e:'你有没有一个从小就相信、从未质疑过的「关于自己的信念」？'},
+  {g:'belief',t:'信念运作',q:'表意识每秒处理信息极少，自动运行庞大程序的是什么？',a:'潜意识。',e:'你最近一次「不由自主」地做了某件事，背后运行的是什么旧程序？'},
+  {g:'belief',t:'信念运作',q:'情绪和信念的关系中，情绪永远跟着什么走？',a:'你的信念。',e:'你现在感受到的某个情绪，它背后对应的是哪一个信念？'},
+  {g:'belief',t:'信念运作',q:'潜意识深处的「不配得感」本质是什么？',a:'旧有记忆与限制性程序。',e:'你在哪个领域最容易觉得「这不是我应得的」？'},
+  {g:'belief',t:'信念运作',q:'为了证明负面信念是「正确」的，潜意识会驱使你进行什么？',a:'强迫性的自我破坏。',e:'你有没有在接近成功或幸福的时候，莫名其妙地搞砸了某件事？'},
+  {g:'belief',t:'信念运作',q:'如果思想是绘制蓝图的电信号，创造实相的核心燃料是什么？',a:'情绪。',e:'你现在的情绪状态，正在为你的生命创造什么样的磁场？'},
+  {g:'belief',t:'信念运作',q:'你的大脑和身体，能否分辨外在真实发生和内心想象的事？',a:'无法分辨。',e:'如果你在内心充分「体验」到你渴望的未来，你的身体会有什么感觉？'},
+  {g:'change',t:'改变当下',q:'改变命运和实相的唯一「威力之点」，永远且仅仅在哪里？',a:'当下。',e:'你现在有多少能量，正在消耗在对过去的懊悔或对未来的担忧上？'},
+  {g:'change',t:'改变当下',q:'感恩的电磁频率向宇宙传递的信息是什么？',a:'事情已经发生了。',e:'你现在的生命里，有没有一件你「已经拥有」但还没有真正感恩的事？'},
+  {g:'change',t:'改变当下',q:'在真正的显化机制中，放手与设定意图，哪一个更重要？',a:'放手远比设定意图更重要。',e:'你现在死死抓着的某个「必须这样」，如果你放手，最坏会发生什么？'},
+  {g:'change',t:'改变当下',q:'放下小我必须掌控的傲慢，将控制权交还宇宙力量称为什么？',a:'臣服。',e:'你生命中有没有一件「放手之后反而变好了」的事？'},
+  {g:'change',t:'改变当下',q:'如果你想要摆脱一切桎梏并获得平安，唯一的方法是透过什么？',a:'彻底的宽恕。',e:'你现在心里有没有一个还没有真正宽恕的人——包括你自己？'},
+];
+
+const groupNames={all:'全部',origin:'你是谁',operate:'你如何运作',awaken:'你如何觉醒',create:'创造实相',belief:'信念运作',change:'改变当下'};
+let cur=[...D],activeFilter='all',usedIndices=[];
+
+function setFilter(g,btn){
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter=g;
+  cur=g==='all'?[...D]:D.filter(c=>c.g===g);
+  usedIndices=[];
+  hideDoneHint();
+  if(g==='all'){
+    document.getElementById('gridArea').classList.remove('active');
+    document.getElementById('drawArea').classList.remove('hidden');
+    drawCard();
+  } else {
+    showGrid();
+  }
+}
+
+function showGrid(){
+  document.getElementById('drawArea').classList.add('hidden');
+  document.getElementById('doneHint').classList.remove('show');
+  const ga=document.getElementById('gridArea');
+  ga.classList.add('active');
+  const grid=document.getElementById('grid');
+  grid.innerHTML='';
+  cur.forEach((c,i)=>{
+    const w=document.createElement('div');
+    w.className='gc';w.style.animationDelay=(i*.04)+'s';
+    w.innerHTML=`
+      <div class="gcard gfront"><div class="gcf"><div class="gcf-inner">
+        <div class="gctag">${c.t}</div><div class="gcq">${c.q}</div>
+        <div class="gchint">点击翻面</div>
+      </div></div></div>
+      <div class="gcard gback"><div class="gcf"><div class="gcf-inner">
+        <div class="gca">${c.a}</div>
+        <div class="back-mini-sep"></div>
+        <div class="gcel">延伸思考</div><div class="gce">${c.e}</div>
+      </div></div></div>`;
+    w.querySelector('.gback').style.display='none';
+    w.addEventListener('click',()=>{
+      const flipped=w.classList.toggle('flipped');
+      w.querySelector('.gfront').style.display=flipped?'none':'block';
+      w.querySelector('.gback').style.display=flipped?'block':'none';
+    });
+    grid.appendChild(w);
+  });
+}
+
+function backToDraw(){
+  document.getElementById('gridArea').classList.remove('active');
+  document.getElementById('drawArea').classList.remove('hidden');
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.fb').classList.add('active');
+  activeFilter='all';cur=[...D];usedIndices=[];
+  hideDoneHint();
+  drawCard();
+}
+
+function drawCard(){
+  hideDoneHint();
+
+  if(usedIndices.length>=cur.length){
+    showDoneHint();
+    return;
+  }
+
+  let idx;
+  do{idx=Math.floor(Math.random()*cur.length);}
+  while(usedIndices.includes(idx)&&usedIndices.length<cur.length);
+  usedIndices.push(idx);
+
+  const c=cur[idx];
+  const stage=document.getElementById('cardStage');
+
+  stage.style.opacity='0';
+  stage.style.transform='scale(0.95)';
+  stage.style.transition='opacity .15s ease, transform .15s ease';
+
+  setTimeout(()=>{
+    stage.classList.remove('flipped');
+    document.getElementById('ctag').textContent=c.t;
+    document.getElementById('cq').textContent=c.q;
+    document.getElementById('ca').textContent=c.a;
+    document.getElementById('ce').textContent=c.e;
+    stage.style.opacity='1';
+    stage.style.transform='scale(1)';
+  },150);
+
+  setTimeout(()=>{
+    stage.style.transition='';
+  },350);
+
+  const rem=cur.length-usedIndices.length;
+  document.getElementById('cntLabel').textContent=rem>0?`还有 ${rem} 张未抽`:'';
+
+  if(rem===0){
+    document.getElementById('btnDraw').disabled=true;
+    setTimeout(()=>showDoneHint(),600);
+  } else {
+    document.getElementById('btnDraw').disabled=false;
+  }
+}
+
+function showDoneHint(){
+  const hint=document.getElementById('doneHint');
+  document.getElementById('doneGroup').textContent='「'+groupNames[activeFilter]+'」';
+  hint.classList.add('show');
+  document.getElementById('cntLabel').textContent='';
+
+  const btns=hint.querySelectorAll('.btn-sm:not(.gold)');
+  btns.forEach(b=>{
+    const g=b.getAttribute('onclick').match(/'(\w+)'/)[1];
+    b.style.display=(g===activeFilter&&activeFilter!=='all')?'none':'inline-block';
+  });
+}
+
+function hideDoneHint(){
+  document.getElementById('doneHint').classList.remove('show');
+  document.getElementById('btnDraw').disabled=false;
+}
+
+function reshuffle(){
+  usedIndices=[];
+  hideDoneHint();
+  drawCard();
+}
+
+function switchHint(g){
+  const btns=document.querySelectorAll('#filters .fb');
+  btns.forEach(b=>{
+    const onclick=b.getAttribute('onclick');
+    if(onclick&&onclick.includes("'"+g+"'")){
+      setFilter(g,b);
+    }
+  });
+}
+
+function flipCard(){document.getElementById('cardStage').classList.toggle('flipped');}
+drawCard();
+</script>
+</body>
+</html>
