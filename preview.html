@@ -5,626 +5,660 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>BoxVault · 预览</title>
 <style>
-  :root {
-    --bg-primary: #1A1A2E;
-    --bg-card: #16213E;
-    --bg-elevated: #0F3460;
-    --accent-gold: #C8A96E;
-    --accent-purple: #7B5EA7;
-    --text-primary: #F0EAD6;
-    --text-secondary: #A8A4B8;
-    --text-muted: #6B6780;
-    --rarity-normal: #8A9BA8;
-    --rarity-rare: #7B5EA7;
-    --rarity-hidden: #C8A96E;
-  }
+:root {
+  --space:       #07071A;
+  --space-2:     #0D0D28;
+  --card:        rgba(255,255,255,0.05);
+  --card-solid:  #11112B;
+  --card-border: rgba(160,120,255,0.15);
+  --purple:      #9060E0;
+  --purple-glow: rgba(144,96,224,0.35);
+  --purple-soft: #C4A0F0;
+  --purple-dim:  #4A2E80;
+  --nebula:      rgba(80,40,160,0.3);
+  --gold:        #D4A853;
+  --gold-dim:    rgba(212,168,83,0.2);
+  --text-1:      #EDE0FF;
+  --text-2:      #A890C8;
+  --text-3:      #5A4E78;
+  --hidden-clr:  #D4A853;
+  --rare-clr:    #B48BF0;
+  --normal-clr:  #8090B0;
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 
-  body {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    font-family: -apple-system, 'PingFang SC', sans-serif;
-    font-size: 14px;
-    max-width: 430px;
-    margin: 0 auto;
-    position: relative;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+body{
+  background:var(--space);
+  color:var(--text-1);
+  font-family:-apple-system,'PingFang SC',sans-serif;
+  font-size:14px;
+  max-width:430px;
+  margin:0 auto;
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
 
-  /* NAV BAR */
-  .nav-bar {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: var(--bg-primary);
-    padding: 12px 16px 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .nav-title { font-size: 17px; font-weight: 600; color: var(--text-primary); }
-  .nav-logo { font-size: 18px; font-weight: 700; color: var(--accent-gold); letter-spacing: 1px; }
+/* ── STAR CANVAS ── */
+#star-canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;
+}
 
-  /* TAB BAR */
-  .tab-bar {
-    position: fixed;
-    bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 100%; max-width: 430px;
-    background: #10101e;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    z-index: 100;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  .tab-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px 0 8px;
-    cursor: pointer;
-    color: #666;
-    font-size: 11px;
-    gap: 3px;
-    transition: color .2s;
-  }
-  .tab-item.active { color: var(--accent-gold); }
-  .tab-icon { font-size: 22px; line-height: 1; }
+/* nebula blobs */
+.nebula-blob{
+  position:fixed;border-radius:50%;filter:blur(60px);
+  z-index:0;pointer-events:none;
+}
+.nb1{width:300px;height:300px;top:-80px;right:-80px;background:rgba(100,40,200,0.25);}
+.nb2{width:250px;height:250px;bottom:100px;left:-60px;background:rgba(40,20,120,0.2);}
+.nb3{width:200px;height:200px;top:40%;left:30%;background:rgba(140,60,220,0.12);}
 
-  /* PAGES */
-  .page { display: none; padding: 12px 12px 80px; min-height: calc(100vh - 50px); }
-  .page.active { display: block; }
+/* everything above canvas */
+.nav-bar,.page,.tab-bar,.dialog-mask,.toast{position:relative;z-index:10;}
 
-  /* CARDS */
-  .card {
-    background: var(--bg-card);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 12px;
-    border: 1px solid rgba(255,255,255,0.05);
-  }
+/* ── NAV BAR ── */
+.nav-bar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(7,7,26,0.85);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  padding:14px 16px 12px;
+  border-bottom:1px solid var(--card-border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{
+  font-size:19px;font-weight:800;letter-spacing:2px;
+  background:linear-gradient(90deg,#C4A0F0,#9060E0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.nav-right{display:flex;align-items:center;gap:10px;color:var(--text-2);font-size:13px;}
+.nav-star{font-size:16px;}
 
-  /* BUTTONS */
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent-gold), #9a7035);
-    color: #1A1A2E;
-    border-radius: 24px;
-    padding: 13px 24px;
-    font-weight: 700;
-    font-size: 15px;
-    text-align: center;
-    cursor: pointer;
-    display: block;
-    width: 100%;
-    border: none;
-    margin-bottom: 10px;
-    transition: opacity .2s;
-  }
-  .btn-primary:active { opacity: 0.8; }
-  .btn-secondary {
-    background: transparent;
-    color: var(--accent-gold);
-    border: 1.5px solid var(--accent-gold);
-    border-radius: 24px;
-    padding: 11px 24px;
-    font-size: 14px;
-    text-align: center;
-    cursor: pointer;
-    display: block;
-    width: 100%;
-    transition: opacity .2s;
-  }
-  .btn-secondary:active { opacity: 0.7; }
+/* ── TAB BAR ── */
+.tab-bar{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:430px;
+  background:rgba(7,7,26,0.92);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--card-border);
+  display:flex;z-index:100;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.tab-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:10px 0 8px;cursor:pointer;
+  color:var(--text-3);font-size:11px;gap:4px;transition:color .2s;
+}
+.tab-item.active{color:var(--purple-soft);}
+.tab-icon{font-size:22px;line-height:1;}
+.tab-dot{
+  width:4px;height:4px;border-radius:50%;
+  background:var(--purple);margin-top:2px;
+  opacity:0;transition:opacity .2s;
+}
+.tab-item.active .tab-dot{opacity:1;}
 
-  /* BADGES */
-  .badge {
-    border-radius: 6px;
-    padding: 2px 7px;
-    font-size: 11px;
-    font-weight: 600;
-    display: inline-block;
-  }
-  .badge-normal { background: rgba(138,155,168,0.2); color: var(--rarity-normal); }
-  .badge-rare   { background: rgba(123,94,167,0.25); color: var(--rarity-rare); }
-  .badge-hidden { background: rgba(200,169,110,0.2); color: var(--rarity-hidden); }
+/* ── PAGES ── */
+.page{display:none;padding:12px 12px 88px;min-height:calc(100vh - 52px);}
+.page.active{display:block;}
 
-  /* ===================== HOME PAGE ===================== */
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background: var(--bg-card);
-    border-radius: 24px;
-    padding: 11px 16px;
-    margin-bottom: 12px;
-    gap: 8px;
-  }
-  .search-bar input {
-    flex: 1; background: none; border: none; outline: none;
-    color: var(--text-primary); font-size: 14px;
-  }
-  .search-bar input::placeholder { color: var(--text-muted); }
+/* ── GLASS CARD ── */
+.card{
+  background:var(--card);
+  border:1px solid var(--card-border);
+  border-radius:16px;padding:16px;margin-bottom:12px;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.card-solid{
+  background:var(--card-solid);
+  border:1px solid var(--card-border);
+  border-radius:16px;padding:16px;margin-bottom:12px;
+}
 
-  .brand-filter {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    margin-bottom: 16px;
-    padding-bottom: 4px;
-    scrollbar-width: none;
-  }
-  .brand-filter::-webkit-scrollbar { display: none; }
-  .brand-tag {
-    white-space: nowrap;
-    padding: 6px 16px;
-    border-radius: 16px;
-    border: 1.5px solid var(--text-muted);
-    color: var(--text-secondary);
-    font-size: 13px;
-    cursor: pointer;
-    transition: all .2s;
-    flex-shrink: 0;
-  }
-  .brand-tag.active {
-    border-color: var(--accent-gold);
-    color: var(--accent-gold);
-    background: rgba(200,169,110,0.1);
-  }
+/* ── BUTTONS ── */
+.btn-primary{
+  background:linear-gradient(135deg,#9060E0,#5030A0);
+  color:#EDE0FF;border-radius:24px;
+  padding:13px 24px;font-weight:700;font-size:15px;
+  text-align:center;cursor:pointer;display:block;width:100%;border:none;
+  box-shadow:0 4px 20px rgba(144,96,224,0.4);transition:opacity .2s;
+}
+.btn-primary:active{opacity:.8;}
+.btn-secondary{
+  background:transparent;color:var(--purple-soft);
+  border:1.5px solid rgba(160,120,255,0.4);
+  border-radius:24px;padding:11px 24px;font-size:14px;
+  text-align:center;cursor:pointer;display:block;width:100%;transition:opacity .2s;
+}
+.btn-secondary:active{opacity:.7;}
 
-  .series-list { display: flex; flex-direction: column; gap: 10px; }
-  .series-row {
-    background: var(--bg-card);
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    padding: 14px;
-    gap: 14px;
-    cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.05);
-    transition: border-color .2s;
-  }
-  .series-row:active { border-color: var(--accent-gold); }
-  .series-thumb {
-    width: 60px; height: 60px;
-    border-radius: 10px;
-    background: var(--bg-elevated);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 30px; flex-shrink: 0;
-  }
-  .series-info { flex: 1; }
-  .series-brand-pill {
-    display: inline-block;
-    background: rgba(123,94,167,0.2);
-    color: var(--accent-purple);
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 5px;
-    margin-bottom: 5px;
-  }
-  .series-name { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
-  .series-meta { font-size: 12px; color: var(--text-muted); }
-  .series-arrow { color: var(--text-muted); font-size: 18px; }
+/* ── BADGES ── */
+.badge{border-radius:6px;padding:2px 8px;font-size:11px;font-weight:600;display:inline-block;}
+.badge-normal{background:rgba(128,144,176,0.15);color:var(--normal-clr);}
+.badge-rare  {background:rgba(180,139,240,0.15);color:var(--rare-clr);}
+.badge-hidden{background:rgba(212,168,83,0.15); color:var(--hidden-clr);}
 
-  /* ===================== SERIES DETAIL ===================== */
-  .back-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--accent-gold);
-    font-size: 14px;
-    cursor: pointer;
-    margin-bottom: 12px;
-  }
+/* ── PROGRESS ── */
+.progress-bg{height:6px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;}
+.progress-fill{
+  height:100%;border-radius:4px;
+  background:linear-gradient(90deg,var(--purple-dim),var(--purple),#C4A0F0);
+  transition:width .5s ease;
+}
 
-  .series-header {
-    background: var(--bg-card);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 16px;
-  }
-  .series-header-top {
-    display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
-  }
-  .series-full-name { font-size: 20px; font-weight: 700; margin-bottom: 14px; }
-  .progress-labels { display: flex; justify-content: space-between; margin-bottom: 8px; }
-  .progress-label { font-size: 13px; color: var(--text-secondary); }
-  .progress-count { font-size: 13px; color: var(--accent-gold); font-weight: 600; }
-  .progress-bg { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent-purple), var(--accent-gold));
-    border-radius: 4px;
-    transition: width .5s ease;
-  }
+/* ══════════════════════════════════
+   PAGE: 我的收藏 (HOME)
+══════════════════════════════════ */
 
-  .figures-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-  .figure-cell {
-    background: var(--bg-card);
-    border-radius: 12px;
-    padding: 12px 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    border: 1.5px solid transparent;
-    cursor: pointer;
-    position: relative;
-    transition: all .2s;
-  }
-  .figure-cell.owned {
-    border-color: var(--accent-gold);
-    background: rgba(200,169,110,0.07);
-  }
-  .figure-cell:active { opacity: 0.7; }
-  .owned-check {
-    position: absolute;
-    top: 6px; right: 6px;
-    width: 18px; height: 18px;
-    background: var(--accent-gold);
-    color: #1A1A2E;
-    border-radius: 50%;
-    font-size: 10px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .fig-emoji { font-size: 28px; }
-  .fig-name { font-size: 11px; text-align: center; color: var(--text-primary); line-height: 1.3; }
-  .fig-rate { font-size: 10px; color: var(--text-muted); }
+/* top stats strip */
+.my-stats{
+  display:flex;gap:8px;margin-bottom:16px;
+}
+.my-stat{
+  flex:1;background:var(--card);
+  border:1px solid var(--card-border);
+  border-radius:14px;padding:14px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+.my-stat-val{font-size:22px;font-weight:700;color:var(--purple-soft);}
+.my-stat-lbl{font-size:11px;color:var(--text-3);}
 
-  /* Price dialog */
-  .dialog-mask {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 200;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .dialog-box {
-    background: var(--bg-card);
-    border-radius: 20px;
-    padding: 28px 24px;
-    width: 320px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-  .dialog-title { font-size: 18px; font-weight: 700; }
-  .dialog-sub { font-size: 13px; color: var(--text-muted); }
-  .dialog-input {
-    width: 100%;
-    background: var(--bg-elevated);
-    border-radius: 10px;
-    padding: 12px 14px;
-    color: var(--text-primary);
-    font-size: 18px;
-    border: none;
-    outline: none;
-    text-align: center;
-  }
-  .dialog-input::placeholder { color: var(--text-muted); font-size: 14px; }
-  .dialog-btns { display: flex; gap: 12px; width: 100%; }
-  .dialog-btns .btn-secondary, .dialog-btns .btn-primary { flex: 1; margin: 0; }
+/* series switcher chips */
+.series-switcher{
+  display:flex;gap:8px;overflow-x:auto;
+  margin-bottom:16px;padding-bottom:4px;
+  scrollbar-width:none;
+}
+.series-switcher::-webkit-scrollbar{display:none;}
+.series-chip{
+  white-space:nowrap;flex-shrink:0;
+  padding:8px 18px;border-radius:20px;
+  border:1.5px solid var(--card-border);
+  color:var(--text-2);font-size:13px;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+  transition:all .2s;
+}
+.series-chip.active{
+  border-color:var(--purple);color:var(--purple-soft);
+  background:rgba(144,96,224,0.12);
+  box-shadow:0 0 12px var(--purple-glow);
+}
+.chip-emoji{font-size:16px;}
 
-  /* ===================== COLLECTION PAGE ===================== */
-  .stats-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .stat-card {
-    flex: 1;
-    background: var(--bg-card);
-    border-radius: 14px;
-    padding: 16px 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-  }
-  .stat-val { font-size: 24px; font-weight: 700; color: var(--accent-gold); }
-  .stat-lbl { font-size: 11px; color: var(--text-muted); }
+/* active series card */
+.active-series-card{
+  background:linear-gradient(135deg,rgba(80,30,160,0.25),rgba(20,10,60,0.4));
+  border:1px solid rgba(160,100,255,0.25);
+  border-radius:20px;padding:20px 16px;margin-bottom:16px;
+  position:relative;overflow:hidden;
+}
+.active-series-card::before{
+  content:'';position:absolute;
+  top:-40px;right:-40px;width:160px;height:160px;
+  border-radius:50%;background:rgba(120,60,220,0.15);
+}
+.as-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;}
+.as-brand{font-size:11px;color:var(--purple-soft);font-weight:600;letter-spacing:.5px;}
+.as-year{font-size:11px;color:var(--text-3);}
+.as-name{font-size:18px;font-weight:700;color:var(--text-1);margin-bottom:14px;}
+.as-prog-row{display:flex;justify-content:space-between;margin-bottom:8px;}
+.as-prog-lbl{font-size:12px;color:var(--text-2);}
+.as-prog-val{font-size:12px;color:var(--purple-soft);font-weight:600;}
 
-  .section-title {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 16px 0 8px;
-    display: block;
-  }
+/* figures mini-grid */
+.fig-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+  margin-top:16px;
+}
+.fig-cell{
+  background:rgba(255,255,255,0.04);
+  border:1.5px solid transparent;
+  border-radius:10px;
+  padding:8px 4px;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  cursor:pointer;position:relative;transition:all .2s;
+}
+.fig-cell.owned{
+  border-color:rgba(144,96,224,0.5);
+  background:rgba(144,96,224,0.1);
+}
+.fig-cell.owned-hidden{
+  border-color:rgba(212,168,83,0.6);
+  background:rgba(212,168,83,0.08);
+  box-shadow:0 0 8px rgba(212,168,83,0.15);
+}
+.fig-cell:active{opacity:.7;}
+.fig-check{
+  position:absolute;top:4px;right:4px;
+  width:14px;height:14px;background:var(--purple);
+  border-radius:50%;font-size:8px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;color:#fff;
+}
+.fig-check.gold{background:var(--gold);}
+.fig-emoji{font-size:24px;}
+.fig-name{font-size:10px;text-align:center;color:var(--text-2);line-height:1.3;}
 
-  .coll-row {
-    background: var(--bg-card);
-    border-radius: 14px;
-    padding: 14px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.05);
-  }
-  .coll-row-top {
-    display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;
-  }
-  .coll-row-left { flex: 1; }
-  .coll-series-name { font-size: 15px; font-weight: 600; margin: 5px 0 4px; }
-  .coll-hidden { font-size: 12px; color: var(--accent-gold); }
-  .coll-count { font-size: 16px; font-weight: 700; color: var(--accent-gold); padding-left: 8px; }
-  .coll-pct { font-size: 11px; color: var(--text-muted); text-align: right; margin-top: 4px; }
+.empty-home{
+  display:flex;flex-direction:column;align-items:center;
+  padding:60px 24px;gap:12px;text-align:center;
+}
+.empty-home .big{font-size:56px;}
+.empty-home .t1{font-size:17px;font-weight:700;color:var(--text-1);}
+.empty-home .t2{font-size:13px;color:var(--text-3);line-height:1.7;}
 
-  /* ===================== POSTER PAGE ===================== */
-  .poster-wrap {
-    background: linear-gradient(135deg, #1A1A2E, #0F3460);
-    border-radius: 20px;
-    padding: 32px 24px;
-    margin: 0 0 20px;
-    position: relative;
-    overflow: hidden;
-    min-height: 320px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
-  }
-  .poster-deco1 {
-    position: absolute; top: -40px; right: -40px;
-    width: 160px; height: 160px;
-    border-radius: 50%;
-    background: rgba(123,94,167,0.2);
-  }
-  .poster-deco2 {
-    position: absolute; bottom: -30px; left: -30px;
-    width: 120px; height: 120px;
-    border-radius: 50%;
-    background: rgba(200,169,110,0.12);
-  }
-  .poster-logo { font-size: 22px; font-weight: 700; color: var(--accent-gold); letter-spacing: 2px; position: relative; }
-  .poster-logo-sub { font-size: 12px; color: rgba(240,234,214,0.5); position: relative; }
-  .poster-divider { width: 80%; height: 1px; background: rgba(255,255,255,0.1); }
-  .poster-big-num { font-size: 72px; font-weight: 800; color: var(--accent-gold); line-height: 1; position: relative; }
-  .poster-big-sub { font-size: 15px; color: rgba(240,234,214,0.6); position: relative; }
-  .poster-stats-row { display: flex; width: 100%; position: relative; }
-  .poster-stat { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-  .poster-stat-val { font-size: 22px; font-weight: 700; color: var(--text-primary); }
-  .poster-stat-lbl { font-size: 11px; color: rgba(240,234,214,0.5); }
-  .poster-footer { font-size: 12px; color: rgba(200,169,110,0.6); position: relative; }
+/* ══════════════════════════════════
+   PAGE: 发现
+══════════════════════════════════ */
+.search-bar{
+  display:flex;align-items:center;
+  background:rgba(255,255,255,0.05);
+  border:1px solid var(--card-border);
+  border-radius:24px;padding:11px 16px;
+  margin-bottom:12px;gap:8px;
+}
+.search-bar input{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--text-1);font-size:14px;
+}
+.search-bar input::placeholder{color:var(--text-3);}
 
-  .poster-actions { display: flex; flex-direction: column; gap: 10px; }
+.brand-filter{
+  display:flex;gap:8px;overflow-x:auto;
+  margin-bottom:16px;padding-bottom:2px;scrollbar-width:none;
+}
+.brand-filter::-webkit-scrollbar{display:none;}
+.brand-tag{
+  white-space:nowrap;padding:6px 16px;border-radius:16px;
+  border:1.5px solid var(--card-border);color:var(--text-2);
+  font-size:13px;cursor:pointer;flex-shrink:0;transition:all .2s;
+}
+.brand-tag.active{
+  border-color:var(--purple);color:var(--purple-soft);
+  background:rgba(144,96,224,0.1);
+}
 
-  /* ===================== PROFILE PAGE ===================== */
-  .login-card-big {
-    background: var(--bg-card);
-    border-radius: 20px;
-    padding: 40px 24px;
-    margin: 60px 0 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    text-align: center;
-  }
-  .login-icon { font-size: 56px; }
-  .login-title { font-size: 20px; font-weight: 700; }
-  .login-sub { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+.all-series-list{display:flex;flex-direction:column;gap:10px;}
+.all-series-row{
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--card-border);
+  border-radius:14px;
+  display:flex;align-items:center;padding:14px;gap:14px;
+  cursor:pointer;transition:border-color .2s;
+}
+.all-series-row:active{border-color:var(--purple);}
+.all-thumb{
+  width:54px;height:54px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(80,30,160,0.4),rgba(30,15,80,0.6));
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;flex-shrink:0;
+  border:1px solid rgba(160,120,255,0.2);
+}
+.all-info{flex:1;}
+.all-brand{
+  display:inline-block;
+  background:rgba(144,96,224,0.15);color:var(--purple-soft);
+  font-size:11px;padding:2px 8px;border-radius:5px;margin-bottom:5px;
+}
+.all-name{font-size:15px;font-weight:600;margin-bottom:3px;}
+.all-meta{font-size:12px;color:var(--text-3);}
+.all-owned-badge{
+  font-size:11px;color:var(--purple-soft);
+  background:rgba(144,96,224,0.1);
+  padding:3px 8px;border-radius:8px;
+  border:1px solid rgba(144,96,224,0.2);
+  white-space:nowrap;flex-shrink:0;
+}
 
-  .user-card {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background: var(--bg-card);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 12px;
-  }
-  .avatar-circle {
-    width: 56px; height: 56px;
-    border-radius: 50%;
-    background: var(--accent-purple);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px;
-    border: 2px solid var(--accent-gold);
-    flex-shrink: 0;
-  }
-  .user-name { font-size: 18px; font-weight: 700; }
-  .user-subtitle { font-size: 12px; color: var(--accent-gold); margin-top: 3px; }
+/* ══════════════════════════════════
+   PAGE: SERIES DETAIL
+══════════════════════════════════ */
+.back-btn{
+  display:flex;align-items:center;gap:6px;
+  color:var(--purple-soft);font-size:14px;cursor:pointer;margin-bottom:14px;
+}
+.series-detail-header{
+  background:linear-gradient(135deg,rgba(80,30,160,0.3),rgba(20,10,60,0.5));
+  border:1px solid rgba(160,100,255,0.2);
+  border-radius:18px;padding:20px;margin-bottom:16px;
+  position:relative;overflow:hidden;
+}
+.series-detail-header::after{
+  content:'';position:absolute;bottom:-30px;right:-30px;
+  width:120px;height:120px;border-radius:50%;
+  background:rgba(120,60,220,0.12);
+}
+.sdh-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.sdh-brand{font-size:11px;color:var(--purple-soft);font-weight:600;}
+.sdh-year{font-size:11px;color:var(--text-3);}
+.sdh-name{font-size:20px;font-weight:700;margin-bottom:16px;}
+.sdh-prog-row{display:flex;justify-content:space-between;margin-bottom:8px;}
 
-  .stats-grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-  .stat-cell {
-    background: var(--bg-card);
-    border-radius: 14px;
-    padding: 20px 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
-  .stat-cell-val { font-size: 30px; font-weight: 700; color: var(--text-primary); }
-  .stat-cell-val.gold { color: var(--accent-gold); }
-  .stat-cell-lbl { font-size: 12px; color: var(--text-muted); }
+.detail-fig-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+}
+.dfig-cell{
+  background:rgba(255,255,255,0.04);
+  border:1.5px solid var(--card-border);
+  border-radius:12px;padding:12px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  cursor:pointer;position:relative;transition:all .2s;
+}
+.dfig-cell.owned{
+  border-color:rgba(144,96,224,0.6);
+  background:rgba(144,96,224,0.08);
+}
+.dfig-cell.owned-hidden{
+  border-color:rgba(212,168,83,0.7);
+  background:rgba(212,168,83,0.06);
+  box-shadow:0 0 12px rgba(212,168,83,0.2);
+}
+.dfig-cell:active{opacity:.7;}
+.dfig-check{
+  position:absolute;top:6px;right:6px;
+  width:18px;height:18px;border-radius:50%;
+  font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff;
+}
+.dfig-check.purple{background:var(--purple);}
+.dfig-check.gold{background:var(--gold);}
+.dfig-emoji{font-size:30px;}
+.dfig-name{font-size:11px;text-align:center;color:var(--text-1);line-height:1.3;}
+.dfig-rate{font-size:10px;color:var(--text-3);}
 
-  .rarest-card {
-    background: var(--bg-card);
-    border-radius: 14px;
-    padding: 16px;
-    border: 1px solid rgba(200,169,110,0.25);
-    display: flex; flex-direction: column; gap: 6px;
-  }
-  .rarest-label { font-size: 12px; color: var(--accent-gold); font-weight: 600; }
-  .rarest-name { font-size: 18px; font-weight: 700; }
-  .rarest-series { font-size: 12px; color: var(--text-muted); }
+/* ══════════════════════════════════
+   PAGE: POSTER
+══════════════════════════════════ */
+.poster-card{
+  border-radius:22px;overflow:hidden;margin-bottom:20px;
+  box-shadow:0 16px 50px rgba(0,0,0,0.6);position:relative;
+  background:linear-gradient(160deg,#100830 0%,#1A0A40 40%,#0A0A20 100%);
+  padding:36px 24px;
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+  border:1px solid rgba(160,100,255,0.2);
+}
+.poster-glow1{
+  position:absolute;top:-40px;right:-40px;
+  width:180px;height:180px;border-radius:50%;
+  background:rgba(100,40,200,0.2);filter:blur(30px);
+}
+.poster-glow2{
+  position:absolute;bottom:-40px;left:-20px;
+  width:140px;height:140px;border-radius:50%;
+  background:rgba(212,168,83,0.1);filter:blur(25px);
+}
+.poster-logo-txt{
+  font-size:22px;font-weight:800;letter-spacing:3px;position:relative;
+  background:linear-gradient(90deg,#C4A0F0,#D4A853);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.poster-sub-txt{font-size:12px;color:rgba(200,180,255,0.5);position:relative;}
+.poster-divider{width:80%;height:1px;background:rgba(255,255,255,0.08);}
+.poster-big{
+  font-size:80px;font-weight:800;line-height:1;position:relative;
+  background:linear-gradient(180deg,#EDE0FF,#9060E0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.poster-big-sub{font-size:14px;color:rgba(200,180,255,0.6);position:relative;}
+.poster-stats{display:flex;width:100%;position:relative;}
+.poster-stat{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.poster-stat-val{font-size:22px;font-weight:700;color:var(--text-1);}
+.poster-stat-lbl{font-size:10px;color:rgba(200,180,255,0.5);}
+.poster-footer{font-size:11px;color:rgba(200,180,255,0.4);position:relative;}
 
-  /* Toast */
-  .toast {
-    position: fixed;
-    bottom: 90px;
-    left: 50%; transform: translateX(-50%);
-    background: rgba(30,40,60,0.95);
-    color: var(--accent-gold);
-    padding: 10px 24px;
-    border-radius: 24px;
-    font-size: 14px;
-    border: 1px solid rgba(200,169,110,0.3);
-    z-index: 300;
-    opacity: 0;
-    transition: opacity .3s;
-    white-space: nowrap;
-  }
-  .toast.show { opacity: 1; }
+/* ══════════════════════════════════
+   PAGE: PROFILE
+══════════════════════════════════ */
+.login-big{
+  display:flex;flex-direction:column;align-items:center;
+  padding:70px 24px 40px;gap:14px;text-align:center;
+}
+.login-glyph{font-size:60px;}
+.login-t1{font-size:20px;font-weight:700;}
+.login-t2{font-size:13px;color:var(--text-3);line-height:1.7;}
+
+.user-banner{
+  background:linear-gradient(135deg,rgba(80,30,160,0.3),rgba(20,10,60,0.5));
+  border:1px solid rgba(160,100,255,0.2);
+  border-radius:18px;padding:20px;margin-bottom:12px;
+  display:flex;align-items:center;gap:16px;
+}
+.avatar-orb{
+  width:58px;height:58px;border-radius:50%;
+  background:linear-gradient(135deg,#7B3FE0,#4A1990);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;flex-shrink:0;
+  border:2px solid rgba(160,120,255,0.4);
+  box-shadow:0 0 16px rgba(144,96,224,0.3);
+}
+.user-name-txt{font-size:18px;font-weight:700;}
+.user-badge{font-size:12px;color:var(--purple-soft);margin-top:3px;}
+
+.pro-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.pro-cell{
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--card-border);
+  border-radius:14px;padding:18px 14px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.pro-val{font-size:28px;font-weight:700;color:var(--text-1);}
+.pro-val.purple{color:var(--purple-soft);}
+.pro-val.gold{color:var(--gold);}
+.pro-lbl{font-size:12px;color:var(--text-3);}
+
+.hidden-trophy{
+  background:linear-gradient(135deg,rgba(212,168,83,0.1),rgba(80,30,0,0.2));
+  border:1px solid rgba(212,168,83,0.25);
+  border-radius:16px;padding:16px;
+  display:flex;flex-direction:column;gap:6px;
+}
+.ht-lbl{font-size:12px;color:var(--gold);font-weight:600;}
+.ht-name{font-size:17px;font-weight:700;}
+.ht-series{font-size:12px;color:var(--text-3);}
+
+/* ── DIALOG ── */
+.dialog-mask{
+  position:fixed;inset:0;background:rgba(0,0,0,0.75);
+  z-index:200;display:flex;align-items:center;justify-content:center;
+}
+.dialog-box{
+  background:#13132B;
+  border:1px solid rgba(160,100,255,0.3);
+  border-radius:22px;padding:28px 22px;width:320px;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.6);
+}
+.dialog-title{font-size:17px;font-weight:700;color:var(--text-1);}
+.dialog-sub{font-size:12px;color:var(--text-3);}
+.dialog-input{
+  width:100%;background:rgba(255,255,255,0.06);
+  border:1px solid rgba(160,100,255,0.2);
+  border-radius:12px;padding:13px 16px;
+  color:var(--text-1);font-size:18px;outline:none;text-align:center;
+}
+.dialog-input::placeholder{color:var(--text-3);font-size:14px;}
+.dialog-btns{display:flex;gap:10px;width:100%;}
+.dialog-btns .btn-secondary,.dialog-btns .btn-primary{flex:1;margin:0;}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+  background:rgba(20,10,50,0.95);color:var(--purple-soft);
+  padding:10px 22px;border-radius:22px;font-size:13px;
+  border:1px solid rgba(144,96,224,0.3);z-index:300;
+  opacity:0;transition:opacity .3s;white-space:nowrap;
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);
+}
+.toast.show{opacity:1;}
 </style>
 </head>
 <body>
 
+<!-- NEBULA BLOBS -->
+<div class="nebula-blob nb1"></div>
+<div class="nebula-blob nb2"></div>
+<div class="nebula-blob nb3"></div>
+<canvas id="star-canvas"></canvas>
+
 <!-- NAV BAR -->
 <div class="nav-bar">
-  <span class="nav-logo">BoxVault</span>
-  <span id="nav-title" class="nav-title">发现</span>
+  <span class="nav-logo">BOXVAULT</span>
+  <div class="nav-right">
+    <span id="nav-title" style="color:var(--text-2);font-size:13px"></span>
+    <span class="nav-star">✦</span>
+  </div>
 </div>
 
-<!-- ===================== PAGE: HOME ===================== -->
+<!-- ═════════ PAGE: 我的 ═════════ -->
 <div id="page-home" class="page active">
+  <!-- stats strip -->
+  <div class="my-stats">
+    <div class="my-stat"><span class="my-stat-val" id="h-total">0</span><span class="my-stat-lbl">总收藏</span></div>
+    <div class="my-stat"><span class="my-stat-val" id="h-series">0</span><span class="my-stat-lbl">系列</span></div>
+    <div class="my-stat"><span class="my-stat-val gold" id="h-hidden" style="color:var(--gold)">0</span><span class="my-stat-lbl">隐藏款</span></div>
+  </div>
+
+  <!-- empty state -->
+  <div class="empty-home" id="home-empty">
+    <div class="big">🌌</div>
+    <div class="t1">你的收藏宇宙还是空的</div>
+    <div class="t2">去「发现」页面选择系列<br>把你拥有的盲盒入库吧</div>
+    <div class="btn-primary" style="margin-top:8px;width:200px" onclick="showPage('discover','发现')">去发现系列</div>
+  </div>
+
+  <!-- series switcher + active series -->
+  <div id="home-content" style="display:none">
+    <div class="series-switcher" id="home-switcher"></div>
+    <div class="active-series-card" id="active-series-card">
+      <div class="as-header">
+        <span class="as-brand" id="as-brand"></span>
+        <span class="as-year" id="as-year"></span>
+      </div>
+      <div class="as-name" id="as-name"></div>
+      <div class="as-prog-row">
+        <span class="as-prog-lbl">完成度</span>
+        <span class="as-prog-val" id="as-prog-val">0/0</span>
+      </div>
+      <div class="progress-bg"><div class="progress-fill" id="as-prog-bar" style="width:0%"></div></div>
+      <div class="fig-grid" id="as-fig-grid"></div>
+    </div>
+    <div class="btn-secondary" onclick="showPage('discover','发现')" style="margin-top:4px">+ 发现更多系列</div>
+  </div>
+</div>
+
+<!-- ═════════ PAGE: 发现 ═════════ -->
+<div id="page-discover" class="page">
   <div class="search-bar">
-    <input type="text" placeholder="搜索系列或品牌" id="search-input" oninput="filterSeries()">
-    <span>🔍</span>
+    <input type="text" placeholder="搜索系列或品牌" id="search-input" oninput="renderDiscover()">
+    <span>✦</span>
   </div>
-  <div class="brand-filter" id="brand-filter">
-    <div class="brand-tag active" data-brand="all" onclick="filterBrand(this)">全部</div>
-    <div class="brand-tag" data-brand="泡泡玛特" onclick="filterBrand(this)">泡泡玛特</div>
-    <div class="brand-tag" data-brand="52TOYS" onclick="filterBrand(this)">52TOYS</div>
+  <div class="brand-filter">
+    <div class="brand-tag active" data-brand="all"   onclick="setBrand(this)">全部</div>
+    <div class="brand-tag"        data-brand="泡泡玛特" onclick="setBrand(this)">泡泡玛特</div>
+    <div class="brand-tag"        data-brand="52TOYS"  onclick="setBrand(this)">52TOYS</div>
   </div>
-  <div class="series-list" id="series-list"></div>
+  <div class="all-series-list" id="all-series-list"></div>
 </div>
 
-<!-- ===================== PAGE: SERIES DETAIL ===================== -->
+<!-- ═════════ PAGE: 系列详情 ═════════ -->
 <div id="page-series" class="page">
-  <div class="back-btn" onclick="showPage('home','发现')">← 返回</div>
-  <div class="series-header">
-    <div class="series-header-top">
-      <span class="series-brand-pill" id="detail-brand"></span>
-      <span style="color:var(--text-muted);font-size:12px" id="detail-year"></span>
+  <div class="back-btn" id="series-back-btn">← 返回</div>
+  <div class="series-detail-header">
+    <div class="sdh-top">
+      <span class="sdh-brand" id="sdh-brand"></span>
+      <span class="sdh-year" id="sdh-year"></span>
     </div>
-    <div class="series-full-name" id="detail-name"></div>
-    <div class="progress-labels">
-      <span class="progress-label">完成度</span>
-      <span class="progress-count" id="detail-progress-text">0 / 0</span>
+    <div class="sdh-name" id="sdh-name"></div>
+    <div class="sdh-prog-row">
+      <span style="font-size:12px;color:var(--text-2)">完成度</span>
+      <span style="font-size:12px;color:var(--purple-soft);font-weight:600" id="sdh-prog-val">0/0</span>
     </div>
-    <div class="progress-bg">
-      <div class="progress-fill" id="detail-progress-bar" style="width:0%"></div>
-    </div>
+    <div class="progress-bg"><div class="progress-fill" id="sdh-prog-bar" style="width:0%"></div></div>
   </div>
-  <div class="figures-grid" id="figures-grid"></div>
+  <div class="detail-fig-grid" id="detail-fig-grid"></div>
 </div>
 
-<!-- ===================== PAGE: COLLECTION ===================== -->
-<div id="page-collection" class="page">
-  <div class="stats-row">
-    <div class="stat-card"><span class="stat-val" id="col-total">0</span><span class="stat-lbl">总入库</span></div>
-    <div class="stat-card"><span class="stat-val" id="col-series">0</span><span class="stat-lbl">参与系列</span></div>
-    <div class="stat-card"><span class="stat-val" id="col-spent">¥0</span><span class="stat-lbl">累计花费</span></div>
-  </div>
-  <div class="btn-primary" id="poster-btn" onclick="showPage('poster','晒单海报')" style="display:none">✨ 生成晒单海报</div>
-  <span class="section-title" id="col-section-title" style="display:none">我的系列</span>
-  <div id="collection-list"></div>
-  <div id="col-empty" style="display:none;text-align:center;padding:80px 20px;color:var(--text-muted)">
-    <div style="font-size:48px;margin-bottom:12px">📦</div>
-    <div style="font-size:14px;line-height:1.7">还没有入库任何款式<br>去发现页面开始收藏吧～</div>
-    <div class="btn-primary" style="margin-top:20px" onclick="showPage('home','发现')">去发现系列</div>
-  </div>
-</div>
-
-<!-- ===================== PAGE: POSTER ===================== -->
+<!-- ═════════ PAGE: 晒单 ═════════ -->
 <div id="page-poster" class="page">
-  <div class="back-btn" onclick="showPage('collection','我的收藏')">← 返回</div>
-  <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">保存后分享到小红书/朋友圈</p>
-  <div class="poster-wrap">
-    <div class="poster-deco1"></div>
-    <div class="poster-deco2"></div>
-    <div class="poster-logo">BoxVault</div>
-    <div class="poster-logo-sub">盲盒收藏管理</div>
+  <div class="back-btn" onclick="showPage('home','我的')">← 返回</div>
+  <p style="color:var(--text-3);font-size:12px;margin-bottom:16px">长按海报可保存 · 分享到小红书/朋友圈</p>
+  <div class="poster-card">
+    <div class="poster-glow1"></div>
+    <div class="poster-glow2"></div>
+    <div class="poster-logo-txt">BOXVAULT</div>
+    <div class="poster-sub-txt">盲盒收藏管理</div>
     <div class="poster-divider"></div>
-    <div class="poster-big-num" id="poster-total">0</div>
+    <div class="poster-big" id="poster-total">0</div>
     <div class="poster-big-sub">件盲盒已入库</div>
-    <div class="poster-stats-row">
+    <div class="poster-divider"></div>
+    <div class="poster-stats">
       <div class="poster-stat">
         <span class="poster-stat-val" id="poster-series">0</span>
         <span class="poster-stat-lbl">参与系列</span>
       </div>
       <div class="poster-stat">
         <span class="poster-stat-val" id="poster-hidden">0</span>
-        <span class="poster-stat-lbl">已收隐藏款</span>
+        <span class="poster-stat-lbl">隐藏款</span>
       </div>
       <div class="poster-stat">
         <span class="poster-stat-val" id="poster-spent">¥0</span>
         <span class="poster-stat-lbl">累计花费</span>
       </div>
     </div>
-    <div class="poster-divider"></div>
-    <div class="poster-footer">扫码一起管理我的盲盒收藏 ↑</div>
+    <div class="poster-footer">扫码一起管理我的盲盒收藏 ✦</div>
   </div>
-  <div class="poster-actions">
-    <div class="btn-secondary" onclick="showToast('长按上方海报可保存图片 📱')">💾 保存到相册（真机）</div>
-  </div>
+  <div class="btn-primary" onclick="showToast('长按上方海报保存到相册 📱')">保存到相册</div>
 </div>
 
-<!-- ===================== PAGE: PROFILE ===================== -->
+<!-- ═════════ PAGE: 我 ═════════ -->
 <div id="page-profile" class="page">
-  <div id="profile-login">
-    <div class="login-card-big">
-      <div class="login-icon">🎁</div>
-      <div class="login-title">登录查看收藏报告</div>
-      <div class="login-sub">一键微信登录<br>你的数据永久保存在云端</div>
-      <div class="btn-primary" onclick="fakeLogin()" style="margin-top:8px">微信一键登录（模拟）</div>
+  <div id="pf-login">
+    <div class="login-big">
+      <div class="login-glyph">✦</div>
+      <div class="login-t1">登录，开始记录你的星系</div>
+      <div class="login-t2">微信一键登录<br>数据保存在云端，换手机不丢失</div>
+      <div class="btn-primary" style="margin-top:8px" onclick="fakeLogin()">微信一键登录（模拟）</div>
     </div>
   </div>
-  <div id="profile-main" style="display:none">
-    <div class="user-card">
-      <div class="avatar-circle">🐼</div>
+  <div id="pf-main" style="display:none">
+    <div class="user-banner">
+      <div class="avatar-orb">🐼</div>
       <div>
-        <div class="user-name">小野收藏家</div>
-        <div class="user-subtitle">盲盒收藏家 · BoxVault</div>
+        <div class="user-name-txt">小野收藏家</div>
+        <div class="user-badge">✦ 盲盒星球探索者</div>
       </div>
     </div>
-    <div class="stats-grid-2">
-      <div class="stat-cell"><span class="stat-cell-val" id="pro-total">0</span><span class="stat-cell-lbl">总收藏</span></div>
-      <div class="stat-cell"><span class="stat-cell-val" id="pro-series">0</span><span class="stat-cell-lbl">系列</span></div>
-      <div class="stat-cell"><span class="stat-cell-val gold" id="pro-hidden">0</span><span class="stat-cell-lbl">隐藏款</span></div>
-      <div class="stat-cell"><span class="stat-cell-val" id="pro-spent">¥0</span><span class="stat-cell-lbl">总花费</span></div>
+    <div class="pro-grid">
+      <div class="pro-cell"><span class="pro-val purple" id="pf-total">0</span><span class="pro-lbl">总收藏</span></div>
+      <div class="pro-cell"><span class="pro-val" id="pf-series">0</span><span class="pro-lbl">系列</span></div>
+      <div class="pro-cell"><span class="pro-val gold" id="pf-hidden">0</span><span class="pro-lbl">隐藏款</span></div>
+      <div class="pro-cell"><span class="pro-val" id="pf-spent">¥0</span><span class="pro-lbl">总花费</span></div>
     </div>
-    <div id="pro-rarest-wrap" style="display:none" class="rarest-card">
-      <span class="rarest-label">✨ 已收隐藏款</span>
-      <span class="rarest-name" id="pro-rarest-name"></span>
-      <span class="rarest-series" id="pro-rarest-series"></span>
+    <div id="pf-trophy" style="display:none" class="hidden-trophy">
+      <span class="ht-lbl">✨ 已收最稀有款</span>
+      <span class="ht-name" id="pf-trophy-name"></span>
+      <span class="ht-series" id="pf-trophy-series"></span>
     </div>
-    <div id="pro-no-hidden" class="card" style="display:none">
-      <div style="font-weight:600;margin-bottom:6px">还没有隐藏款，继续抽！</div>
-      <div style="font-size:12px;color:var(--text-muted)">隐藏款概率约 1/144，加油 💪</div>
+    <div id="pf-no-hidden" class="card" style="display:none;margin-top:4px">
+      <div style="font-weight:600;margin-bottom:5px">还没有隐藏款，继续加油 💪</div>
+      <div style="font-size:12px;color:var(--text-3)">隐藏款概率约 1/144</div>
+    </div>
+    <div style="margin-top:16px">
+      <div class="btn-secondary" onclick="showPage('poster','晒单')">✨ 生成晒单海报</div>
     </div>
   </div>
 </div>
 
-<!-- ===================== TAB BAR ===================== -->
+<!-- ═════════ TAB BAR ═════════ -->
 <div class="tab-bar">
-  <div class="tab-item active" id="tab-home" onclick="showPage('home','发现')">
-    <span class="tab-icon">🔍</span><span>发现</span>
+  <div class="tab-item active" id="tab-home" onclick="showPage('home','我的')">
+    <span class="tab-icon">🌌</span><span>我的</span><div class="tab-dot"></div>
   </div>
-  <div class="tab-item" id="tab-collection" onclick="showPage('collection','我的收藏')">
-    <span class="tab-icon">📦</span><span>我的收藏</span>
+  <div class="tab-item" id="tab-discover" onclick="showPage('discover','发现')">
+    <span class="tab-icon">✦</span><span>发现</span><div class="tab-dot"></div>
   </div>
   <div class="tab-item" id="tab-profile" onclick="showPage('profile','我')">
-    <span class="tab-icon">👤</span><span>我</span>
+    <span class="tab-icon">🪐</span><span>我</span><div class="tab-dot"></div>
   </div>
 </div>
 
@@ -632,306 +666,363 @@
 <div class="dialog-mask" id="price-dialog" style="display:none" onclick="closeDialog()">
   <div class="dialog-box" onclick="event.stopPropagation()">
     <div class="dialog-title">记录购入价格</div>
-    <div class="dialog-sub">选填，可以直接跳过</div>
+    <div class="dialog-sub">选填 · 用于统计总花费</div>
     <input class="dialog-input" type="number" placeholder="例如 69.9" id="price-input">
-    <div style="font-size:12px;color:var(--text-muted);align-self:flex-end">元</div>
+    <div style="font-size:12px;color:var(--text-3);align-self:flex-end">元人民币</div>
     <div class="dialog-btns">
-      <div class="btn-secondary" onclick="closeDialog()">跳过</div>
-      <div class="btn-primary" onclick="confirmAdd()" style="margin:0">入库</div>
+      <div class="btn-secondary" onclick="confirmAdd(null)">跳过</div>
+      <div class="btn-primary" onclick="confirmAdd()" style="margin:0">✓ 入库</div>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ======== DATA ========
-const SERIES = [
-  {
-    id:'labubu', brand:'泡泡玛特', name:'LABUBU 精灵天团', year:2023, emoji:'🧚', totalCount:9,
-    figures:[
-      {id:'l1',name:'星座精灵·白羊',type:'normal'},{id:'l2',name:'星座精灵·金牛',type:'normal'},
-      {id:'l3',name:'星座精灵·双子',type:'normal'},{id:'l4',name:'星座精灵·巨蟹',type:'normal'},
-      {id:'l5',name:'星座精灵·狮子',type:'normal'},{id:'l6',name:'星座精灵·处女',type:'normal'},
-      {id:'l7',name:'星座精灵·天秤',type:'normal'},{id:'l8',name:'星座精灵·天蝎',type:'rare',rate:'1/36'},
-      {id:'l9',name:'星座精灵·暗影',type:'hidden',rate:'1/144'},
-    ]
-  },
-  {
-    id:'molly', brand:'泡泡玛特', name:'MOLLY 星座系列', year:2022, emoji:'⭐', totalCount:13,
-    figures:[
-      {id:'m1',name:'白羊座 MOLLY',type:'normal'},{id:'m2',name:'金牛座 MOLLY',type:'normal'},
-      {id:'m3',name:'双子座 MOLLY',type:'normal'},{id:'m4',name:'巨蟹座 MOLLY',type:'normal'},
-      {id:'m5',name:'狮子座 MOLLY',type:'normal'},{id:'m6',name:'处女座 MOLLY',type:'normal'},
-      {id:'m7',name:'天秤座 MOLLY',type:'normal'},{id:'m8',name:'天蝎座 MOLLY',type:'normal'},
-      {id:'m9',name:'射手座 MOLLY',type:'normal'},{id:'m10',name:'摩羯座 MOLLY',type:'normal'},
-      {id:'m11',name:'水瓶座 MOLLY',type:'normal'},{id:'m12',name:'双鱼座 MOLLY',type:'normal'},
-      {id:'m13',name:'神秘星座 MOLLY',type:'hidden',rate:'1/144'},
-    ]
-  },
-  {
-    id:'skull', brand:'泡泡玛特', name:'SKULLPANDA 暗夜星球', year:2023, emoji:'💀', totalCount:8,
-    figures:[
-      {id:'s1',name:'暗夜·熔岩',type:'normal'},{id:'s2',name:'暗夜·深海',type:'normal'},
-      {id:'s3',name:'暗夜·极光',type:'normal'},{id:'s4',name:'暗夜·暗物质',type:'normal'},
-      {id:'s5',name:'暗夜·彗星',type:'normal'},{id:'s6',name:'暗夜·黑洞',type:'normal'},
-      {id:'s7',name:'暗夜·暗星',type:'rare',rate:'1/36'},{id:'s8',name:'暗夜·虚空',type:'hidden',rate:'1/144'},
-    ]
-  },
-  {
-    id:'dimoo', brand:'泡泡玛特', name:'DIMOO 太空旅行', year:2022, emoji:'🚀', totalCount:9,
-    figures:[
-      {id:'d1',name:'太空·出发',type:'normal'},{id:'d2',name:'太空·漂流',type:'normal'},
-      {id:'d3',name:'太空·月球',type:'normal'},{id:'d4',name:'太空·火星',type:'normal'},
-      {id:'d5',name:'太空·星云',type:'normal'},{id:'d6',name:'太空·木星',type:'normal'},
-      {id:'d7',name:'太空·黑洞',type:'normal'},{id:'d8',name:'太空·彗星',type:'rare',rate:'1/36'},
-      {id:'d9',name:'太空·宇宙奇点',type:'hidden',rate:'1/144'},
-    ]
-  },
-  {
-    id:'hirono', brand:'52TOYS', name:'HIRONO 小野系列', year:2023, emoji:'🦊', totalCount:8,
-    figures:[
-      {id:'h1',name:'小野·花园',type:'normal'},{id:'h2',name:'小野·森林',type:'normal'},
-      {id:'h3',name:'小野·海边',type:'normal'},{id:'h4',name:'小野·雪山',type:'normal'},
-      {id:'h5',name:'小野·沙漠',type:'normal'},{id:'h6',name:'小野·夜空',type:'normal'},
-      {id:'h7',name:'小野·彩虹',type:'rare',rate:'1/36'},{id:'h8',name:'小野·神秘',type:'hidden',rate:'1/144'},
-    ]
-  },
+// ══════════ STARFIELD ══════════
+(function(){
+  const c = document.getElementById('star-canvas')
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight;draw();}
+  function draw(){
+    const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);
+    // gradient bg
+    const g=ctx.createRadialGradient(c.width*.3,c.height*.2,0,c.width*.5,c.height*.5,c.height);
+    g.addColorStop(0,'rgba(60,20,120,0.4)');g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);
+    // stars
+    for(let i=0;i<180;i++){
+      const x=Math.random()*c.width,y=Math.random()*c.height;
+      const r=Math.random()*1.3+.1;
+      const a=Math.random()*.8+.1;
+      const hue=Math.random()<.2?280:220; // mostly white, some purple
+      ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+      ctx.fillStyle=`hsla(${hue},60%,90%,${a})`;ctx.fill();
+    }
+    // a few bigger sparkles
+    for(let i=0;i<8;i++){
+      const x=Math.random()*c.width,y=Math.random()*c.height;
+      ctx.beginPath();ctx.arc(x,y,1.8,0,Math.PI*2);
+      ctx.fillStyle=`rgba(200,170,255,0.9)`;ctx.fill();
+    }
+  }
+  window.addEventListener('resize',resize);resize();
+})();
+
+// ══════════ DATA ══════════
+const SERIES=[
+  {id:'labubu',brand:'泡泡玛特',name:'LABUBU 精灵天团',year:2023,emoji:'🧚',totalCount:9,figures:[
+    {id:'l1',name:'白羊精灵',type:'normal'},{id:'l2',name:'金牛精灵',type:'normal'},
+    {id:'l3',name:'双子精灵',type:'normal'},{id:'l4',name:'巨蟹精灵',type:'normal'},
+    {id:'l5',name:'狮子精灵',type:'normal'},{id:'l6',name:'处女精灵',type:'normal'},
+    {id:'l7',name:'天秤精灵',type:'normal'},{id:'l8',name:'天蝎精灵',type:'rare',rate:'1/36'},
+    {id:'l9',name:'暗影精灵',type:'hidden',rate:'1/144'},
+  ]},
+  {id:'molly',brand:'泡泡玛特',name:'MOLLY 星座系列',year:2022,emoji:'⭐',totalCount:13,figures:[
+    {id:'m1',name:'白羊',type:'normal'},{id:'m2',name:'金牛',type:'normal'},{id:'m3',name:'双子',type:'normal'},
+    {id:'m4',name:'巨蟹',type:'normal'},{id:'m5',name:'狮子',type:'normal'},{id:'m6',name:'处女',type:'normal'},
+    {id:'m7',name:'天秤',type:'normal'},{id:'m8',name:'天蝎',type:'normal'},{id:'m9',name:'射手',type:'normal'},
+    {id:'m10',name:'摩羯',type:'normal'},{id:'m11',name:'水瓶',type:'normal'},{id:'m12',name:'双鱼',type:'normal'},
+    {id:'m13',name:'神秘星座',type:'hidden',rate:'1/144'},
+  ]},
+  {id:'skull',brand:'泡泡玛特',name:'SKULLPANDA 暗夜星球',year:2023,emoji:'💀',totalCount:8,figures:[
+    {id:'s1',name:'熔岩',type:'normal'},{id:'s2',name:'深海',type:'normal'},{id:'s3',name:'极光',type:'normal'},
+    {id:'s4',name:'暗物质',type:'normal'},{id:'s5',name:'彗星',type:'normal'},{id:'s6',name:'黑洞',type:'normal'},
+    {id:'s7',name:'暗星',type:'rare',rate:'1/36'},{id:'s8',name:'虚空',type:'hidden',rate:'1/144'},
+  ]},
+  {id:'dimoo',brand:'泡泡玛特',name:'DIMOO 太空旅行',year:2022,emoji:'🚀',totalCount:9,figures:[
+    {id:'d1',name:'出发',type:'normal'},{id:'d2',name:'漂流',type:'normal'},{id:'d3',name:'月球',type:'normal'},
+    {id:'d4',name:'火星',type:'normal'},{id:'d5',name:'星云',type:'normal'},{id:'d6',name:'木星',type:'normal'},
+    {id:'d7',name:'黑洞',type:'normal'},{id:'d8',name:'彗星',type:'rare',rate:'1/36'},
+    {id:'d9',name:'宇宙奇点',type:'hidden',rate:'1/144'},
+  ]},
+  {id:'hirono',brand:'52TOYS',name:'HIRONO 小野系列',year:2023,emoji:'🦊',totalCount:8,figures:[
+    {id:'h1',name:'花园',type:'normal'},{id:'h2',name:'森林',type:'normal'},{id:'h3',name:'海边',type:'normal'},
+    {id:'h4',name:'雪山',type:'normal'},{id:'h5',name:'沙漠',type:'normal'},{id:'h6',name:'夜空',type:'normal'},
+    {id:'h7',name:'彩虹',type:'rare',rate:'1/36'},{id:'h8',name:'神秘',type:'hidden',rate:'1/144'},
+  ]},
 ]
 
-// owned: { figureId -> { price, seriesId } }
-let owned = {}
-let currentSeriesId = null
-let pendingFigureId = null
-let loggedIn = false
-let activeBrand = 'all'
+let owned={} // figureId -> {price, seriesId}
+let activeBrand='all'
+let currentSeriesId=null
+let seriesBackPage='discover'
+let pendingFigureId=null
+let loggedIn=false
+let activeHomeSeriesId=null
 
-// ======== ROUTING ========
-const PAGE_TABS = { home:'tab-home', collection:'tab-collection', profile:'tab-profile' }
+// ══════════ ROUTING ══════════
+const TAB_MAP={home:'tab-home',discover:'tab-discover',profile:'tab-profile'}
+const PAGE_TITLES={home:'我的',discover:'发现',series:'',poster:'晒单海报',profile:'我'}
 
-function showPage(name, title) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'))
-  document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'))
+function showPage(name,title){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'))
+  document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'))
   document.getElementById('page-'+name).classList.add('active')
-  document.getElementById('nav-title').textContent = title
-  if (PAGE_TABS[name]) document.getElementById(PAGE_TABS[name]).classList.add('active')
-  if (name === 'collection') renderCollection()
-  if (name === 'profile' && loggedIn) renderProfile()
-  if (name === 'poster') renderPoster()
+  document.getElementById('nav-title').textContent=title||''
+  if(TAB_MAP[name]) document.getElementById(TAB_MAP[name]).classList.add('active')
+  if(name==='home')    renderHome()
+  if(name==='discover') renderDiscover()
+  if(name==='poster')  renderPoster()
+  if(name==='profile'&&loggedIn) renderProfile()
   window.scrollTo(0,0)
 }
 
-// ======== HOME ========
-function renderHome() {
-  const keyword = document.getElementById('search-input').value.trim()
-  let list = SERIES
-  if (activeBrand !== 'all') list = list.filter(s => s.brand === activeBrand)
-  if (keyword) list = list.filter(s => s.name.includes(keyword) || s.brand.includes(keyword))
-  const el = document.getElementById('series-list')
-  el.innerHTML = list.map(s => `
-    <div class="series-row" onclick="openSeries('${s.id}')">
-      <div class="series-thumb">${s.emoji}</div>
-      <div class="series-info">
-        <div class="series-brand-pill">${s.brand}</div>
-        <div class="series-name">${s.name}</div>
-        <div class="series-meta">共 ${s.totalCount} 款 · ${s.year}</div>
-      </div>
-      <span class="series-arrow">›</span>
-    </div>
-  `).join('')
-}
+// ══════════ HOME ══════════
+function renderHome(){
+  const seriesWithOwned=SERIES.filter(s=>s.figures.some(f=>owned[f.id]))
+  const total=Object.keys(owned).length
+  let hiddenCount=0
+  Object.entries(owned).forEach(([fid])=>{
+    const s=SERIES.find(s=>s.id===owned[fid].seriesId)
+    const fig=s&&s.figures.find(f=>f.id===fid)
+    if(fig&&fig.type==='hidden') hiddenCount++
+  })
+  document.getElementById('h-total').textContent=total
+  document.getElementById('h-series').textContent=seriesWithOwned.length
+  document.getElementById('h-hidden').textContent=hiddenCount
 
-function filterBrand(el) {
-  activeBrand = el.dataset.brand
-  document.querySelectorAll('.brand-tag').forEach(t => t.classList.remove('active'))
-  el.classList.add('active')
-  renderHome()
-}
-
-function filterSeries() { renderHome() }
-
-// ======== SERIES DETAIL ========
-function openSeries(id) {
-  currentSeriesId = id
-  const s = SERIES.find(x => x.id === id)
-  document.getElementById('detail-brand').textContent = s.brand
-  document.getElementById('detail-year').textContent = s.year
-  document.getElementById('detail-name').textContent = s.name
-  renderDetail(s)
-  showPage('series', s.name)
-  document.getElementById('nav-title').textContent = s.name
-}
-
-function renderDetail(s) {
-  const ownedInSeries = s.figures.filter(f => owned[f.id]).length
-  const pct = Math.round(ownedInSeries / s.totalCount * 100)
-  document.getElementById('detail-progress-text').textContent = `${ownedInSeries} / ${s.totalCount}`
-  document.getElementById('detail-progress-bar').style.width = pct + '%'
-
-  const typeEmoji = { normal:'🎁', rare:'💜', hidden:'✨' }
-  document.getElementById('figures-grid').innerHTML = s.figures.map(f => `
-    <div class="figure-cell ${owned[f.id] ? 'owned' : ''}" onclick="onFigureTap('${f.id}')">
-      ${owned[f.id] ? '<div class="owned-check">✓</div>' : ''}
-      <div class="fig-emoji">${typeEmoji[f.type]}</div>
-      <div class="fig-name">${f.name}</div>
-      <div class="badge badge-${f.type}">${f.type==='hidden'?'隐藏':f.type==='rare'?'稀有':'普通'}</div>
-      ${f.rate ? `<div class="fig-rate">${f.rate}</div>` : ''}
-    </div>
-  `).join('')
-}
-
-function onFigureTap(figId) {
-  if (owned[figId]) {
-    if (confirm('确定移出这款？')) {
-      delete owned[figId]
-      renderDetail(SERIES.find(s => s.id === currentSeriesId))
-      showToast('已移出收藏')
-    }
-  } else {
-    pendingFigureId = figId
-    document.getElementById('price-input').value = ''
-    document.getElementById('price-dialog').style.display = 'flex'
-  }
-}
-
-function closeDialog() {
-  document.getElementById('price-dialog').style.display = 'none'
-  pendingFigureId = null
-}
-
-function confirmAdd() {
-  const price = parseFloat(document.getElementById('price-input').value) || null
-  owned[pendingFigureId] = { price, seriesId: currentSeriesId }
-  document.getElementById('price-dialog').style.display = 'none'
-  pendingFigureId = null
-  renderDetail(SERIES.find(s => s.id === currentSeriesId))
-  showToast('入库成功 ✓')
-}
-
-// ======== COLLECTION ========
-function renderCollection() {
-  const total = Object.keys(owned).length
-  let spent = 0
-  Object.values(owned).forEach(v => { if (v.price) spent += v.price })
-  const seriesSet = new Set(Object.values(owned).map(v => v.seriesId))
-
-  document.getElementById('col-total').textContent = total
-  document.getElementById('col-series').textContent = seriesSet.size
-  document.getElementById('col-spent').textContent = '¥' + Math.round(spent)
-
-  const posterBtn = document.getElementById('poster-btn')
-  posterBtn.style.display = total > 0 ? 'block' : 'none'
-
-  const sectionTitle = document.getElementById('col-section-title')
-  const colEmpty = document.getElementById('col-empty')
-  const colList = document.getElementById('collection-list')
-
-  const seriesWithOwned = SERIES.filter(s => s.figures.some(f => owned[f.id]))
-
-  if (seriesWithOwned.length === 0) {
-    sectionTitle.style.display = 'none'
-    colEmpty.style.display = 'block'
-    colList.innerHTML = ''
+  if(seriesWithOwned.length===0){
+    document.getElementById('home-empty').style.display='flex'
+    document.getElementById('home-content').style.display='none'
     return
   }
+  document.getElementById('home-empty').style.display='none'
+  document.getElementById('home-content').style.display='block'
 
-  sectionTitle.style.display = 'block'
-  colEmpty.style.display = 'none'
+  // if active series was removed, pick first
+  if(!activeHomeSeriesId||!seriesWithOwned.find(s=>s.id===activeHomeSeriesId)){
+    activeHomeSeriesId=seriesWithOwned[0].id
+  }
 
-  colList.innerHTML = seriesWithOwned.map(s => {
-    const ownedCount = s.figures.filter(f => owned[f.id]).length
-    const pct = Math.round(ownedCount / s.totalCount * 100)
-    const hasHidden = s.figures.some(f => f.type === 'hidden' && owned[f.id])
-    return `
-      <div class="coll-row" onclick="openSeries('${s.id}')">
-        <div class="coll-row-top">
-          <div class="coll-row-left">
-            <div class="series-brand-pill">${s.brand}</div>
-            <div class="coll-series-name">${s.name}</div>
-            ${hasHidden ? '<div class="coll-hidden">✨ 已收隐藏款</div>' : ''}
-          </div>
-          <span class="coll-count">${ownedCount}/${s.totalCount}</span>
-        </div>
-        <div class="progress-bg">
-          <div class="progress-fill" style="width:${pct}%"></div>
-        </div>
-        <div class="coll-pct">${pct}% 完成</div>
-      </div>
-    `
+  // render chips
+  document.getElementById('home-switcher').innerHTML=seriesWithOwned.map(s=>`
+    <div class="series-chip ${s.id===activeHomeSeriesId?'active':''}"
+         onclick="switchHomeSeries('${s.id}')">
+      <span class="chip-emoji">${s.emoji}</span>${s.name.split(' ')[0]}
+    </div>
+  `).join('')
+
+  renderActiveSeriesCard()
+}
+
+function switchHomeSeries(id){
+  activeHomeSeriesId=id
+  // update chips
+  document.querySelectorAll('.series-chip').forEach(c=>{
+    c.classList.toggle('active',c.getAttribute('onclick').includes(id))
+  })
+  renderActiveSeriesCard()
+}
+
+function renderActiveSeriesCard(){
+  const s=SERIES.find(x=>x.id===activeHomeSeriesId)
+  if(!s) return
+  const ownedCount=s.figures.filter(f=>owned[f.id]).length
+  const pct=Math.round(ownedCount/s.totalCount*100)
+  document.getElementById('as-brand').textContent=s.brand
+  document.getElementById('as-year').textContent=s.year
+  document.getElementById('as-name').textContent=s.name
+  document.getElementById('as-prog-val').textContent=`${ownedCount}/${s.totalCount}`
+  document.getElementById('as-prog-bar').style.width=pct+'%'
+
+  const FIG_EMOJI={normal:'🎁',rare:'💜',hidden:'✨'}
+  document.getElementById('as-fig-grid').innerHTML=s.figures.map(f=>{
+    const isOwned=!!owned[f.id]
+    const cls=isOwned?(f.type==='hidden'?'owned-hidden':'owned'):''
+    const checkCls=f.type==='hidden'?'gold':'purple'
+    return `<div class="fig-cell ${cls}" onclick="onHomeFigTap('${f.id}','${s.id}')">
+      ${isOwned?`<div class="fig-check ${checkCls}">✓</div>`:''}
+      <div class="fig-emoji">${FIG_EMOJI[f.type]}</div>
+      <div class="fig-name">${f.name}</div>
+    </div>`
   }).join('')
 }
 
-// ======== POSTER ========
-function renderPoster() {
-  const total = Object.keys(owned).length
-  let spent = 0; let hiddenCount = 0
-  Object.entries(owned).forEach(([fid, v]) => {
-    if (v.price) spent += v.price
-    const s = SERIES.find(s => s.id === v.seriesId)
-    const fig = s && s.figures.find(f => f.id === fid)
-    if (fig && fig.type === 'hidden') hiddenCount++
-  })
-  const seriesCount = new Set(Object.values(owned).map(v => v.seriesId)).size
-  document.getElementById('poster-total').textContent = total
-  document.getElementById('poster-series').textContent = seriesCount
-  document.getElementById('poster-hidden').textContent = hiddenCount
-  document.getElementById('poster-spent').textContent = '¥' + Math.round(spent)
-}
-
-// ======== PROFILE ========
-function fakeLogin() {
-  loggedIn = true
-  document.getElementById('profile-login').style.display = 'none'
-  document.getElementById('profile-main').style.display = 'block'
-  renderProfile()
-}
-
-function renderProfile() {
-  const total = Object.keys(owned).length
-  let spent = 0; let hiddenCount = 0; let rarestFig = null; let rarestSeries = null
-  const seriesSet = new Set()
-  Object.entries(owned).forEach(([fid, v]) => {
-    if (v.price) spent += v.price
-    seriesSet.add(v.seriesId)
-    const s = SERIES.find(s => s.id === v.seriesId)
-    const fig = s && s.figures.find(f => f.id === fid)
-    if (fig && fig.type === 'hidden') {
-      hiddenCount++
-      if (!rarestFig) { rarestFig = fig.name; rarestSeries = s.name }
-    }
-  })
-  document.getElementById('pro-total').textContent = total
-  document.getElementById('pro-series').textContent = seriesSet.size
-  document.getElementById('pro-hidden').textContent = hiddenCount
-  document.getElementById('pro-spent').textContent = '¥' + Math.round(spent)
-
-  const rarestWrap = document.getElementById('pro-rarest-wrap')
-  const noHidden = document.getElementById('pro-no-hidden')
-  if (rarestFig) {
-    rarestWrap.style.display = 'flex'
-    noHidden.style.display = 'none'
-    document.getElementById('pro-rarest-name').textContent = rarestFig
-    document.getElementById('pro-rarest-series').textContent = '来自 ' + rarestSeries
-  } else if (total > 0) {
-    rarestWrap.style.display = 'none'
-    noHidden.style.display = 'block'
+function onHomeFigTap(figId, seriesId){
+  if(owned[figId]){
+    if(confirm('移出这款？')){delete owned[figId];renderActiveSeriesCard();renderHomeStats();}
   } else {
-    rarestWrap.style.display = 'none'
-    noHidden.style.display = 'none'
+    pendingFigureId=figId
+    document.getElementById('price-input').value=''
+    document.getElementById('price-dialog').style.display='flex'
   }
 }
 
-// ======== TOAST ========
-function showToast(msg) {
-  const t = document.getElementById('toast')
-  t.textContent = msg
-  t.classList.add('show')
-  setTimeout(() => t.classList.remove('show'), 2200)
+function renderHomeStats(){
+  const s=SERIES.find(x=>x.id===activeHomeSeriesId)
+  if(!s) return
+  const total=Object.keys(owned).length
+  const seriesSet=new Set(Object.values(owned).map(v=>v.seriesId))
+  let h=0
+  Object.entries(owned).forEach(([fid])=>{
+    const sr=SERIES.find(s=>s.id===owned[fid].seriesId)
+    const fig=sr&&sr.figures.find(f=>f.id===fid)
+    if(fig&&fig.type==='hidden') h++
+  })
+  document.getElementById('h-total').textContent=total
+  document.getElementById('h-series').textContent=seriesSet.size
+  document.getElementById('h-hidden').textContent=h
 }
 
-// ======== INIT ========
-renderHome()
+// ══════════ DISCOVER ══════════
+function renderDiscover(){
+  const kw=document.getElementById('search-input').value.trim()
+  let list=SERIES
+  if(activeBrand!=='all') list=list.filter(s=>s.brand===activeBrand)
+  if(kw) list=list.filter(s=>s.name.includes(kw)||s.brand.includes(kw))
+  document.getElementById('all-series-list').innerHTML=list.map(s=>{
+    const ownedCount=s.figures.filter(f=>owned[f.id]).length
+    const ownedBadge=ownedCount>0
+      ?`<span class="all-owned-badge">${ownedCount}/${s.totalCount} 已收</span>`
+      :''
+    return `<div class="all-series-row" onclick="openSeries('${s.id}','discover')">
+      <div class="all-thumb">${s.emoji}</div>
+      <div class="all-info">
+        <div class="all-brand">${s.brand}</div>
+        <div class="all-name">${s.name}</div>
+        <div class="all-meta">共 ${s.totalCount} 款 · ${s.year}</div>
+      </div>
+      ${ownedBadge}
+    </div>`
+  }).join('')
+}
+
+function setBrand(el){
+  activeBrand=el.dataset.brand
+  document.querySelectorAll('.brand-tag').forEach(t=>t.classList.remove('active'))
+  el.classList.add('active')
+  renderDiscover()
+}
+
+// ══════════ SERIES DETAIL ══════════
+function openSeries(id, from){
+  currentSeriesId=id
+  seriesBackPage=from||'discover'
+  const s=SERIES.find(x=>x.id===id)
+  document.getElementById('series-back-btn').onclick=()=>showPage(seriesBackPage,from==='home'?'我的':'发现')
+  document.getElementById('sdh-brand').textContent=s.brand
+  document.getElementById('sdh-year').textContent=s.year
+  document.getElementById('sdh-name').textContent=s.name
+  renderDetailGrid(s)
+  showPage('series',s.name)
+  document.getElementById('nav-title').textContent=s.name
+}
+
+function renderDetailGrid(s){
+  const ownedCount=s.figures.filter(f=>owned[f.id]).length
+  const pct=Math.round(ownedCount/s.totalCount*100)
+  document.getElementById('sdh-prog-val').textContent=`${ownedCount}/${s.totalCount}`
+  document.getElementById('sdh-prog-bar').style.width=pct+'%'
+  const FIG_EMOJI={normal:'🎁',rare:'💜',hidden:'✨'}
+  document.getElementById('detail-fig-grid').innerHTML=s.figures.map(f=>{
+    const isOwned=!!owned[f.id]
+    const cls=isOwned?(f.type==='hidden'?'owned-hidden':'owned'):''
+    const chk=isOwned?`<div class="dfig-check ${f.type==='hidden'?'gold':'purple'}">✓</div>`:''
+    return `<div class="dfig-cell ${cls}" onclick="onDetailFigTap('${f.id}','${s.id}')">
+      ${chk}
+      <div class="dfig-emoji">${FIG_EMOJI[f.type]}</div>
+      <div class="dfig-name">${f.name}</div>
+      <div class="badge badge-${f.type}">${f.type==='hidden'?'隐藏':f.type==='rare'?'稀有':'普通'}</div>
+      ${f.rate?`<div class="dfig-rate">${f.rate}</div>`:''}
+    </div>`
+  }).join('')
+}
+
+function onDetailFigTap(figId,seriesId){
+  if(owned[figId]){
+    if(confirm('移出这款？')){delete owned[figId];renderDetailGrid(SERIES.find(s=>s.id===seriesId));showToast('已移出');}
+  } else {
+    pendingFigureId=figId
+    document.getElementById('price-input').value=''
+    document.getElementById('price-dialog').style.display='flex'
+  }
+}
+
+// ══════════ DIALOG ══════════
+function closeDialog(){
+  document.getElementById('price-dialog').style.display='none'
+  pendingFigureId=null
+}
+
+function confirmAdd(skip){
+  const price=(skip===null||!document.getElementById('price-input').value)
+    ?null:parseFloat(document.getElementById('price-input').value)
+  const s=SERIES.find(s=>s.figures.some(f=>f.id===pendingFigureId))
+  if(s){
+    owned[pendingFigureId]={price,seriesId:s.id}
+    // refresh whichever page is showing
+    if(document.getElementById('page-series').classList.contains('active'))
+      renderDetailGrid(s)
+    else renderActiveSeriesCard()
+  }
+  document.getElementById('price-dialog').style.display='none'
+  pendingFigureId=null
+  showToast('入库成功 ✓')
+}
+
+// ══════════ POSTER ══════════
+function renderPoster(){
+  const total=Object.keys(owned).length
+  let spent=0,hidden=0
+  Object.entries(owned).forEach(([fid,v])=>{
+    if(v.price) spent+=v.price
+    const s=SERIES.find(s=>s.id===v.seriesId)
+    const fig=s&&s.figures.find(f=>f.id===fid)
+    if(fig&&fig.type==='hidden') hidden++
+  })
+  const ser=new Set(Object.values(owned).map(v=>v.seriesId)).size
+  document.getElementById('poster-total').textContent=total
+  document.getElementById('poster-series').textContent=ser
+  document.getElementById('poster-hidden').textContent=hidden
+  document.getElementById('poster-spent').textContent='¥'+Math.round(spent)
+}
+
+// ══════════ PROFILE ══════════
+function fakeLogin(){
+  loggedIn=true
+  document.getElementById('pf-login').style.display='none'
+  document.getElementById('pf-main').style.display='block'
+  renderProfile()
+}
+
+function renderProfile(){
+  const total=Object.keys(owned).length
+  let spent=0,hidden=0,rarestFig=null,rarestSer=null
+  const serSet=new Set()
+  Object.entries(owned).forEach(([fid,v])=>{
+    if(v.price) spent+=v.price
+    serSet.add(v.seriesId)
+    const s=SERIES.find(s=>s.id===v.seriesId)
+    const fig=s&&s.figures.find(f=>f.id===fid)
+    if(fig&&fig.type==='hidden'){hidden++;if(!rarestFig){rarestFig=fig.name;rarestSer=s.name}}
+  })
+  document.getElementById('pf-total').textContent=total
+  document.getElementById('pf-series').textContent=serSet.size
+  document.getElementById('pf-hidden').textContent=hidden
+  document.getElementById('pf-spent').textContent='¥'+Math.round(spent)
+  const trophy=document.getElementById('pf-trophy')
+  const noH=document.getElementById('pf-no-hidden')
+  if(rarestFig){
+    trophy.style.display='flex';noH.style.display='none'
+    document.getElementById('pf-trophy-name').textContent=rarestFig
+    document.getElementById('pf-trophy-series').textContent='来自 '+rarestSer
+  } else if(total>0){
+    trophy.style.display='none';noH.style.display='block'
+  } else {
+    trophy.style.display='none';noH.style.display='none'
+  }
+}
+
+// ══════════ TOAST ══════════
+function showToast(msg){
+  const t=document.getElementById('toast')
+  t.textContent=msg;t.classList.add('show')
+  setTimeout(()=>t.classList.remove('show'),2200)
+}
+
+// ══════════ INIT ══════════
+showPage('home','我的')
+renderDiscover()
 </script>
 </body>
 </html>
