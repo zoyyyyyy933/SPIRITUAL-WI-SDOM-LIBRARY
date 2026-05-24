@@ -1,0 +1,53 @@
+<view class="container">
+  <!-- 未登录 -->
+  <view class="login-card card" wx:if="{{!hasLogin}}">
+    <text class="login-title">登录查看你的收藏报告</text>
+    <text class="login-sub">一键微信登录，数据永久保存</text>
+    <view class="btn-primary" bindtap="onLogin">微信一键登录</view>
+  </view>
+
+  <!-- 已登录 -->
+  <block wx:if="{{hasLogin && userInfo}}">
+    <!-- 用户信息 -->
+    <view class="user-card card">
+      <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+      <view class="user-info">
+        <text class="nickname">{{userInfo.nickName}}</text>
+        <text class="user-tag">盲盒收藏家</text>
+      </view>
+    </view>
+
+    <!-- 核心数据 -->
+    <view class="stats-grid">
+      <view class="stat-item card">
+        <text class="stat-num">{{stats.total}}</text>
+        <text class="stat-desc">总收藏</text>
+      </view>
+      <view class="stat-item card">
+        <text class="stat-num">{{stats.seriesCount}}</text>
+        <text class="stat-desc">系列</text>
+      </view>
+      <view class="stat-item card">
+        <text class="stat-num gold">{{stats.hiddenCount}}</text>
+        <text class="stat-desc">隐藏款</text>
+      </view>
+      <view class="stat-item card">
+        <text class="stat-num">¥{{stats.spent}}</text>
+        <text class="stat-desc">总花费</text>
+      </view>
+    </view>
+
+    <!-- 最珍贵款 -->
+    <view class="rarest-card card" wx:if="{{stats.rarest}}">
+      <text class="rarest-label">✨ 最珍贵隐藏款</text>
+      <text class="rarest-name">{{stats.rarest.name}}</text>
+      <text class="rarest-series">来自 {{stats.rarest.series}}</text>
+    </view>
+
+    <!-- 空隐藏款提示 -->
+    <view class="no-hidden card" wx:if="{{!stats.rarest && stats.total > 0}}">
+      <text class="no-hidden-text">还没有隐藏款，继续抽！</text>
+      <text class="no-hidden-sub">隐藏款概率约 1/144，加油 💪</text>
+    </view>
+  </block>
+</view>

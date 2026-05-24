@@ -1,0 +1,24 @@
+<view class="container">
+  <text class="page-title">生成晒单</text>
+  <text class="page-sub">保存到相册，分享到小红书/朋友圈</text>
+
+  <!-- Canvas 画布 -->
+  <view class="canvas-wrap">
+    <canvas canvas-id="poster-canvas" class="poster-canvas" />
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="actions">
+    <view class="btn-primary" bindtap="onGenerate">🎨 生成海报</view>
+    <view
+      class="btn-secondary save-btn {{saving ? 'disabled' : ''}}"
+      bindtap="onSave"
+      wx:if="{{generated}}"
+    >
+      💾 保存到相册
+    </view>
+  </view>
+
+  <!-- 提示 -->
+  <text class="tip">生成后长按图片也可保存或分享</text>
+</view>

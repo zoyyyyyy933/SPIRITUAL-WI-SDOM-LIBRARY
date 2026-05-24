@@ -1,0 +1,73 @@
+<view class="container" wx:if="{{series}}">
+  <!-- 顶部信息 -->
+  <view class="series-header card">
+    <view class="header-top">
+      <view class="brand-tag">{{series.brand}}</view>
+      <text class="series-year">{{series.year}}</text>
+    </view>
+    <text class="series-name">{{series.name}}</text>
+
+    <!-- 完成度进度条 -->
+    <view class="progress-wrap">
+      <view class="progress-labels">
+        <text class="progress-label">完成度</text>
+        <text class="progress-count">{{ownedIds.length}} / {{series.totalCount}}</text>
+      </view>
+      <view class="progress-bar-bg">
+        <view
+          class="progress-bar-fill"
+          style="width: {{ownedIds.length / series.totalCount * 100}}%"
+        ></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 款式网格 -->
+  <view class="figures-grid">
+    <view
+      wx:for="{{figures}}"
+      wx:key="id"
+      class="figure-item {{item.owned ? 'owned' : ''}}"
+      data-id="{{item.id}}"
+      data-owned="{{item.owned}}"
+      bindtap="onFigureTap"
+    >
+      <!-- 已拥有角标 -->
+      <view class="owned-badge" wx:if="{{item.owned}}">✓</view>
+
+      <!-- 图片占位 -->
+      <view class="figure-img">
+        <text class="figure-emoji">{{item.type === 'hidden' ? '✨' : item.type === 'rare' ? '💜' : '🎁'}}</text>
+      </view>
+
+      <text class="figure-name">{{item.name}}</text>
+
+      <!-- 稀有度 -->
+      <view class="badge badge-{{item.type}}">
+        {{item.type === 'hidden' ? '隐藏' : item.type === 'rare' ? '稀有' : '普通'}}
+      </view>
+      <text class="figure-rate" wx:if="{{item.rarityRate}}">{{item.rarityRate}}</text>
+    </view>
+  </view>
+</view>
+
+<!-- 价格弹窗 -->
+<view class="dialog-mask" wx:if="{{showPriceDialog}}" bindtap="onPriceCancel">
+  <view class="dialog" catchtap="">
+    <text class="dialog-title">记录购入价格</text>
+    <text class="dialog-sub">选填，可跳过</text>
+    <input
+      class="dialog-input"
+      type="digit"
+      placeholder="例如：69.9"
+      placeholder-style="color: #6B6780"
+      bindinput="onPriceInput"
+      value="{{priceInput}}"
+    />
+    <text class="dialog-unit">元</text>
+    <view class="dialog-btns">
+      <view class="btn-secondary dialog-btn" bindtap="onPriceCancel">跳过</view>
+      <view class="btn-primary dialog-btn" bindtap="onPriceConfirm">入库</view>
+    </view>
+  </view>
+</view>

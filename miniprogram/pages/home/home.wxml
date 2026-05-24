@@ -1,0 +1,51 @@
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <input
+      class="search-input"
+      placeholder="搜索系列或品牌"
+      placeholder-style="color: #6B6780"
+      bindinput="onSearchInput"
+      value="{{searchKeyword}}"
+    />
+    <text class="search-icon">🔍</text>
+  </view>
+
+  <!-- 品牌筛选 -->
+  <scroll-view class="brand-filter" scroll-x>
+    <view
+      wx:for="{{brands}}"
+      wx:key="*this"
+      class="brand-tag {{brandFilter === item ? 'active' : ''}}"
+      data-brand="{{item}}"
+      bindtap="onBrandFilter"
+    >
+      {{item === 'all' ? '全部' : item}}
+    </view>
+  </scroll-view>
+
+  <!-- 系列列表 -->
+  <view class="series-grid">
+    <view
+      wx:for="{{filteredList}}"
+      wx:key="id"
+      class="series-card"
+      data-id="{{item.id}}"
+      bindtap="onSeriesTap"
+    >
+      <view class="series-img-placeholder">
+        <text class="series-emoji">📦</text>
+      </view>
+      <view class="series-info">
+        <view class="series-brand-tag">{{item.brand}}</view>
+        <text class="series-name">{{item.name}}</text>
+        <text class="series-meta">共 {{item.totalCount}} 款 · {{item.year}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{filteredList.length === 0}}">
+    <text>😶 没有找到匹配的系列</text>
+  </view>
+</view>
