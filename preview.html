@@ -6,24 +6,24 @@
 <title>BoxVault · 预览</title>
 <style>
 :root {
-  --space:       #07071A;
-  --space-2:     #0D0D28;
-  --card:        rgba(255,255,255,0.05);
-  --card-solid:  #11112B;
-  --card-border: rgba(160,120,255,0.15);
-  --purple:      #9060E0;
-  --purple-glow: rgba(144,96,224,0.35);
-  --purple-soft: #C4A0F0;
-  --purple-dim:  #4A2E80;
-  --nebula:      rgba(80,40,160,0.3);
-  --gold:        #D4A853;
-  --gold-dim:    rgba(212,168,83,0.2);
-  --text-1:      #EDE0FF;
-  --text-2:      #A890C8;
-  --text-3:      #5A4E78;
-  --hidden-clr:  #D4A853;
-  --rare-clr:    #B48BF0;
-  --normal-clr:  #8090B0;
+  --space:       #070D1F;
+  --space-2:     #0C1530;
+  --card:        rgba(12,22,52,0.75);
+  --card-b:      rgba(60,100,220,0.12);
+  --card-hover:  rgba(20,36,80,0.9);
+  --blue:        #4F8EF7;
+  --blue-soft:   #A0C4FF;
+  --blue-glow:   rgba(79,142,247,0.2);
+  --gold:        #F2C94C;
+  --gold-soft:   #F5D98A;
+  --gold-glow:   rgba(242,201,76,0.18);
+  --teal:        #4EC9B0;
+  --text-1:      #ECF0FF;
+  --text-2:      #7080A8;
+  --text-3:      #3D4A70;
+  --normal-clr:  #7080A8;
+  --rare-clr:    #A0C4FF;
+  --hidden-clr:  #F2C94C;
 }
 
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -32,633 +32,568 @@ body{
   background:var(--space);
   color:var(--text-1);
   font-family:-apple-system,'PingFang SC',sans-serif;
-  font-size:14px;
-  max-width:430px;
-  margin:0 auto;
-  min-height:100vh;
-  overflow-x:hidden;
-  position:relative;
+  font-size:14px;max-width:430px;margin:0 auto;
+  min-height:100vh;overflow-x:hidden;
 }
 
-/* ── STAR CANVAS ── */
-#star-canvas{
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  z-index:0;pointer-events:none;
+/* ── BACKGROUND ── */
+#star-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+.aurora{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 10% 20%, rgba(60,80,180,0.18) 0%,transparent 55%),
+    radial-gradient(ellipse at 85% 75%, rgba(100,50,180,0.12) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 100%,rgba(30,60,150,0.15) 0%,transparent 50%);
 }
 
-/* nebula blobs */
-.nebula-blob{
-  position:fixed;border-radius:50%;filter:blur(60px);
-  z-index:0;pointer-events:none;
-}
-.nb1{width:300px;height:300px;top:-80px;right:-80px;background:rgba(100,40,200,0.25);}
-.nb2{width:250px;height:250px;bottom:100px;left:-60px;background:rgba(40,20,120,0.2);}
-.nb3{width:200px;height:200px;top:40%;left:30%;background:rgba(140,60,220,0.12);}
-
-/* everything above canvas */
+/* ── LAYERS ── */
 .nav-bar,.page,.tab-bar,.dialog-mask,.toast{position:relative;z-index:10;}
 
 /* ── NAV BAR ── */
 .nav-bar{
   position:sticky;top:0;z-index:50;
-  background:rgba(7,7,26,0.85);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  padding:14px 16px 12px;
-  border-bottom:1px solid var(--card-border);
+  background:rgba(7,13,31,0.88);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  padding:14px 18px 12px;
+  border-bottom:1px solid rgba(60,100,220,0.1);
   display:flex;align-items:center;justify-content:space-between;
 }
 .nav-logo{
-  font-size:19px;font-weight:800;letter-spacing:2px;
-  background:linear-gradient(90deg,#C4A0F0,#9060E0);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  font-size:18px;font-weight:800;letter-spacing:3px;
+  color:#E8F0FF;
 }
-.nav-right{display:flex;align-items:center;gap:10px;color:var(--text-2);font-size:13px;}
-.nav-star{font-size:16px;}
+.nav-logo span{color:var(--blue);}
+.nav-sub{font-size:11px;color:var(--text-3);letter-spacing:.5px;}
 
 /* ── TAB BAR ── */
 .tab-bar{
   position:fixed;bottom:0;left:50%;transform:translateX(-50%);
   width:100%;max-width:430px;
-  background:rgba(7,7,26,0.92);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-top:1px solid var(--card-border);
+  background:rgba(7,13,31,0.94);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border-top:1px solid rgba(60,100,220,0.1);
   display:flex;z-index:100;
   padding-bottom:env(safe-area-inset-bottom);
 }
 .tab-item{
   flex:1;display:flex;flex-direction:column;align-items:center;
-  padding:10px 0 8px;cursor:pointer;
-  color:var(--text-3);font-size:11px;gap:4px;transition:color .2s;
+  padding:10px 0 8px;cursor:pointer;color:var(--text-3);font-size:11px;gap:4px;
+  transition:color .2s;
 }
-.tab-item.active{color:var(--purple-soft);}
-.tab-icon{font-size:22px;line-height:1;}
-.tab-dot{
-  width:4px;height:4px;border-radius:50%;
-  background:var(--purple);margin-top:2px;
-  opacity:0;transition:opacity .2s;
-}
-.tab-item.active .tab-dot{opacity:1;}
+.tab-item.active{color:var(--blue-soft);}
+.tab-icon{font-size:21px;line-height:1;}
+.tab-pip{width:20px;height:2px;border-radius:2px;background:var(--blue);
+  opacity:0;transition:opacity .2s;margin-top:1px;}
+.tab-item.active .tab-pip{opacity:1;}
 
 /* ── PAGES ── */
-.page{display:none;padding:12px 12px 88px;min-height:calc(100vh - 52px);}
+.page{display:none;padding:12px 14px 90px;}
 .page.active{display:block;}
 
-/* ── GLASS CARD ── */
+/* ── CARDS ── */
 .card{
   background:var(--card);
-  border:1px solid var(--card-border);
+  border:1px solid var(--card-b);
   border-radius:16px;padding:16px;margin-bottom:12px;
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-}
-.card-solid{
-  background:var(--card-solid);
-  border:1px solid var(--card-border);
-  border-radius:16px;padding:16px;margin-bottom:12px;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
 }
 
 /* ── BUTTONS ── */
 .btn-primary{
-  background:linear-gradient(135deg,#9060E0,#5030A0);
-  color:#EDE0FF;border-radius:24px;
+  background:linear-gradient(135deg,#3A78E8,#2255BB);
+  color:#E8F0FF;border-radius:24px;
   padding:13px 24px;font-weight:700;font-size:15px;
-  text-align:center;cursor:pointer;display:block;width:100%;border:none;
-  box-shadow:0 4px 20px rgba(144,96,224,0.4);transition:opacity .2s;
+  text-align:center;cursor:pointer;display:block;width:100%;
+  box-shadow:0 4px 18px rgba(58,120,232,0.35);
+  transition:opacity .2s;border:none;margin-bottom:10px;
 }
 .btn-primary:active{opacity:.8;}
-.btn-secondary{
-  background:transparent;color:var(--purple-soft);
-  border:1.5px solid rgba(160,120,255,0.4);
+.btn-ghost{
+  background:transparent;
+  color:var(--blue-soft);
+  border:1px solid rgba(79,142,247,0.3);
   border-radius:24px;padding:11px 24px;font-size:14px;
-  text-align:center;cursor:pointer;display:block;width:100%;transition:opacity .2s;
+  text-align:center;cursor:pointer;display:block;width:100%;
+  transition:opacity .2s;
 }
-.btn-secondary:active{opacity:.7;}
+.btn-ghost:active{opacity:.7;}
 
 /* ── BADGES ── */
-.badge{border-radius:6px;padding:2px 8px;font-size:11px;font-weight:600;display:inline-block;}
-.badge-normal{background:rgba(128,144,176,0.15);color:var(--normal-clr);}
-.badge-rare  {background:rgba(180,139,240,0.15);color:var(--rare-clr);}
-.badge-hidden{background:rgba(212,168,83,0.15); color:var(--hidden-clr);}
+.badge{border-radius:6px;padding:2px 8px;font-size:11px;font-weight:500;display:inline-block;}
+.badge-normal{background:rgba(112,128,168,0.12);color:var(--normal-clr);}
+.badge-rare  {background:rgba(160,196,255,0.12);color:var(--rare-clr);}
+.badge-hidden{background:rgba(242,201,76,0.12); color:var(--hidden-clr);}
 
 /* ── PROGRESS ── */
-.progress-bg{height:6px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;}
+.progress-bg{height:5px;background:rgba(255,255,255,0.07);border-radius:4px;overflow:hidden;}
 .progress-fill{
   height:100%;border-radius:4px;
-  background:linear-gradient(90deg,var(--purple-dim),var(--purple),#C4A0F0);
+  background:linear-gradient(90deg,#2A5ACC,#4F8EF7,#A0C4FF);
   transition:width .5s ease;
 }
 
-/* ══════════════════════════════════
-   PAGE: 我的收藏 (HOME)
-══════════════════════════════════ */
+/* ══════════════════════════════
+   PAGE: 我的
+══════════════════════════════ */
 
-/* top stats strip */
-.my-stats{
+/* top strip */
+.h-strip{
   display:flex;gap:8px;margin-bottom:16px;
 }
-.my-stat{
-  flex:1;background:var(--card);
-  border:1px solid var(--card-border);
+.h-stat{
+  flex:1;background:var(--card);border:1px solid var(--card-b);
   border-radius:14px;padding:14px 8px;
   display:flex;flex-direction:column;align-items:center;gap:4px;
 }
-.my-stat-val{font-size:22px;font-weight:700;color:var(--purple-soft);}
-.my-stat-lbl{font-size:11px;color:var(--text-3);}
+.h-stat-val{font-size:22px;font-weight:700;color:var(--text-1);}
+.h-stat-val.blue{color:var(--blue-soft);}
+.h-stat-val.gold{color:var(--gold);}
+.h-stat-lbl{font-size:11px;color:var(--text-3);}
 
-/* series switcher chips */
-.series-switcher{
+/* series chips */
+.switcher{
   display:flex;gap:8px;overflow-x:auto;
-  margin-bottom:16px;padding-bottom:4px;
-  scrollbar-width:none;
+  margin-bottom:14px;padding-bottom:2px;scrollbar-width:none;
 }
-.series-switcher::-webkit-scrollbar{display:none;}
-.series-chip{
+.switcher::-webkit-scrollbar{display:none;}
+.s-chip{
   white-space:nowrap;flex-shrink:0;
-  padding:8px 18px;border-radius:20px;
-  border:1.5px solid var(--card-border);
+  padding:8px 16px;border-radius:20px;
+  border:1px solid var(--card-b);
   color:var(--text-2);font-size:13px;cursor:pointer;
-  display:flex;align-items:center;gap:6px;
-  transition:all .2s;
+  display:flex;align-items:center;gap:6px;transition:all .2s;
 }
-.series-chip.active{
-  border-color:var(--purple);color:var(--purple-soft);
-  background:rgba(144,96,224,0.12);
-  box-shadow:0 0 12px var(--purple-glow);
+.s-chip.active{
+  border-color:rgba(79,142,247,0.5);
+  color:var(--blue-soft);
+  background:rgba(79,142,247,0.1);
 }
-.chip-emoji{font-size:16px;}
 
-/* active series card */
-.active-series-card{
-  background:linear-gradient(135deg,rgba(80,30,160,0.25),rgba(20,10,60,0.4));
-  border:1px solid rgba(160,100,255,0.25);
-  border-radius:20px;padding:20px 16px;margin-bottom:16px;
+/* active series panel */
+.series-panel{
+  background:linear-gradient(150deg,rgba(18,32,80,0.8),rgba(8,14,40,0.9));
+  border:1px solid rgba(60,100,220,0.18);
+  border-radius:20px;padding:20px 16px;margin-bottom:14px;
   position:relative;overflow:hidden;
 }
-.active-series-card::before{
+.series-panel::before{
   content:'';position:absolute;
-  top:-40px;right:-40px;width:160px;height:160px;
-  border-radius:50%;background:rgba(120,60,220,0.15);
+  top:-60px;right:-60px;width:180px;height:180px;
+  border-radius:50%;background:rgba(50,80,200,0.1);
+  pointer-events:none;
 }
-.as-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;}
-.as-brand{font-size:11px;color:var(--purple-soft);font-weight:600;letter-spacing:.5px;}
-.as-year{font-size:11px;color:var(--text-3);}
-.as-name{font-size:18px;font-weight:700;color:var(--text-1);margin-bottom:14px;}
-.as-prog-row{display:flex;justify-content:space-between;margin-bottom:8px;}
-.as-prog-lbl{font-size:12px;color:var(--text-2);}
-.as-prog-val{font-size:12px;color:var(--purple-soft);font-weight:600;}
+.sp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.sp-brand{font-size:11px;color:var(--blue-soft);font-weight:600;letter-spacing:.5px;}
+.sp-year{font-size:11px;color:var(--text-3);}
+.sp-name{font-size:18px;font-weight:700;margin-bottom:14px;color:var(--text-1);}
+.sp-prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.sp-prog-lbl{font-size:12px;color:var(--text-2);}
+.sp-prog-val{font-size:12px;color:var(--blue-soft);font-weight:600;}
 
-/* figures mini-grid */
-.fig-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
-  margin-top:16px;
+/* 4-col mini grid */
+.mini-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;
 }
-.fig-cell{
-  background:rgba(255,255,255,0.04);
-  border:1.5px solid transparent;
-  border-radius:10px;
-  padding:8px 4px;
+.mg-cell{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(60,100,220,0.1);
+  border-radius:10px;padding:8px 4px;
   display:flex;flex-direction:column;align-items:center;gap:4px;
-  cursor:pointer;position:relative;transition:all .2s;
+  cursor:pointer;position:relative;transition:all .15s;
 }
-.fig-cell.owned{
-  border-color:rgba(144,96,224,0.5);
-  background:rgba(144,96,224,0.1);
+.mg-cell.owned{
+  border-color:rgba(79,142,247,0.45);
+  background:rgba(79,142,247,0.07);
 }
-.fig-cell.owned-hidden{
-  border-color:rgba(212,168,83,0.6);
-  background:rgba(212,168,83,0.08);
-  box-shadow:0 0 8px rgba(212,168,83,0.15);
+.mg-cell.owned-hidden{
+  border-color:rgba(242,201,76,0.55);
+  background:rgba(242,201,76,0.06);
+  box-shadow:0 0 10px rgba(242,201,76,0.12);
 }
-.fig-cell:active{opacity:.7;}
-.fig-check{
-  position:absolute;top:4px;right:4px;
-  width:14px;height:14px;background:var(--purple);
-  border-radius:50%;font-size:8px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;color:#fff;
+.mg-cell:active{opacity:.65;}
+.mg-check{
+  position:absolute;top:3px;right:3px;
+  width:14px;height:14px;border-radius:50%;
+  font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;
+  color:#fff;
 }
-.fig-check.gold{background:var(--gold);}
-.fig-emoji{font-size:24px;}
-.fig-name{font-size:10px;text-align:center;color:var(--text-2);line-height:1.3;}
+.mg-check.blue{background:var(--blue);}
+.mg-check.gold{background:var(--gold);color:#1a1000;}
+.mg-emoji{font-size:22px;}
+.mg-name{font-size:10px;text-align:center;color:var(--text-2);line-height:1.3;}
 
+/* empty home */
 .empty-home{
   display:flex;flex-direction:column;align-items:center;
-  padding:60px 24px;gap:12px;text-align:center;
+  padding:70px 24px 40px;gap:12px;text-align:center;
 }
-.empty-home .big{font-size:56px;}
-.empty-home .t1{font-size:17px;font-weight:700;color:var(--text-1);}
-.empty-home .t2{font-size:13px;color:var(--text-3);line-height:1.7;}
 
-/* ══════════════════════════════════
+/* ══════════════════════════════
    PAGE: 发现
-══════════════════════════════════ */
+══════════════════════════════ */
 .search-bar{
   display:flex;align-items:center;
-  background:rgba(255,255,255,0.05);
-  border:1px solid var(--card-border);
-  border-radius:24px;padding:11px 16px;
-  margin-bottom:12px;gap:8px;
+  background:var(--card);border:1px solid var(--card-b);
+  border-radius:24px;padding:11px 16px;margin-bottom:12px;gap:8px;
 }
-.search-bar input{
-  flex:1;background:none;border:none;outline:none;
-  color:var(--text-1);font-size:14px;
-}
+.search-bar input{flex:1;background:none;border:none;outline:none;color:var(--text-1);font-size:14px;}
 .search-bar input::placeholder{color:var(--text-3);}
 
-.brand-filter{
-  display:flex;gap:8px;overflow-x:auto;
-  margin-bottom:16px;padding-bottom:2px;scrollbar-width:none;
+.brand-row{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;scrollbar-width:none;}
+.brand-row::-webkit-scrollbar{display:none;}
+.b-tag{
+  white-space:nowrap;flex-shrink:0;
+  padding:6px 16px;border-radius:16px;
+  border:1px solid var(--card-b);color:var(--text-2);font-size:13px;cursor:pointer;
+  transition:all .2s;
 }
-.brand-filter::-webkit-scrollbar{display:none;}
-.brand-tag{
-  white-space:nowrap;padding:6px 16px;border-radius:16px;
-  border:1.5px solid var(--card-border);color:var(--text-2);
-  font-size:13px;cursor:pointer;flex-shrink:0;transition:all .2s;
-}
-.brand-tag.active{
-  border-color:var(--purple);color:var(--purple-soft);
-  background:rgba(144,96,224,0.1);
-}
+.b-tag.active{border-color:rgba(79,142,247,0.5);color:var(--blue-soft);background:rgba(79,142,247,0.08);}
 
-.all-series-list{display:flex;flex-direction:column;gap:10px;}
-.all-series-row{
-  background:rgba(255,255,255,0.04);
-  border:1px solid var(--card-border);
-  border-radius:14px;
-  display:flex;align-items:center;padding:14px;gap:14px;
+.d-list{display:flex;flex-direction:column;gap:10px;}
+.d-row{
+  background:var(--card);border:1px solid var(--card-b);
+  border-radius:14px;display:flex;align-items:center;padding:14px;gap:14px;
   cursor:pointer;transition:border-color .2s;
 }
-.all-series-row:active{border-color:var(--purple);}
-.all-thumb{
-  width:54px;height:54px;border-radius:12px;
-  background:linear-gradient(135deg,rgba(80,30,160,0.4),rgba(30,15,80,0.6));
+.d-row:active{border-color:rgba(79,142,247,0.4);}
+.d-thumb{
+  width:52px;height:52px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(30,55,130,0.6),rgba(10,20,55,0.8));
   display:flex;align-items:center;justify-content:center;
-  font-size:28px;flex-shrink:0;
-  border:1px solid rgba(160,120,255,0.2);
+  font-size:26px;flex-shrink:0;
+  border:1px solid rgba(60,100,220,0.15);
 }
-.all-info{flex:1;}
-.all-brand{
-  display:inline-block;
-  background:rgba(144,96,224,0.15);color:var(--purple-soft);
+.d-info{flex:1;}
+.d-brand{
+  display:inline-block;background:rgba(79,142,247,0.1);color:var(--blue-soft);
   font-size:11px;padding:2px 8px;border-radius:5px;margin-bottom:5px;
 }
-.all-name{font-size:15px;font-weight:600;margin-bottom:3px;}
-.all-meta{font-size:12px;color:var(--text-3);}
-.all-owned-badge{
-  font-size:11px;color:var(--purple-soft);
-  background:rgba(144,96,224,0.1);
-  padding:3px 8px;border-radius:8px;
-  border:1px solid rgba(144,96,224,0.2);
+.d-name{font-size:15px;font-weight:600;margin-bottom:3px;}
+.d-meta{font-size:12px;color:var(--text-3);}
+.d-badge{
+  font-size:11px;color:var(--blue-soft);
+  background:rgba(79,142,247,0.08);
+  padding:4px 10px;border-radius:10px;
+  border:1px solid rgba(79,142,247,0.15);
   white-space:nowrap;flex-shrink:0;
 }
 
-/* ══════════════════════════════════
-   PAGE: SERIES DETAIL
-══════════════════════════════════ */
+/* ══════════════════════════════
+   PAGE: 系列详情
+══════════════════════════════ */
 .back-btn{
   display:flex;align-items:center;gap:6px;
-  color:var(--purple-soft);font-size:14px;cursor:pointer;margin-bottom:14px;
+  color:var(--blue-soft);font-size:14px;cursor:pointer;margin-bottom:14px;
 }
-.series-detail-header{
-  background:linear-gradient(135deg,rgba(80,30,160,0.3),rgba(20,10,60,0.5));
-  border:1px solid rgba(160,100,255,0.2);
-  border-radius:18px;padding:20px;margin-bottom:16px;
+.detail-header{
+  background:linear-gradient(150deg,rgba(18,32,80,0.8),rgba(8,14,40,0.9));
+  border:1px solid rgba(60,100,220,0.18);
+  border-radius:18px;padding:20px;margin-bottom:14px;
   position:relative;overflow:hidden;
 }
-.series-detail-header::after{
-  content:'';position:absolute;bottom:-30px;right:-30px;
-  width:120px;height:120px;border-radius:50%;
-  background:rgba(120,60,220,0.12);
+.detail-header::after{
+  content:'';position:absolute;bottom:-40px;right:-40px;
+  width:130px;height:130px;border-radius:50%;
+  background:rgba(50,80,200,0.08);pointer-events:none;
 }
-.sdh-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-.sdh-brand{font-size:11px;color:var(--purple-soft);font-weight:600;}
-.sdh-year{font-size:11px;color:var(--text-3);}
-.sdh-name{font-size:20px;font-weight:700;margin-bottom:16px;}
-.sdh-prog-row{display:flex;justify-content:space-between;margin-bottom:8px;}
+.dh-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
 
-.detail-fig-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
-}
-.dfig-cell{
-  background:rgba(255,255,255,0.04);
-  border:1.5px solid var(--card-border);
+.d-fig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.dfig{
+  background:var(--card);border:1px solid var(--card-b);
   border-radius:12px;padding:12px 8px;
   display:flex;flex-direction:column;align-items:center;gap:6px;
-  cursor:pointer;position:relative;transition:all .2s;
+  cursor:pointer;position:relative;transition:all .15s;
 }
-.dfig-cell.owned{
-  border-color:rgba(144,96,224,0.6);
-  background:rgba(144,96,224,0.08);
+.dfig.owned{border-color:rgba(79,142,247,0.5);background:rgba(79,142,247,0.07);}
+.dfig.owned-hidden{
+  border-color:rgba(242,201,76,0.6);background:rgba(242,201,76,0.05);
+  box-shadow:0 0 14px rgba(242,201,76,0.15);
 }
-.dfig-cell.owned-hidden{
-  border-color:rgba(212,168,83,0.7);
-  background:rgba(212,168,83,0.06);
-  box-shadow:0 0 12px rgba(212,168,83,0.2);
-}
-.dfig-cell:active{opacity:.7;}
-.dfig-check{
+.dfig:active{opacity:.65;}
+.dfig-chk{
   position:absolute;top:6px;right:6px;
-  width:18px;height:18px;border-radius:50%;
-  font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff;
+  width:17px;height:17px;border-radius:50%;
+  font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff;
 }
-.dfig-check.purple{background:var(--purple);}
-.dfig-check.gold{background:var(--gold);}
-.dfig-emoji{font-size:30px;}
+.dfig-chk.blue{background:var(--blue);}
+.dfig-chk.gold{background:var(--gold);color:#1a1000;}
+.dfig-emoji{font-size:28px;}
 .dfig-name{font-size:11px;text-align:center;color:var(--text-1);line-height:1.3;}
 .dfig-rate{font-size:10px;color:var(--text-3);}
 
-/* ══════════════════════════════════
-   PAGE: POSTER
-══════════════════════════════════ */
+/* ══════════════════════════════
+   PAGE: 晒单
+══════════════════════════════ */
 .poster-card{
-  border-radius:22px;overflow:hidden;margin-bottom:20px;
-  box-shadow:0 16px 50px rgba(0,0,0,0.6);position:relative;
-  background:linear-gradient(160deg,#100830 0%,#1A0A40 40%,#0A0A20 100%);
-  padding:36px 24px;
+  background:linear-gradient(160deg,#08122E 0%,#0E1A44 45%,#070D20 100%);
+  border:1px solid rgba(79,142,247,0.18);
+  border-radius:22px;padding:36px 24px;margin-bottom:20px;
   display:flex;flex-direction:column;align-items:center;gap:16px;
-  border:1px solid rgba(160,100,255,0.2);
+  position:relative;overflow:hidden;
+  box-shadow:0 16px 50px rgba(0,0,0,0.6);
 }
-.poster-glow1{
-  position:absolute;top:-40px;right:-40px;
-  width:180px;height:180px;border-radius:50%;
-  background:rgba(100,40,200,0.2);filter:blur(30px);
+.p-glow1{
+  position:absolute;top:-50px;right:-50px;width:200px;height:200px;
+  border-radius:50%;background:rgba(50,80,200,0.15);filter:blur(35px);
 }
-.poster-glow2{
-  position:absolute;bottom:-40px;left:-20px;
-  width:140px;height:140px;border-radius:50%;
-  background:rgba(212,168,83,0.1);filter:blur(25px);
+.p-glow2{
+  position:absolute;bottom:-40px;left:-30px;width:150px;height:150px;
+  border-radius:50%;background:rgba(242,201,76,0.08);filter:blur(28px);
 }
-.poster-logo-txt{
-  font-size:22px;font-weight:800;letter-spacing:3px;position:relative;
-  background:linear-gradient(90deg,#C4A0F0,#D4A853);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+.p-logo{
+  font-size:21px;font-weight:800;letter-spacing:3px;position:relative;
+  color:#E8F0FF;
 }
-.poster-sub-txt{font-size:12px;color:rgba(200,180,255,0.5);position:relative;}
-.poster-divider{width:80%;height:1px;background:rgba(255,255,255,0.08);}
-.poster-big{
+.p-logo span{color:var(--blue);}
+.p-sub{font-size:11px;color:rgba(200,210,255,0.4);position:relative;}
+.p-line{width:80%;height:1px;background:rgba(255,255,255,0.06);}
+.p-big{
   font-size:80px;font-weight:800;line-height:1;position:relative;
-  background:linear-gradient(180deg,#EDE0FF,#9060E0);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  color:#E8F0FF;
 }
-.poster-big-sub{font-size:14px;color:rgba(200,180,255,0.6);position:relative;}
-.poster-stats{display:flex;width:100%;position:relative;}
-.poster-stat{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.poster-stat-val{font-size:22px;font-weight:700;color:var(--text-1);}
-.poster-stat-lbl{font-size:10px;color:rgba(200,180,255,0.5);}
-.poster-footer{font-size:11px;color:rgba(200,180,255,0.4);position:relative;}
+.p-big-sub{font-size:13px;color:rgba(200,210,255,0.5);position:relative;}
+.p-stats{display:flex;width:100%;position:relative;}
+.p-stat{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.p-stat-val{font-size:21px;font-weight:700;color:var(--text-1);}
+.p-stat-lbl{font-size:10px;color:rgba(200,210,255,0.4);}
+.p-footer{font-size:11px;color:rgba(200,210,255,0.3);position:relative;}
 
-/* ══════════════════════════════════
-   PAGE: PROFILE
-══════════════════════════════════ */
-.login-big{
+/* ══════════════════════════════
+   PAGE: 我
+══════════════════════════════ */
+.login-screen{
   display:flex;flex-direction:column;align-items:center;
-  padding:70px 24px 40px;gap:14px;text-align:center;
+  padding:80px 24px 40px;gap:14px;text-align:center;
 }
-.login-glyph{font-size:60px;}
+.login-icon{font-size:56px;}
 .login-t1{font-size:20px;font-weight:700;}
 .login-t2{font-size:13px;color:var(--text-3);line-height:1.7;}
 
 .user-banner{
-  background:linear-gradient(135deg,rgba(80,30,160,0.3),rgba(20,10,60,0.5));
-  border:1px solid rgba(160,100,255,0.2);
+  background:linear-gradient(150deg,rgba(18,32,80,0.7),rgba(8,14,40,0.85));
+  border:1px solid rgba(60,100,220,0.15);
   border-radius:18px;padding:20px;margin-bottom:12px;
   display:flex;align-items:center;gap:16px;
 }
-.avatar-orb{
-  width:58px;height:58px;border-radius:50%;
-  background:linear-gradient(135deg,#7B3FE0,#4A1990);
+.avatar{
+  width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(135deg,#2A5ACC,#1A3A88);
   display:flex;align-items:center;justify-content:center;
-  font-size:28px;flex-shrink:0;
-  border:2px solid rgba(160,120,255,0.4);
-  box-shadow:0 0 16px rgba(144,96,224,0.3);
+  font-size:26px;flex-shrink:0;
+  border:2px solid rgba(79,142,247,0.35);
+  box-shadow:0 0 16px rgba(79,142,247,0.2);
 }
-.user-name-txt{font-size:18px;font-weight:700;}
-.user-badge{font-size:12px;color:var(--purple-soft);margin-top:3px;}
+.u-name{font-size:17px;font-weight:700;}
+.u-sub{font-size:12px;color:var(--blue-soft);margin-top:3px;}
 
 .pro-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
 .pro-cell{
-  background:rgba(255,255,255,0.04);
-  border:1px solid var(--card-border);
+  background:var(--card);border:1px solid var(--card-b);
   border-radius:14px;padding:18px 14px;
   display:flex;flex-direction:column;align-items:center;gap:6px;
 }
 .pro-val{font-size:28px;font-weight:700;color:var(--text-1);}
-.pro-val.purple{color:var(--purple-soft);}
+.pro-val.blue{color:var(--blue-soft);}
 .pro-val.gold{color:var(--gold);}
 .pro-lbl{font-size:12px;color:var(--text-3);}
 
-.hidden-trophy{
-  background:linear-gradient(135deg,rgba(212,168,83,0.1),rgba(80,30,0,0.2));
-  border:1px solid rgba(212,168,83,0.25);
+.trophy-card{
+  background:linear-gradient(135deg,rgba(30,22,5,0.7),rgba(15,10,2,0.85));
+  border:1px solid rgba(242,201,76,0.2);
   border-radius:16px;padding:16px;
   display:flex;flex-direction:column;gap:6px;
 }
-.ht-lbl{font-size:12px;color:var(--gold);font-weight:600;}
-.ht-name{font-size:17px;font-weight:700;}
-.ht-series{font-size:12px;color:var(--text-3);}
+.trophy-lbl{font-size:12px;color:var(--gold);font-weight:600;}
+.trophy-name{font-size:16px;font-weight:700;}
+.trophy-series{font-size:12px;color:var(--text-3);}
 
 /* ── DIALOG ── */
 .dialog-mask{
-  position:fixed;inset:0;background:rgba(0,0,0,0.75);
+  position:fixed;inset:0;background:rgba(0,0,0,0.78);
   z-index:200;display:flex;align-items:center;justify-content:center;
 }
 .dialog-box{
-  background:#13132B;
-  border:1px solid rgba(160,100,255,0.3);
+  background:#0C1530;
+  border:1px solid rgba(60,100,220,0.25);
   border-radius:22px;padding:28px 22px;width:320px;
   display:flex;flex-direction:column;align-items:center;gap:12px;
   box-shadow:0 8px 40px rgba(0,0,0,0.6);
 }
-.dialog-title{font-size:17px;font-weight:700;color:var(--text-1);}
+.dialog-title{font-size:17px;font-weight:700;}
 .dialog-sub{font-size:12px;color:var(--text-3);}
 .dialog-input{
-  width:100%;background:rgba(255,255,255,0.06);
-  border:1px solid rgba(160,100,255,0.2);
+  width:100%;background:rgba(255,255,255,0.05);
+  border:1px solid rgba(60,100,220,0.2);
   border-radius:12px;padding:13px 16px;
   color:var(--text-1);font-size:18px;outline:none;text-align:center;
 }
 .dialog-input::placeholder{color:var(--text-3);font-size:14px;}
 .dialog-btns{display:flex;gap:10px;width:100%;}
-.dialog-btns .btn-secondary,.dialog-btns .btn-primary{flex:1;margin:0;}
+.dialog-btns .btn-ghost,.dialog-btns .btn-primary{flex:1;margin:0;}
 
 /* ── TOAST ── */
 .toast{
   position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
-  background:rgba(20,10,50,0.95);color:var(--purple-soft);
+  background:rgba(10,18,48,0.96);color:var(--blue-soft);
   padding:10px 22px;border-radius:22px;font-size:13px;
-  border:1px solid rgba(144,96,224,0.3);z-index:300;
+  border:1px solid rgba(79,142,247,0.2);z-index:300;
   opacity:0;transition:opacity .3s;white-space:nowrap;
-  box-shadow:0 4px 20px rgba(0,0,0,0.4);
 }
 .toast.show{opacity:1;}
 </style>
 </head>
 <body>
 
-<!-- NEBULA BLOBS -->
-<div class="nebula-blob nb1"></div>
-<div class="nebula-blob nb2"></div>
-<div class="nebula-blob nb3"></div>
+<div class="aurora"></div>
 <canvas id="star-canvas"></canvas>
 
-<!-- NAV BAR -->
+<!-- NAV -->
 <div class="nav-bar">
-  <span class="nav-logo">BOXVAULT</span>
-  <div class="nav-right">
-    <span id="nav-title" style="color:var(--text-2);font-size:13px"></span>
-    <span class="nav-star">✦</span>
+  <div>
+    <div class="nav-logo">BOX<span>VAULT</span></div>
   </div>
+  <span id="nav-sub" class="nav-sub"></span>
 </div>
 
-<!-- ═════════ PAGE: 我的 ═════════ -->
+<!-- ══ PAGE: 我的 ══ -->
 <div id="page-home" class="page active">
-  <!-- stats strip -->
-  <div class="my-stats">
-    <div class="my-stat"><span class="my-stat-val" id="h-total">0</span><span class="my-stat-lbl">总收藏</span></div>
-    <div class="my-stat"><span class="my-stat-val" id="h-series">0</span><span class="my-stat-lbl">系列</span></div>
-    <div class="my-stat"><span class="my-stat-val gold" id="h-hidden" style="color:var(--gold)">0</span><span class="my-stat-lbl">隐藏款</span></div>
+  <div class="h-strip">
+    <div class="h-stat"><span class="h-stat-val blue" id="h-total">0</span><span class="h-stat-lbl">总收藏</span></div>
+    <div class="h-stat"><span class="h-stat-val" id="h-series">0</span><span class="h-stat-lbl">系列</span></div>
+    <div class="h-stat"><span class="h-stat-val gold" id="h-hidden">0</span><span class="h-stat-lbl">隐藏款</span></div>
   </div>
 
-  <!-- empty state -->
-  <div class="empty-home" id="home-empty">
-    <div class="big">🌌</div>
-    <div class="t1">你的收藏宇宙还是空的</div>
-    <div class="t2">去「发现」页面选择系列<br>把你拥有的盲盒入库吧</div>
-    <div class="btn-primary" style="margin-top:8px;width:200px" onclick="showPage('discover','发现')">去发现系列</div>
+  <div class="empty-home" id="home-empty" style="display:none">
+    <div style="font-size:52px">🌌</div>
+    <div style="font-size:17px;font-weight:700">收藏宇宙还是空的</div>
+    <div style="font-size:13px;color:var(--text-3);line-height:1.7">去「发现」页面把你的盲盒入库吧</div>
+    <div class="btn-primary" style="width:180px;margin-top:8px" onclick="showPage('discover')">去发现系列</div>
   </div>
 
-  <!-- series switcher + active series -->
-  <div id="home-content" style="display:none">
-    <div class="series-switcher" id="home-switcher"></div>
-    <div class="active-series-card" id="active-series-card">
-      <div class="as-header">
-        <span class="as-brand" id="as-brand"></span>
-        <span class="as-year" id="as-year"></span>
+  <div id="home-content">
+    <div class="switcher" id="home-switcher"></div>
+    <div class="series-panel">
+      <div class="sp-top">
+        <span class="sp-brand" id="sp-brand"></span>
+        <span class="sp-year" id="sp-year"></span>
       </div>
-      <div class="as-name" id="as-name"></div>
-      <div class="as-prog-row">
-        <span class="as-prog-lbl">完成度</span>
-        <span class="as-prog-val" id="as-prog-val">0/0</span>
+      <div class="sp-name" id="sp-name"></div>
+      <div class="sp-prog-row">
+        <span class="sp-prog-lbl">完成进度</span>
+        <span class="sp-prog-val" id="sp-pval"></span>
       </div>
-      <div class="progress-bg"><div class="progress-fill" id="as-prog-bar" style="width:0%"></div></div>
-      <div class="fig-grid" id="as-fig-grid"></div>
+      <div class="progress-bg"><div class="progress-fill" id="sp-bar" style="width:0%"></div></div>
+      <div class="mini-grid" id="sp-grid"></div>
     </div>
-    <div class="btn-secondary" onclick="showPage('discover','发现')" style="margin-top:4px">+ 发现更多系列</div>
+    <div class="btn-ghost" onclick="showPage('discover')">＋ 发现更多系列</div>
   </div>
 </div>
 
-<!-- ═════════ PAGE: 发现 ═════════ -->
+<!-- ══ PAGE: 发现 ══ -->
 <div id="page-discover" class="page">
   <div class="search-bar">
-    <input type="text" placeholder="搜索系列或品牌" id="search-input" oninput="renderDiscover()">
-    <span>✦</span>
+    <input type="text" placeholder="搜索系列 · 品牌" id="search-in" oninput="renderDiscover()">
+    <span style="color:var(--text-3)">⌕</span>
   </div>
-  <div class="brand-filter">
-    <div class="brand-tag active" data-brand="all"   onclick="setBrand(this)">全部</div>
-    <div class="brand-tag"        data-brand="泡泡玛特" onclick="setBrand(this)">泡泡玛特</div>
-    <div class="brand-tag"        data-brand="52TOYS"  onclick="setBrand(this)">52TOYS</div>
+  <div class="brand-row">
+    <div class="b-tag active" data-brand="all"    onclick="setBrand(this)">全部</div>
+    <div class="b-tag" data-brand="泡泡玛特"       onclick="setBrand(this)">泡泡玛特</div>
+    <div class="b-tag" data-brand="52TOYS"         onclick="setBrand(this)">52TOYS</div>
   </div>
-  <div class="all-series-list" id="all-series-list"></div>
+  <div class="d-list" id="d-list"></div>
 </div>
 
-<!-- ═════════ PAGE: 系列详情 ═════════ -->
+<!-- ══ PAGE: 系列详情 ══ -->
 <div id="page-series" class="page">
-  <div class="back-btn" id="series-back-btn">← 返回</div>
-  <div class="series-detail-header">
-    <div class="sdh-top">
-      <span class="sdh-brand" id="sdh-brand"></span>
-      <span class="sdh-year" id="sdh-year"></span>
+  <div class="back-btn" id="series-back">← 返回</div>
+  <div class="detail-header">
+    <div class="dh-top">
+      <span class="d-brand" id="dh-brand" style="font-size:11px;font-weight:600;color:var(--blue-soft)"></span>
+      <span style="font-size:11px;color:var(--text-3)" id="dh-year"></span>
     </div>
-    <div class="sdh-name" id="sdh-name"></div>
-    <div class="sdh-prog-row">
+    <div style="font-size:20px;font-weight:700;margin-bottom:16px" id="dh-name"></div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:8px">
       <span style="font-size:12px;color:var(--text-2)">完成度</span>
-      <span style="font-size:12px;color:var(--purple-soft);font-weight:600" id="sdh-prog-val">0/0</span>
+      <span style="font-size:12px;color:var(--blue-soft);font-weight:600" id="dh-pval"></span>
     </div>
-    <div class="progress-bg"><div class="progress-fill" id="sdh-prog-bar" style="width:0%"></div></div>
+    <div class="progress-bg"><div class="progress-fill" id="dh-bar" style="width:0%"></div></div>
   </div>
-  <div class="detail-fig-grid" id="detail-fig-grid"></div>
+  <div class="d-fig-grid" id="dh-grid"></div>
 </div>
 
-<!-- ═════════ PAGE: 晒单 ═════════ -->
+<!-- ══ PAGE: 晒单 ══ -->
 <div id="page-poster" class="page">
-  <div class="back-btn" onclick="showPage('home','我的')">← 返回</div>
-  <p style="color:var(--text-3);font-size:12px;margin-bottom:16px">长按海报可保存 · 分享到小红书/朋友圈</p>
+  <div class="back-btn" onclick="showPage('home')">← 返回</div>
+  <p style="font-size:12px;color:var(--text-3);margin-bottom:16px">长按海报保存 · 分享小红书/朋友圈</p>
   <div class="poster-card">
-    <div class="poster-glow1"></div>
-    <div class="poster-glow2"></div>
-    <div class="poster-logo-txt">BOXVAULT</div>
-    <div class="poster-sub-txt">盲盒收藏管理</div>
-    <div class="poster-divider"></div>
-    <div class="poster-big" id="poster-total">0</div>
-    <div class="poster-big-sub">件盲盒已入库</div>
-    <div class="poster-divider"></div>
-    <div class="poster-stats">
-      <div class="poster-stat">
-        <span class="poster-stat-val" id="poster-series">0</span>
-        <span class="poster-stat-lbl">参与系列</span>
-      </div>
-      <div class="poster-stat">
-        <span class="poster-stat-val" id="poster-hidden">0</span>
-        <span class="poster-stat-lbl">隐藏款</span>
-      </div>
-      <div class="poster-stat">
-        <span class="poster-stat-val" id="poster-spent">¥0</span>
-        <span class="poster-stat-lbl">累计花费</span>
-      </div>
+    <div class="p-glow1"></div><div class="p-glow2"></div>
+    <div class="p-logo">BOX<span>VAULT</span></div>
+    <div class="p-sub">盲盒收藏管理</div>
+    <div class="p-line"></div>
+    <div class="p-big" id="p-total">0</div>
+    <div class="p-big-sub">件盲盒已入库</div>
+    <div class="p-line"></div>
+    <div class="p-stats">
+      <div class="p-stat"><span class="p-stat-val" id="p-series">0</span><span class="p-stat-lbl">参与系列</span></div>
+      <div class="p-stat"><span class="p-stat-val" id="p-hidden">0</span><span class="p-stat-lbl">隐藏款</span></div>
+      <div class="p-stat"><span class="p-stat-val" id="p-spent">¥0</span><span class="p-stat-lbl">累计花费</span></div>
     </div>
-    <div class="poster-footer">扫码一起管理我的盲盒收藏 ✦</div>
+    <div class="p-footer">扫码一起管理我的盲盒收藏</div>
   </div>
-  <div class="btn-primary" onclick="showToast('长按上方海报保存到相册 📱')">保存到相册</div>
+  <div class="btn-primary" onclick="showToast('长按上方海报可保存到相册 📱')">保存到相册</div>
 </div>
 
-<!-- ═════════ PAGE: 我 ═════════ -->
+<!-- ══ PAGE: 我 ══ -->
 <div id="page-profile" class="page">
   <div id="pf-login">
-    <div class="login-big">
-      <div class="login-glyph">✦</div>
-      <div class="login-t1">登录，开始记录你的星系</div>
-      <div class="login-t2">微信一键登录<br>数据保存在云端，换手机不丢失</div>
+    <div class="login-screen">
+      <div class="login-icon">✦</div>
+      <div class="login-t1">登录，开始管理你的收藏</div>
+      <div class="login-t2">微信一键登录<br>换手机数据不丢失</div>
       <div class="btn-primary" style="margin-top:8px" onclick="fakeLogin()">微信一键登录（模拟）</div>
     </div>
   </div>
   <div id="pf-main" style="display:none">
     <div class="user-banner">
-      <div class="avatar-orb">🐼</div>
+      <div class="avatar">🐼</div>
       <div>
-        <div class="user-name-txt">小野收藏家</div>
-        <div class="user-badge">✦ 盲盒星球探索者</div>
+        <div class="u-name">小野收藏家</div>
+        <div class="u-sub">✦ 盲盒星球探索者</div>
       </div>
     </div>
     <div class="pro-grid">
-      <div class="pro-cell"><span class="pro-val purple" id="pf-total">0</span><span class="pro-lbl">总收藏</span></div>
+      <div class="pro-cell"><span class="pro-val blue" id="pf-total">0</span><span class="pro-lbl">总收藏</span></div>
       <div class="pro-cell"><span class="pro-val" id="pf-series">0</span><span class="pro-lbl">系列</span></div>
       <div class="pro-cell"><span class="pro-val gold" id="pf-hidden">0</span><span class="pro-lbl">隐藏款</span></div>
       <div class="pro-cell"><span class="pro-val" id="pf-spent">¥0</span><span class="pro-lbl">总花费</span></div>
     </div>
-    <div id="pf-trophy" style="display:none" class="hidden-trophy">
-      <span class="ht-lbl">✨ 已收最稀有款</span>
-      <span class="ht-name" id="pf-trophy-name"></span>
-      <span class="ht-series" id="pf-trophy-series"></span>
+    <div id="pf-trophy" class="trophy-card" style="display:none">
+      <span class="trophy-lbl">✦ 已收最稀有款</span>
+      <span class="trophy-name" id="pf-tname"></span>
+      <span class="trophy-series" id="pf-tseries"></span>
     </div>
-    <div id="pf-no-hidden" class="card" style="display:none;margin-top:4px">
+    <div id="pf-nohidden" class="card" style="display:none;margin-top:0">
       <div style="font-weight:600;margin-bottom:5px">还没有隐藏款，继续加油 💪</div>
       <div style="font-size:12px;color:var(--text-3)">隐藏款概率约 1/144</div>
     </div>
     <div style="margin-top:16px">
-      <div class="btn-secondary" onclick="showPage('poster','晒单')">✨ 生成晒单海报</div>
+      <div class="btn-ghost" onclick="showPage('poster')">✦ 生成晒单海报</div>
     </div>
   </div>
 </div>
 
-<!-- ═════════ TAB BAR ═════════ -->
+<!-- TAB BAR -->
 <div class="tab-bar">
-  <div class="tab-item active" id="tab-home" onclick="showPage('home','我的')">
-    <span class="tab-icon">🌌</span><span>我的</span><div class="tab-dot"></div>
+  <div class="tab-item active" id="tab-home"     onclick="showPage('home')">
+    <span class="tab-icon">⬡</span><span>我的</span><div class="tab-pip"></div>
   </div>
-  <div class="tab-item" id="tab-discover" onclick="showPage('discover','发现')">
-    <span class="tab-icon">✦</span><span>发现</span><div class="tab-dot"></div>
+  <div class="tab-item" id="tab-discover" onclick="showPage('discover')">
+    <span class="tab-icon">✦</span><span>发现</span><div class="tab-pip"></div>
   </div>
-  <div class="tab-item" id="tab-profile" onclick="showPage('profile','我')">
-    <span class="tab-icon">🪐</span><span>我</span><div class="tab-dot"></div>
+  <div class="tab-item" id="tab-profile"  onclick="showPage('profile')">
+    <span class="tab-icon">◎</span><span>我</span><div class="tab-pip"></div>
   </div>
 </div>
 
@@ -667,11 +602,11 @@ body{
   <div class="dialog-box" onclick="event.stopPropagation()">
     <div class="dialog-title">记录购入价格</div>
     <div class="dialog-sub">选填 · 用于统计总花费</div>
-    <input class="dialog-input" type="number" placeholder="例如 69.9" id="price-input">
-    <div style="font-size:12px;color:var(--text-3);align-self:flex-end">元人民币</div>
+    <input class="dialog-input" type="number" placeholder="例如 69" id="price-in">
+    <div style="font-size:11px;color:var(--text-3);align-self:flex-end">元人民币</div>
     <div class="dialog-btns">
-      <div class="btn-secondary" onclick="confirmAdd(null)">跳过</div>
-      <div class="btn-primary" onclick="confirmAdd()" style="margin:0">✓ 入库</div>
+      <div class="btn-ghost" onclick="confirmAdd(true)">跳过</div>
+      <div class="btn-primary" onclick="confirmAdd(false)" style="margin:0">✓ 入库</div>
     </div>
   </div>
 </div>
@@ -679,36 +614,27 @@ body{
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════ STARFIELD ══════════
+/* ══ STARFIELD ══ */
 (function(){
-  const c = document.getElementById('star-canvas')
-  function resize(){c.width=window.innerWidth;c.height=window.innerHeight;draw();}
+  const c=document.getElementById('star-canvas')
   function draw(){
-    const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);
-    // gradient bg
-    const g=ctx.createRadialGradient(c.width*.3,c.height*.2,0,c.width*.5,c.height*.5,c.height);
-    g.addColorStop(0,'rgba(60,20,120,0.4)');g.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);
-    // stars
-    for(let i=0;i<180;i++){
-      const x=Math.random()*c.width,y=Math.random()*c.height;
-      const r=Math.random()*1.3+.1;
-      const a=Math.random()*.8+.1;
-      const hue=Math.random()<.2?280:220; // mostly white, some purple
-      ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
-      ctx.fillStyle=`hsla(${hue},60%,90%,${a})`;ctx.fill();
-    }
-    // a few bigger sparkles
-    for(let i=0;i<8;i++){
-      const x=Math.random()*c.width,y=Math.random()*c.height;
-      ctx.beginPath();ctx.arc(x,y,1.8,0,Math.PI*2);
-      ctx.fillStyle=`rgba(200,170,255,0.9)`;ctx.fill();
+    c.width=window.innerWidth;c.height=window.innerHeight
+    const ctx=c.getContext('2d')
+    for(let i=0;i<200;i++){
+      const x=Math.random()*c.width,y=Math.random()*c.height
+      const r=Math.random()*1.2+.15
+      const a=Math.random()*.7+.15
+      // mostly white-blue, occasional warm
+      const warm=Math.random()<.08
+      ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2)
+      ctx.fillStyle=warm?`rgba(255,230,150,${a})`:`rgba(${180+Math.random()*75},${190+Math.random()*65},255,${a})`
+      ctx.fill()
     }
   }
-  window.addEventListener('resize',resize);resize();
-})();
+  window.addEventListener('resize',draw);draw()
+})()
 
-// ══════════ DATA ══════════
+/* ══ DATA ══ */
 const SERIES=[
   {id:'labubu',brand:'泡泡玛特',name:'LABUBU 精灵天团',year:2023,emoji:'🧚',totalCount:9,figures:[
     {id:'l1',name:'白羊精灵',type:'normal'},{id:'l2',name:'金牛精灵',type:'normal'},
@@ -742,24 +668,40 @@ const SERIES=[
   ]},
 ]
 
-let owned={} // figureId -> {price, seriesId}
+/* ══ DEMO DATA ══ */
+// 预置示范数据：LABUBU 收了 5 款，SKULLPANDA 收了 4 款含隐藏款，DIMOO 收了 3 款含稀有款
+let owned = {
+  l1:{price:69,  seriesId:'labubu'},
+  l2:{price:69,  seriesId:'labubu'},
+  l3:{price:69,  seriesId:'labubu'},
+  l5:{price:69,  seriesId:'labubu'},
+  l8:{price:139, seriesId:'labubu'},  // 稀有款
+  s1:{price:79,  seriesId:'skull'},
+  s3:{price:79,  seriesId:'skull'},
+  s5:{price:79,  seriesId:'skull'},
+  s8:{price:599, seriesId:'skull'},   // 隐藏款！
+  d1:{price:69,  seriesId:'dimoo'},
+  d4:{price:69,  seriesId:'dimoo'},
+  d8:{price:149, seriesId:'dimoo'},   // 稀有款
+}
+
 let activeBrand='all'
-let currentSeriesId=null
+let activeHomeId='labubu'
+let curSeriesId=null
 let seriesBackPage='discover'
-let pendingFigureId=null
+let pendingFigId=null
 let loggedIn=false
-let activeHomeSeriesId=null
 
-// ══════════ ROUTING ══════════
-const TAB_MAP={home:'tab-home',discover:'tab-discover',profile:'tab-profile'}
-const PAGE_TITLES={home:'我的',discover:'发现',series:'',poster:'晒单海报',profile:'我'}
+/* ══ ROUTING ══ */
+const PAGE_NAMES={home:'我的',discover:'发现',series:'系列',poster:'晒单海报',profile:'我'}
+const TAB_IDS={home:'tab-home',discover:'tab-discover',profile:'tab-profile'}
 
-function showPage(name,title){
+function showPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'))
   document.querySelectorAll('.tab-item').forEach(t=>t.classList.remove('active'))
   document.getElementById('page-'+name).classList.add('active')
-  document.getElementById('nav-title').textContent=title||''
-  if(TAB_MAP[name]) document.getElementById(TAB_MAP[name]).classList.add('active')
+  document.getElementById('nav-sub').textContent=PAGE_NAMES[name]||''
+  if(TAB_IDS[name]) document.getElementById(TAB_IDS[name]).classList.add('active')
   if(name==='home')    renderHome()
   if(name==='discover') renderDiscover()
   if(name==='poster')  renderPoster()
@@ -767,21 +709,28 @@ function showPage(name,title){
   window.scrollTo(0,0)
 }
 
-// ══════════ HOME ══════════
-function renderHome(){
-  const seriesWithOwned=SERIES.filter(s=>s.figures.some(f=>owned[f.id]))
+/* ══ HOME ══ */
+function getStats(){
   const total=Object.keys(owned).length
-  let hiddenCount=0
-  Object.entries(owned).forEach(([fid])=>{
-    const s=SERIES.find(s=>s.id===owned[fid].seriesId)
+  const serSet=new Set(Object.values(owned).map(v=>v.seriesId))
+  let hidden=0,spent=0
+  Object.entries(owned).forEach(([fid,v])=>{
+    if(v.price) spent+=v.price
+    const s=SERIES.find(s=>s.id===v.seriesId)
     const fig=s&&s.figures.find(f=>f.id===fid)
-    if(fig&&fig.type==='hidden') hiddenCount++
+    if(fig&&fig.type==='hidden') hidden++
   })
-  document.getElementById('h-total').textContent=total
-  document.getElementById('h-series').textContent=seriesWithOwned.length
-  document.getElementById('h-hidden').textContent=hiddenCount
+  return{total,seriesCount:serSet.size,hidden,spent}
+}
 
-  if(seriesWithOwned.length===0){
+function renderHome(){
+  const {total,seriesCount,hidden}=getStats()
+  document.getElementById('h-total').textContent=total
+  document.getElementById('h-series').textContent=seriesCount
+  document.getElementById('h-hidden').textContent=hidden
+
+  const withOwned=SERIES.filter(s=>s.figures.some(f=>owned[f.id]))
+  if(withOwned.length===0){
     document.getElementById('home-empty').style.display='flex'
     document.getElementById('home-content').style.display='none'
     return
@@ -789,138 +738,109 @@ function renderHome(){
   document.getElementById('home-empty').style.display='none'
   document.getElementById('home-content').style.display='block'
 
-  // if active series was removed, pick first
-  if(!activeHomeSeriesId||!seriesWithOwned.find(s=>s.id===activeHomeSeriesId)){
-    activeHomeSeriesId=seriesWithOwned[0].id
-  }
+  if(!withOwned.find(s=>s.id===activeHomeId)) activeHomeId=withOwned[0].id
 
-  // render chips
-  document.getElementById('home-switcher').innerHTML=seriesWithOwned.map(s=>`
-    <div class="series-chip ${s.id===activeHomeSeriesId?'active':''}"
-         onclick="switchHomeSeries('${s.id}')">
-      <span class="chip-emoji">${s.emoji}</span>${s.name.split(' ')[0]}
-    </div>
-  `).join('')
+  document.getElementById('home-switcher').innerHTML=withOwned.map(s=>`
+    <div class="s-chip ${s.id===activeHomeId?'active':''}"
+         onclick="switchHome('${s.id}')">
+      <span>${s.emoji}</span>${s.name.split(' ')[0]}
+    </div>`).join('')
 
-  renderActiveSeriesCard()
+  renderSeriesPanel()
 }
 
-function switchHomeSeries(id){
-  activeHomeSeriesId=id
-  // update chips
-  document.querySelectorAll('.series-chip').forEach(c=>{
-    c.classList.toggle('active',c.getAttribute('onclick').includes(id))
+function switchHome(id){
+  activeHomeId=id
+  document.querySelectorAll('.s-chip').forEach(c=>{
+    c.classList.toggle('active',c.getAttribute('onclick').includes(`'${id}'`))
   })
-  renderActiveSeriesCard()
+  renderSeriesPanel()
 }
 
-function renderActiveSeriesCard(){
-  const s=SERIES.find(x=>x.id===activeHomeSeriesId)
-  if(!s) return
-  const ownedCount=s.figures.filter(f=>owned[f.id]).length
-  const pct=Math.round(ownedCount/s.totalCount*100)
-  document.getElementById('as-brand').textContent=s.brand
-  document.getElementById('as-year').textContent=s.year
-  document.getElementById('as-name').textContent=s.name
-  document.getElementById('as-prog-val').textContent=`${ownedCount}/${s.totalCount}`
-  document.getElementById('as-prog-bar').style.width=pct+'%'
+function renderSeriesPanel(){
+  const s=SERIES.find(x=>x.id===activeHomeId);if(!s)return
+  const oc=s.figures.filter(f=>owned[f.id]).length
+  const pct=Math.round(oc/s.totalCount*100)
+  document.getElementById('sp-brand').textContent=s.brand
+  document.getElementById('sp-year').textContent=s.year
+  document.getElementById('sp-name').textContent=s.name
+  document.getElementById('sp-pval').textContent=`${oc} / ${s.totalCount}`
+  document.getElementById('sp-bar').style.width=pct+'%'
 
-  const FIG_EMOJI={normal:'🎁',rare:'💜',hidden:'✨'}
-  document.getElementById('as-fig-grid').innerHTML=s.figures.map(f=>{
-    const isOwned=!!owned[f.id]
-    const cls=isOwned?(f.type==='hidden'?'owned-hidden':'owned'):''
-    const checkCls=f.type==='hidden'?'gold':'purple'
-    return `<div class="fig-cell ${cls}" onclick="onHomeFigTap('${f.id}','${s.id}')">
-      ${isOwned?`<div class="fig-check ${checkCls}">✓</div>`:''}
-      <div class="fig-emoji">${FIG_EMOJI[f.type]}</div>
-      <div class="fig-name">${f.name}</div>
+  const FE={normal:'🎁',rare:'💜',hidden:'✨'}
+  document.getElementById('sp-grid').innerHTML=s.figures.map(f=>{
+    const is=!!owned[f.id]
+    const cls=is?(f.type==='hidden'?'owned-hidden':'owned'):''
+    const chk=is?`<div class="mg-check ${f.type==='hidden'?'gold':'blue'}">✓</div>`:''
+    return `<div class="mg-cell ${cls}" onclick="onHomeFig('${f.id}')">
+      ${chk}<div class="mg-emoji">${FE[f.type]}</div>
+      <div class="mg-name">${f.name}</div>
     </div>`
   }).join('')
 }
 
-function onHomeFigTap(figId, seriesId){
-  if(owned[figId]){
-    if(confirm('移出这款？')){delete owned[figId];renderActiveSeriesCard();renderHomeStats();}
+function onHomeFig(fid){
+  if(owned[fid]){
+    if(confirm('移出这款？')){delete owned[fid];renderHome()}
   } else {
-    pendingFigureId=figId
-    document.getElementById('price-input').value=''
+    pendingFigId=fid
+    document.getElementById('price-in').value=''
     document.getElementById('price-dialog').style.display='flex'
   }
 }
 
-function renderHomeStats(){
-  const s=SERIES.find(x=>x.id===activeHomeSeriesId)
-  if(!s) return
-  const total=Object.keys(owned).length
-  const seriesSet=new Set(Object.values(owned).map(v=>v.seriesId))
-  let h=0
-  Object.entries(owned).forEach(([fid])=>{
-    const sr=SERIES.find(s=>s.id===owned[fid].seriesId)
-    const fig=sr&&sr.figures.find(f=>f.id===fid)
-    if(fig&&fig.type==='hidden') h++
-  })
-  document.getElementById('h-total').textContent=total
-  document.getElementById('h-series').textContent=seriesSet.size
-  document.getElementById('h-hidden').textContent=h
-}
-
-// ══════════ DISCOVER ══════════
+/* ══ DISCOVER ══ */
 function renderDiscover(){
-  const kw=document.getElementById('search-input').value.trim()
+  const kw=(document.getElementById('search-in').value||'').trim()
   let list=SERIES
   if(activeBrand!=='all') list=list.filter(s=>s.brand===activeBrand)
   if(kw) list=list.filter(s=>s.name.includes(kw)||s.brand.includes(kw))
-  document.getElementById('all-series-list').innerHTML=list.map(s=>{
-    const ownedCount=s.figures.filter(f=>owned[f.id]).length
-    const ownedBadge=ownedCount>0
-      ?`<span class="all-owned-badge">${ownedCount}/${s.totalCount} 已收</span>`
-      :''
-    return `<div class="all-series-row" onclick="openSeries('${s.id}','discover')">
-      <div class="all-thumb">${s.emoji}</div>
-      <div class="all-info">
-        <div class="all-brand">${s.brand}</div>
-        <div class="all-name">${s.name}</div>
-        <div class="all-meta">共 ${s.totalCount} 款 · ${s.year}</div>
-      </div>
-      ${ownedBadge}
+  document.getElementById('d-list').innerHTML=list.map(s=>{
+    const oc=s.figures.filter(f=>owned[f.id]).length
+    const badge=oc>0?`<span class="d-badge">${oc}/${s.totalCount}</span>`:''
+    return `<div class="d-row" onclick="openSeries('${s.id}','discover')">
+      <div class="d-thumb">${s.emoji}</div>
+      <div class="d-info">
+        <div class="d-brand">${s.brand}</div>
+        <div class="d-name">${s.name}</div>
+        <div class="d-meta">共 ${s.totalCount} 款 · ${s.year}</div>
+      </div>${badge}
     </div>`
   }).join('')
 }
 
 function setBrand(el){
   activeBrand=el.dataset.brand
-  document.querySelectorAll('.brand-tag').forEach(t=>t.classList.remove('active'))
+  document.querySelectorAll('.b-tag').forEach(t=>t.classList.remove('active'))
   el.classList.add('active')
   renderDiscover()
 }
 
-// ══════════ SERIES DETAIL ══════════
-function openSeries(id, from){
-  currentSeriesId=id
-  seriesBackPage=from||'discover'
+/* ══ SERIES DETAIL ══ */
+function openSeries(id,from){
+  curSeriesId=id;seriesBackPage=from||'discover'
   const s=SERIES.find(x=>x.id===id)
-  document.getElementById('series-back-btn').onclick=()=>showPage(seriesBackPage,from==='home'?'我的':'发现')
-  document.getElementById('sdh-brand').textContent=s.brand
-  document.getElementById('sdh-year').textContent=s.year
-  document.getElementById('sdh-name').textContent=s.name
+  document.getElementById('series-back').onclick=()=>showPage(seriesBackPage)
+  document.getElementById('dh-brand').textContent=s.brand
+  document.getElementById('dh-year').textContent=s.year
+  document.getElementById('dh-name').textContent=s.name
   renderDetailGrid(s)
-  showPage('series',s.name)
-  document.getElementById('nav-title').textContent=s.name
+  showPage('series')
+  document.getElementById('nav-sub').textContent=s.name
 }
 
 function renderDetailGrid(s){
-  const ownedCount=s.figures.filter(f=>owned[f.id]).length
-  const pct=Math.round(ownedCount/s.totalCount*100)
-  document.getElementById('sdh-prog-val').textContent=`${ownedCount}/${s.totalCount}`
-  document.getElementById('sdh-prog-bar').style.width=pct+'%'
-  const FIG_EMOJI={normal:'🎁',rare:'💜',hidden:'✨'}
-  document.getElementById('detail-fig-grid').innerHTML=s.figures.map(f=>{
-    const isOwned=!!owned[f.id]
-    const cls=isOwned?(f.type==='hidden'?'owned-hidden':'owned'):''
-    const chk=isOwned?`<div class="dfig-check ${f.type==='hidden'?'gold':'purple'}">✓</div>`:''
-    return `<div class="dfig-cell ${cls}" onclick="onDetailFigTap('${f.id}','${s.id}')">
-      ${chk}
-      <div class="dfig-emoji">${FIG_EMOJI[f.type]}</div>
+  const oc=s.figures.filter(f=>owned[f.id]).length
+  const pct=Math.round(oc/s.totalCount*100)
+  document.getElementById('dh-pval').textContent=`${oc} / ${s.totalCount}`
+  document.getElementById('dh-bar').style.width=pct+'%'
+  const FE={normal:'🎁',rare:'💜',hidden:'✨'}
+  document.getElementById('dh-grid').innerHTML=s.figures.map(f=>{
+    const is=!!owned[f.id]
+    const cls=is?(f.type==='hidden'?'owned-hidden':'owned'):''
+    const chk=is?`<div class="dfig-chk ${f.type==='hidden'?'gold':'blue'}">✓</div>`:''
+    return `<div class="dfig ${cls}" onclick="onDetailFig('${f.id}','${s.id}')">
+      ${chk}<div class="dfig-emoji">${FE[f.type]}</div>
       <div class="dfig-name">${f.name}</div>
       <div class="badge badge-${f.type}">${f.type==='hidden'?'隐藏':f.type==='rare'?'稀有':'普通'}</div>
       ${f.rate?`<div class="dfig-rate">${f.rate}</div>`:''}
@@ -928,56 +848,46 @@ function renderDetailGrid(s){
   }).join('')
 }
 
-function onDetailFigTap(figId,seriesId){
-  if(owned[figId]){
-    if(confirm('移出这款？')){delete owned[figId];renderDetailGrid(SERIES.find(s=>s.id===seriesId));showToast('已移出');}
+function onDetailFig(fid,sid){
+  if(owned[fid]){
+    if(confirm('移出这款？')){delete owned[fid];renderDetailGrid(SERIES.find(s=>s.id===sid));showToast('已移出')}
   } else {
-    pendingFigureId=figId
-    document.getElementById('price-input').value=''
+    pendingFigId=fid
+    document.getElementById('price-in').value=''
     document.getElementById('price-dialog').style.display='flex'
   }
 }
 
-// ══════════ DIALOG ══════════
-function closeDialog(){
-  document.getElementById('price-dialog').style.display='none'
-  pendingFigureId=null
-}
+/* ══ DIALOG ══ */
+function closeDialog(){document.getElementById('price-dialog').style.display='none';pendingFigId=null}
 
 function confirmAdd(skip){
-  const price=(skip===null||!document.getElementById('price-input').value)
-    ?null:parseFloat(document.getElementById('price-input').value)
-  const s=SERIES.find(s=>s.figures.some(f=>f.id===pendingFigureId))
+  const price=(!skip&&document.getElementById('price-in').value)
+    ?parseFloat(document.getElementById('price-in').value):null
+  const s=SERIES.find(s=>s.figures.some(f=>f.id===pendingFigId))
   if(s){
-    owned[pendingFigureId]={price,seriesId:s.id}
-    // refresh whichever page is showing
+    owned[pendingFigId]={price,seriesId:s.id}
     if(document.getElementById('page-series').classList.contains('active'))
       renderDetailGrid(s)
-    else renderActiveSeriesCard()
+    else renderSeriesPanel()
   }
   document.getElementById('price-dialog').style.display='none'
-  pendingFigureId=null
+  pendingFigId=null
+  const {total}=getStats()
+  document.getElementById('h-total').textContent=total
   showToast('入库成功 ✓')
 }
 
-// ══════════ POSTER ══════════
+/* ══ POSTER ══ */
 function renderPoster(){
-  const total=Object.keys(owned).length
-  let spent=0,hidden=0
-  Object.entries(owned).forEach(([fid,v])=>{
-    if(v.price) spent+=v.price
-    const s=SERIES.find(s=>s.id===v.seriesId)
-    const fig=s&&s.figures.find(f=>f.id===fid)
-    if(fig&&fig.type==='hidden') hidden++
-  })
-  const ser=new Set(Object.values(owned).map(v=>v.seriesId)).size
-  document.getElementById('poster-total').textContent=total
-  document.getElementById('poster-series').textContent=ser
-  document.getElementById('poster-hidden').textContent=hidden
-  document.getElementById('poster-spent').textContent='¥'+Math.round(spent)
+  const {total,seriesCount,hidden,spent}=getStats()
+  document.getElementById('p-total').textContent=total
+  document.getElementById('p-series').textContent=seriesCount
+  document.getElementById('p-hidden').textContent=hidden
+  document.getElementById('p-spent').textContent='¥'+Math.round(spent)
 }
 
-// ══════════ PROFILE ══════════
+/* ══ PROFILE ══ */
 function fakeLogin(){
   loggedIn=true
   document.getElementById('pf-login').style.display='none'
@@ -986,42 +896,34 @@ function fakeLogin(){
 }
 
 function renderProfile(){
-  const total=Object.keys(owned).length
-  let spent=0,hidden=0,rarestFig=null,rarestSer=null
-  const serSet=new Set()
-  Object.entries(owned).forEach(([fid,v])=>{
-    if(v.price) spent+=v.price
-    serSet.add(v.seriesId)
-    const s=SERIES.find(s=>s.id===v.seriesId)
-    const fig=s&&s.figures.find(f=>f.id===fid)
-    if(fig&&fig.type==='hidden'){hidden++;if(!rarestFig){rarestFig=fig.name;rarestSer=s.name}}
-  })
+  const {total,seriesCount,hidden,spent}=getStats()
   document.getElementById('pf-total').textContent=total
-  document.getElementById('pf-series').textContent=serSet.size
+  document.getElementById('pf-series').textContent=seriesCount
   document.getElementById('pf-hidden').textContent=hidden
   document.getElementById('pf-spent').textContent='¥'+Math.round(spent)
-  const trophy=document.getElementById('pf-trophy')
-  const noH=document.getElementById('pf-no-hidden')
-  if(rarestFig){
-    trophy.style.display='flex';noH.style.display='none'
-    document.getElementById('pf-trophy-name').textContent=rarestFig
-    document.getElementById('pf-trophy-series').textContent='来自 '+rarestSer
-  } else if(total>0){
-    trophy.style.display='none';noH.style.display='block'
-  } else {
-    trophy.style.display='none';noH.style.display='none'
-  }
+  let rf=null,rs=null
+  Object.entries(owned).forEach(([fid,v])=>{
+    const s=SERIES.find(s=>s.id===v.seriesId)
+    const fig=s&&s.figures.find(f=>f.id===fid)
+    if(fig&&fig.type==='hidden'&&!rf){rf=fig.name;rs=s.name}
+  })
+  const t=document.getElementById('pf-trophy'),nh=document.getElementById('pf-nohidden')
+  if(rf){t.style.display='flex';nh.style.display='none'
+    document.getElementById('pf-tname').textContent=rf
+    document.getElementById('pf-tseries').textContent='来自 '+rs
+  } else if(total>0){t.style.display='none';nh.style.display='block'
+  } else {t.style.display='none';nh.style.display='none'}
 }
 
-// ══════════ TOAST ══════════
+/* ══ TOAST ══ */
 function showToast(msg){
   const t=document.getElementById('toast')
   t.textContent=msg;t.classList.add('show')
-  setTimeout(()=>t.classList.remove('show'),2200)
+  setTimeout(()=>t.classList.remove('show'),2000)
 }
 
-// ══════════ INIT ══════════
-showPage('home','我的')
+/* ══ INIT ══ */
+showPage('home')
 renderDiscover()
 </script>
 </body>
