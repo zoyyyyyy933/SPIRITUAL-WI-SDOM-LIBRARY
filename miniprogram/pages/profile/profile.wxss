@@ -1,0 +1,135 @@
+.container {
+  padding: 24rpx;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+/* 未登录 */
+.login-card {
+  margin-top: 100rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+  padding: 60rpx 40rpx;
+}
+
+.login-title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.login-sub {
+  font-size: 26rpx;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 16rpx;
+}
+
+/* 用户卡片 */
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 28rpx;
+  margin-bottom: 24rpx;
+}
+
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  border: 3rpx solid var(--accent-gold);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.nickname {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.user-tag {
+  font-size: 24rpx;
+  color: var(--accent-gold);
+}
+
+/* 统计网格 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 36rpx 24rpx;
+}
+
+.stat-num {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.stat-num.gold {
+  color: var(--accent-gold);
+}
+
+.stat-desc {
+  font-size: 24rpx;
+  color: var(--text-muted);
+}
+
+/* 最珍贵款 */
+.rarest-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  border: 1rpx solid rgba(200,169,110,0.3);
+}
+
+.rarest-label {
+  font-size: 24rpx;
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.rarest-name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.rarest-series {
+  font-size: 24rpx;
+  color: var(--text-muted);
+}
+
+/* 无隐藏款 */
+.no-hidden {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.no-hidden-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.no-hidden-sub {
+  font-size: 24rpx;
+  color: var(--text-muted);
+}

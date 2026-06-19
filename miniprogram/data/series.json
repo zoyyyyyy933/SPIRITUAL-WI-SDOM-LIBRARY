@@ -1,0 +1,99 @@
+[
+  {
+    "id": "labubu-spirit-tribe",
+    "brand": "泡泡玛特",
+    "name": "LABUBU 精灵天团",
+    "year": 2023,
+    "cover": "https://img.popmart.com/labubu-spirit-tribe-cover.jpg",
+    "totalCount": 9,
+    "figures": [
+      { "id": "lst-01", "name": "星座精灵·白羊", "type": "normal", "rarityRate": null, "order": 1 },
+      { "id": "lst-02", "name": "星座精灵·金牛", "type": "normal", "rarityRate": null, "order": 2 },
+      { "id": "lst-03", "name": "星座精灵·双子", "type": "normal", "rarityRate": null, "order": 3 },
+      { "id": "lst-04", "name": "星座精灵·巨蟹", "type": "normal", "rarityRate": null, "order": 4 },
+      { "id": "lst-05", "name": "星座精灵·狮子", "type": "normal", "rarityRate": null, "order": 5 },
+      { "id": "lst-06", "name": "星座精灵·处女", "type": "normal", "rarityRate": null, "order": 6 },
+      { "id": "lst-07", "name": "星座精灵·天秤", "type": "normal", "rarityRate": null, "order": 7 },
+      { "id": "lst-08", "name": "星座精灵·天蝎", "type": "rare",   "rarityRate": "1/36",  "order": 8 },
+      { "id": "lst-09", "name": "星座精灵·暗影", "type": "hidden", "rarityRate": "1/144", "order": 9 }
+    ]
+  },
+  {
+    "id": "molly-zodiac",
+    "brand": "泡泡玛特",
+    "name": "MOLLY 星座系列",
+    "year": 2022,
+    "cover": "https://img.popmart.com/molly-zodiac-cover.jpg",
+    "totalCount": 13,
+    "figures": [
+      { "id": "mz-01",  "name": "白羊座 MOLLY",   "type": "normal", "rarityRate": null,  "order": 1 },
+      { "id": "mz-02",  "name": "金牛座 MOLLY",   "type": "normal", "rarityRate": null,  "order": 2 },
+      { "id": "mz-03",  "name": "双子座 MOLLY",   "type": "normal", "rarityRate": null,  "order": 3 },
+      { "id": "mz-04",  "name": "巨蟹座 MOLLY",   "type": "normal", "rarityRate": null,  "order": 4 },
+      { "id": "mz-05",  "name": "狮子座 MOLLY",   "type": "normal", "rarityRate": null,  "order": 5 },
+      { "id": "mz-06",  "name": "处女座 MOLLY",   "type": "normal", "rarityRate": null,  "order": 6 },
+      { "id": "mz-07",  "name": "天秤座 MOLLY",   "type": "normal", "rarityRate": null,  "order": 7 },
+      { "id": "mz-08",  "name": "天蝎座 MOLLY",   "type": "normal", "rarityRate": null,  "order": 8 },
+      { "id": "mz-09",  "name": "射手座 MOLLY",   "type": "normal", "rarityRate": null,  "order": 9 },
+      { "id": "mz-10",  "name": "摩羯座 MOLLY",   "type": "normal", "rarityRate": null,  "order": 10 },
+      { "id": "mz-11",  "name": "水瓶座 MOLLY",   "type": "normal", "rarityRate": null,  "order": 11 },
+      { "id": "mz-12",  "name": "双鱼座 MOLLY",   "type": "normal", "rarityRate": null,  "order": 12 },
+      { "id": "mz-13",  "name": "神秘星座 MOLLY", "type": "hidden", "rarityRate": "1/144", "order": 13 }
+    ]
+  },
+  {
+    "id": "skullpanda-dark-planet",
+    "brand": "泡泡玛特",
+    "name": "SKULLPANDA 暗夜星球",
+    "year": 2023,
+    "cover": "https://img.popmart.com/skullpanda-dark-planet-cover.jpg",
+    "totalCount": 8,
+    "figures": [
+      { "id": "sdp-01", "name": "暗夜·熔岩",   "type": "normal", "rarityRate": null,  "order": 1 },
+      { "id": "sdp-02", "name": "暗夜·深海",   "type": "normal", "rarityRate": null,  "order": 2 },
+      { "id": "sdp-03", "name": "暗夜·极光",   "type": "normal", "rarityRate": null,  "order": 3 },
+      { "id": "sdp-04", "name": "暗夜·暗物质", "type": "normal", "rarityRate": null,  "order": 4 },
+      { "id": "sdp-05", "name": "暗夜·彗星",   "type": "normal", "rarityRate": null,  "order": 5 },
+      { "id": "sdp-06", "name": "暗夜·黑洞",   "type": "normal", "rarityRate": null,  "order": 6 },
+      { "id": "sdp-07", "name": "暗夜·暗星",   "type": "rare",   "rarityRate": "1/36","order": 7 },
+      { "id": "sdp-08", "name": "暗夜·虚空",   "type": "hidden", "rarityRate": "1/144","order": 8 }
+    ]
+  },
+  {
+    "id": "dimoo-space-travel",
+    "brand": "泡泡玛特",
+    "name": "DIMOO 太空旅行",
+    "year": 2022,
+    "cover": "https://img.popmart.com/dimoo-space-travel-cover.jpg",
+    "totalCount": 9,
+    "figures": [
+      { "id": "dst-01", "name": "太空·出发",   "type": "normal", "rarityRate": null,  "order": 1 },
+      { "id": "dst-02", "name": "太空·漂流",   "type": "normal", "rarityRate": null,  "order": 2 },
+      { "id": "dst-03", "name": "太空·月球",   "type": "normal", "rarityRate": null,  "order": 3 },
+      { "id": "dst-04", "name": "太空·火星",   "type": "normal", "rarityRate": null,  "order": 4 },
+      { "id": "dst-05", "name": "太空·星云",   "type": "normal", "rarityRate": null,  "order": 5 },
+      { "id": "dst-06", "name": "太空·木星",   "type": "normal", "rarityRate": null,  "order": 6 },
+      { "id": "dst-07", "name": "太空·黑洞",   "type": "normal", "rarityRate": null,  "order": 7 },
+      { "id": "dst-08", "name": "太空·彗星",   "type": "rare",   "rarityRate": "1/36","order": 8 },
+      { "id": "dst-09", "name": "太空·宇宙奇点","type": "hidden", "rarityRate": "1/144","order": 9 }
+    ]
+  },
+  {
+    "id": "hirono-little-wild",
+    "brand": "52TOYS",
+    "name": "HIRONO 小野系列",
+    "year": 2023,
+    "cover": "https://img.52toys.com/hirono-little-wild-cover.jpg",
+    "totalCount": 8,
+    "figures": [
+      { "id": "hlw-01", "name": "小野·花园",   "type": "normal", "rarityRate": null,  "order": 1 },
+      { "id": "hlw-02", "name": "小野·森林",   "type": "normal", "rarityRate": null,  "order": 2 },
+      { "id": "hlw-03", "name": "小野·海边",   "type": "normal", "rarityRate": null,  "order": 3 },
+      { "id": "hlw-04", "name": "小野·雪山",   "type": "normal", "rarityRate": null,  "order": 4 },
+      { "id": "hlw-05", "name": "小野·沙漠",   "type": "normal", "rarityRate": null,  "order": 5 },
+      { "id": "hlw-06", "name": "小野·夜空",   "type": "normal", "rarityRate": null,  "order": 6 },
+      { "id": "hlw-07", "name": "小野·彩虹",   "type": "rare",   "rarityRate": "1/36","order": 7 },
+      { "id": "hlw-08", "name": "小野·神秘",   "type": "hidden", "rarityRate": "1/144","order": 8 }
+    ]
+  }
+]
